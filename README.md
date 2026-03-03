@@ -31,23 +31,23 @@ The ForkIt smart contract holds all funds in escrow. The app just provides the i
 
 ```
 Order: 2 pizzas
-├── Food total:     18 USDC
-├── Delivery:        2 USDC
-├── Order total:    20 USDC
-├── Deposit (2×):   40 USDC
-└── Escrow target:  60 USDC
+├── Food total:      18.00 USDC
+├── Delivery:         2.00 USDC
+├── Order total:     20.00 USDC
+├── Deposit (2%):     0.40 USDC
+└── Escrow target:   20.40 USDC
 
-You send:     42 USDC (70%)  ──┐
-Friend sends: 18 USDC (30%)  ──┼──→ Escrow: 60/60 USDC ✅
-                                │
-After delivery:                 │
-├── Restaurant gets: ~18 USDC   │
-├── Driver gets:      ~2 USDC   │
-├── You get back:     28 USDC  ←┘ (70% of 40 deposit)
-└── Friend gets back: 12 USDC  ←  (30% of 40 deposit)
+You send:     14.28 USDC (70%)  ──┐
+Friend sends:  6.12 USDC (30%)  ──┼──→ Escrow: 20.40/20.40 USDC ✅
+                                   │
+After delivery:                    │
+├── Restaurant gets: ~18.00 USDC   │
+├── Driver gets:      ~2.00 USDC   │
+├── You get back:      0.28 USDC  ←┘ (70% of 0.40 deposit)
+└── Friend gets back:  0.12 USDC  ←  (30% of 0.40 deposit)
 ```
 
-Each contributor's deposit is returned **proportionally** to their share. The order creator is the only one who receives delivery verification codes.
+Each contributor's deposit is returned **proportionally** to their share. The deposit is a small 2% security deposit returned in full upon delivery confirmation. The order creator is the only one who receives delivery verification codes.
 
 ### Key Properties
 

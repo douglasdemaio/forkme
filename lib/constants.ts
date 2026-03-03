@@ -17,7 +17,7 @@ export const LOYALTY_PROGRAM_ID = new PublicKey(
   process.env.EXPO_PUBLIC_LOYALTY_PROGRAM_ID || 'ForkLoy111111111111111111111111111111111'
 );
 
-export const DEPOSIT_MULTIPLIER = 2;
+export const DEPOSIT_BASIS_POINTS = 200; // 2% of order total
 export const MAX_CONTRIBUTORS = 10;
 export const FUNDING_TIMEOUT_SECONDS = 900; // 15 minutes
 export const APP_SCHEME = 'forkme';
