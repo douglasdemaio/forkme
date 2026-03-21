@@ -3,10 +3,13 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { api } from '@/lib/api';
+import { getTokenByMint } from '@/lib/constants';
 import { useAppStore } from '@/store/app-store';
 import { useOrderTracking } from '@/hooks/useOrderTracking';
 import { FundingBar } from '@/components/funding-bar';
 import { DeliveryCode } from '@/components/delivery-code';
+import { OrderTracker } from '@/components/order-tracker';
+import { PaymentReceipt } from '@/components/payment-receipt';
 import type { Order } from '@/lib/types';
 
 export default function OrderDetailScreen() {
@@ -14,7 +17,7 @@ export default function OrderDetailScreen() {
   const [order, setOrder] = useState<Order | null>(null);
   const { walletAddress, setActiveOrder } = useAppStore();
   const router = useRouter();
-  useOrderTracking(id);
+  const { statusHistory, receipt, fundsReleased } = useOrderTracking(id);
 
   useEffect(() => {
     if (id) {
@@ -34,8 +37,12 @@ export default function OrderDetailScreen() {
   }
 
   const isCreator = order.restaurant && walletAddress;
-  const isFunding = order.status === 'Created';
+  const isFunding = order.status === 'Created' || order.status === 'Funded';
   const isSettled = order.status === 'Settled';
+  const isActive = !['Settled', 'Cancelled', 'Refunded'].includes(order.status);
+  const token = getTokenByMint(order.tokenMint);
+  const currencySign = token?.currencySign ?? '$';
+  const tokenSymbol = token?.symbol ?? 'USDC';
 
   const handleShare = async () => {
     try {
@@ -53,10 +60,50 @@ export default function OrderDetailScreen() {
 
   return (
     <ScrollView className="flex-1 bg-dark-950 px-4 pt-4">
+      {/* Funds Released Banner */}
+      {fundsReleased && (
+        <View className="bg-green-900 border border-green-600 rounded-2xl p-4 mb-3">
+          <View className="flex-row items-center gap-2 mb-2">
+            <Text className="text-lg">🔓</Text>
+            <Text className="text-green-300 font-bold">Funds Released!</Text>
+          </View>
+          <Text className="text-green-200 text-sm">
+            {currencySign}{fundsReleased.totalReleased.toFixed(2)} {fundsReleased.tokenSymbol} settled on-chain.
+          </Text>
+          <View className="mt-2 gap-0.5">
+            <Text className="text-green-400 text-xs">
+              Restaurant received: {currencySign}{fundsReleased.restaurantReceived.toFixed(2)}
+            </Text>
+            <Text className="text-green-400 text-xs">
+              Driver received: {currencySign}{fundsReleased.driverReceived.toFixed(2)}
+            </Text>
+            <Text className="text-green-400 text-xs">
+              Your deposit refunded: {currencySign}{fundsReleased.depositRefunded.toFixed(2)}
+            </Text>
+          </View>
+        </View>
+      )}
+
       {/* Restaurant & Status */}
       <View className="bg-dark-900 rounded-2xl p-4">
         <Text className="text-white text-xl font-bold">{order.restaurant?.name}</Text>
-        <Text className="text-brand-500 mt-1 font-semibold">{order.status}</Text>
+        <View className="flex-row items-center gap-2 mt-1">
+          <Text className={`text-lg ${isSettled ? '🔓' : isActive ? '🔒' : ''}`}>
+            {isSettled ? '🔓' : isActive ? '🔒' : ''}
+          </Text>
+          <Text className="text-brand-500 font-semibold">{order.status}</Text>
+        </View>
+        {isActive && (
+          <Text className="text-dark-500 text-xs mt-1">Funds held in on-chain escrow</Text>
+        )}
+      </View>
+
+      {/* Order Tracker Timeline */}
+      <View className="mt-3">
+        <OrderTracker
+          currentStatus={order.status}
+          statusHistory={statusHistory}
+        />
       </View>
 
       {/* Items */}
@@ -67,18 +114,22 @@ export default function OrderDetailScreen() {
             <Text className="text-dark-300">
               {item.quantity}× {item.name}
             </Text>
-            <Text className="text-white">{(item.price * item.quantity).toFixed(2)} USDC</Text>
+            <Text className="text-white">
+              {currencySign}{(item.price * item.quantity).toFixed(2)}
+            </Text>
           </View>
         ))}
         <View className="border-t border-dark-700 mt-2 pt-2">
           <View className="flex-row justify-between">
             <Text className="text-dark-400">Delivery</Text>
-            <Text className="text-white">{order.deliveryFee} USDC</Text>
+            <Text className="text-white">
+              {currencySign}{order.deliveryFee} {tokenSymbol}
+            </Text>
           </View>
           <View className="flex-row justify-between mt-1">
             <Text className="text-white font-bold">Total</Text>
             <Text className="text-white font-bold">
-              {order.foodTotal + order.deliveryFee} USDC
+              {currencySign}{(order.foodTotal + order.deliveryFee).toFixed(2)} {tokenSymbol}
             </Text>
           </View>
         </View>
@@ -90,14 +141,15 @@ export default function OrderDetailScreen() {
         <FundingBar funded={order.escrowFunded} target={order.escrowTarget} />
         <Text className="text-dark-400 text-sm mt-2">
           {order.contributions?.length || 0} contributor(s) •{' '}
-          {order.escrowFunded}/{order.escrowTarget} USDC
+          {currencySign}{order.escrowFunded}/{order.escrowTarget} {tokenSymbol}
         </Text>
 
-        {/* Contributor list */}
         {order.contributions?.map((c, idx) => (
           <View key={idx} className="flex-row justify-between mt-2">
-            <Text className="text-dark-300 font-mono text-sm">{c.wallet}</Text>
-            <Text className="text-white">{c.amount} USDC</Text>
+            <Text className="text-dark-300 font-mono text-sm">{c.wallet.slice(0, 8)}…</Text>
+            <Text className="text-white">
+              {currencySign}{c.amount} {tokenSymbol}
+            </Text>
           </View>
         ))}
       </View>
@@ -133,8 +185,15 @@ export default function OrderDetailScreen() {
         </View>
       )}
       {isCreator && order.codeB && (
-        <View className="mt-3 mb-8">
+        <View className="mt-3">
           <DeliveryCode label="Delivery Code (B)" code={order.codeB} />
+        </View>
+      )}
+
+      {/* Receipt — shown after settlement */}
+      {receipt && (
+        <View className="mt-3">
+          <PaymentReceipt receipt={receipt} />
         </View>
       )}
 
