@@ -1,5 +1,7 @@
 export type UserRole = 'customer' | 'driver' | 'restaurant';
 
+export type DeliveryService = 'human' | 'ai';
+
 export type OrderStatus =
   | 'Created'
   | 'Funded'
@@ -11,6 +13,14 @@ export type OrderStatus =
   | 'Disputed'
   | 'Cancelled'
   | 'Refunded';
+
+export interface StatusEvent {
+  status: OrderStatus;
+  timestamp: string;
+  txSignature?: string;
+  deliveryService?: DeliveryService;
+  note?: string;
+}
 
 export interface OrderItem {
   menuItemId: string;
@@ -44,6 +54,9 @@ export interface Order {
   contributions: Contribution[];
   driverLocation?: { lat: number; lng: number };
   createdAt: string;
+  settledAt?: string;
+  settleTxSignature?: string;
+  deliveryService?: DeliveryService;
 }
 
 export interface Restaurant {
@@ -72,4 +85,36 @@ export interface FundingProgress {
   percentFunded: number;
   contributorCount: number;
   contributions: Contribution[];
+}
+
+export interface OrderReceipt {
+  orderId: string;
+  onChainOrderId: string;
+  restaurantName: string;
+  items: OrderItem[];
+  tokenMint: string;
+  tokenSymbol: string;
+  currencySign: string;
+  foodTotal: number;
+  deliveryFee: number;
+  protocolFee: number;
+  depositAmount: number;
+  depositRefunded: number;
+  totalCharged: number;
+  netPaid: number;
+  status: OrderStatus;
+  createdAt: string;
+  settledAt?: string;
+  settleTxSignature?: string;
+  deliveryService?: DeliveryService;
+}
+
+export interface FundsReleasedPayload {
+  orderId: string;
+  txSignature: string;
+  totalReleased: number;
+  restaurantReceived: number;
+  driverReceived: number;
+  depositRefunded: number;
+  tokenSymbol: string;
 }
