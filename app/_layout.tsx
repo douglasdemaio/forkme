@@ -24,6 +24,10 @@ export default function RootLayout() {
           options={{ title: 'Chip In', presentation: 'modal' }}
         />
         <Stack.Screen
+          name="order/checkout"
+          options={{ title: 'Checkout', presentation: 'modal' }}
+        />
+        <Stack.Screen
           name="restaurant/menu"
           options={{ title: 'Menu', presentation: 'card' }}
         />
@@ -32,8 +36,24 @@ export default function RootLayout() {
           options={{ title: 'Incoming Orders' }}
         />
         <Stack.Screen
+          name="restaurant/menu-editor"
+          options={{ title: 'Edit Menu' }}
+        />
+        <Stack.Screen
+          name="restaurant/settings"
+          options={{ title: 'Restaurant Settings' }}
+        />
+        <Stack.Screen
+          name="restaurant/create"
+          options={{ title: 'Create Restaurant', presentation: 'modal' }}
+        />
+        <Stack.Screen
           name="driver/available"
           options={{ title: 'Available Deliveries' }}
+        />
+        <Stack.Screen
+          name="driver/delivery"
+          options={{ title: 'Active Delivery' }}
         />
         <Stack.Screen
           name="connect"

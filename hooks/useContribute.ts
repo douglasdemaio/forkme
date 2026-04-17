@@ -8,7 +8,6 @@ import {
 } from '@solana/web3.js';
 import {
   getAssociatedTokenAddress,
-  createTransferInstruction,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
 import { useAppStore } from '@/store/app-store';
@@ -17,9 +16,9 @@ import { api } from '@/lib/api';
 import { SOLANA_RPC_URL, ESCROW_PROGRAM_ID } from '@/lib/constants';
 
 /**
- * Hook for contributing funds to an order's escrow.
- * Builds the on-chain contribute_to_order transaction,
- * signs via wallet adapter, then records off-chain.
+ * Hook for contributing funds to an order's on-chain escrow.
+ * Builds the contribute_to_order instruction, signs via wallet adapter,
+ * then records the contribution via forkit-site API.
  */
 export function useContribute() {
   const { publicKey } = useAppStore();
@@ -28,7 +27,12 @@ export function useContribute() {
   const [error, setError] = useState<string | null>(null);
 
   const contribute = useCallback(
-    async (orderId: string, onChainOrderId: bigint, tokenMint: string, amount: number) => {
+    async (
+      orderId: string,
+      onChainOrderId: bigint,
+      tokenMint: string,
+      amount: number
+    ) => {
       if (!publicKey) throw new Error('Wallet not connected');
       setLoading(true);
       setError(null);
@@ -60,7 +64,7 @@ export function useContribute() {
         );
 
         // Build contribute_to_order instruction
-        // Discriminator for contribute_to_order (anchor method hash)
+        // Discriminator: Anchor method hash for contribute_to_order
         const discriminator = Buffer.from([
           0x5f, 0x38, 0x2d, 0x1a, 0x94, 0xc2, 0xb1, 0xe3,
         ]);
@@ -75,24 +79,33 @@ export function useContribute() {
             { pubkey: contributionPda, isSigner: false, isWritable: true },
             { pubkey: mintPubkey, isSigner: false, isWritable: false },
             { pubkey: escrowVault, isSigner: false, isWritable: true },
-            { pubkey: contributorTokenAccount, isSigner: false, isWritable: true },
+            {
+              pubkey: contributorTokenAccount,
+              isSigner: false,
+              isWritable: true,
+            },
             { pubkey: publicKey, isSigner: true, isWritable: true },
             { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
-            { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+            {
+              pubkey: SystemProgram.programId,
+              isSigner: false,
+              isWritable: false,
+            },
           ],
           data,
         });
 
         const tx = new Transaction().add(instruction);
         tx.feePayer = publicKey;
-        tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+        tx.recentBlockhash = (
+          await connection.getLatestBlockhash()
+        ).blockhash;
 
         const signature = await signAndSendTransaction(tx);
 
-        // Record off-chain
-        const result = await api.recordContribution({
-          orderId,
-          walletAddress: publicKey.toBase58(),
+        // Record off-chain via forkit-site
+        const result = await api.recordContribution(orderId, {
+          wallet: publicKey.toBase58(),
           amount,
           txSignature: signature,
         });

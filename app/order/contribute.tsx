@@ -1,4 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,7 +29,6 @@ export default function ContributeScreen() {
 
   useEffect(() => {
     if (shareLink) {
-      // Resolve share link to order details
       api.getOrderByShareLink(shareLink).then((order) => {
         setResolvedOrderId(order.id);
         setResolvedOnChainId(order.onChainOrderId);
@@ -47,12 +52,11 @@ export default function ContributeScreen() {
       const result = await contribute(
         resolvedOrderId,
         BigInt(resolvedOnChainId),
-        'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v', // USDC mint
-        Math.round(parseFloat(amount) * 1_000_000) // USDC has 6 decimals
+        '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU', // USDC devnet mint
+        Math.round(parseFloat(amount) * 1_000_000)
       );
       setSuccess(true);
       if (result.funded) {
-        // Order fully funded!
         setTimeout(() => router.back(), 2000);
       }
     } catch {}
@@ -64,7 +68,9 @@ export default function ContributeScreen() {
     return (
       <View className="flex-1 bg-dark-950 items-center justify-center px-8">
         <Ionicons name="checkmark-circle" size={80} color="#66bb6a" />
-        <Text className="text-white text-2xl font-bold mt-4">Contribution Sent!</Text>
+        <Text className="text-white text-2xl font-bold mt-4">
+          Contribution Sent!
+        </Text>
         <Text className="text-dark-300 text-center mt-2">
           Your tokens are in the escrow. Thanks for chipping in!
         </Text>
@@ -82,14 +88,19 @@ export default function ContributeScreen() {
     <View className="flex-1 bg-dark-950 px-6 pt-8">
       <Text className="text-white text-2xl font-bold">Chip In</Text>
       <Text className="text-dark-300 mt-2">
-        Help fund this order. Your contribution goes directly to the on-chain escrow.
+        Help fund this order. Your contribution goes directly to the
+        on-chain escrow.
       </Text>
 
       {funding && (
         <View className="mt-6">
-          <FundingBar funded={funding.escrowFunded} target={funding.escrowTarget} />
+          <FundingBar
+            funded={funding.escrowFunded}
+            target={funding.escrowTarget}
+          />
           <Text className="text-dark-400 text-sm mt-2">
-            {funding.contributorCount} contributor(s) • {remaining.toFixed(2)} USDC remaining
+            {funding.contributorCount} contributor(s) •{' '}
+            {remaining.toFixed(2)} USDC remaining
           </Text>
         </View>
       )}
@@ -113,7 +124,9 @@ export default function ContributeScreen() {
               className="flex-1 bg-dark-800 rounded-xl py-3 items-center"
               onPress={() => setAmount(v.toString())}
             >
-              <Text className="text-brand-500 font-semibold">{v} USDC</Text>
+              <Text className="text-brand-500 font-semibold">
+                {v} USDC
+              </Text>
             </TouchableOpacity>
           ))}
           {remaining > 0 && (
@@ -150,8 +163,8 @@ export default function ContributeScreen() {
       </TouchableOpacity>
 
       <Text className="text-dark-500 text-center text-sm mt-4">
-        Funds are held in the smart contract. If the order is cancelled{'\n'}or times out, you get a
-        full refund.
+        Funds are held in the smart contract. If the order is cancelled
+        {'\n'}or times out, you get a full refund.
       </Text>
     </View>
   );

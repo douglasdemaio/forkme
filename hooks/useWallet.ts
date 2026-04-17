@@ -10,21 +10,45 @@ import { api } from '@/lib/api';
 import { APP_SCHEME } from '@/lib/constants';
 
 /**
- * Wallet hook for Solana Mobile Wallet Adapter (Seeker/Android)
- * and Phantom deep links (iOS fallback).
+ * Wallet hook — Solana Mobile Wallet Adapter on Android/Seeker,
+ * Phantom deep-link on iOS, browser extension on web.
+ *
+ * After connecting, authenticates against forkit-site /api/auth/*.
  */
 export function useWallet() {
   const { setWallet, clearWallet, setAuthToken, isConnected } = useAppStore();
 
+  const authenticate = async (walletAddress: string, signMessage: (msg: Uint8Array) => Promise<Uint8Array>) => {
+    // 1. Get nonce from forkit-site
+    const { nonce } = await api.getNonce(walletAddress);
+
+    // 2. Sign the nonce with the wallet
+    const message = new TextEncoder().encode(
+      `Sign in to ForkIt\nNonce: ${nonce}`
+    );
+    const signatureBytes = await signMessage(message);
+    const signature = Buffer.from(signatureBytes).toString('base64');
+
+    // 3. Verify with forkit-site and get JWT
+    const session = await api.verify(walletAddress, signature, nonce);
+    api.setToken(session.token);
+    setAuthToken(session.token);
+
+    return session;
+  };
+
   const connect = useCallback(async () => {
     if (Platform.OS === 'web') {
-      // Web fallback — use window.solana (Phantom browser extension)
+      // Browser extension (Phantom / Solflare)
       const provider = (window as any).solana;
       if (!provider?.isPhantom) throw new Error('Phantom not found');
       const resp = await provider.connect();
       const pubkey = new PublicKey(resp.publicKey.toString());
       setWallet(pubkey.toBase58(), pubkey);
-      await authenticate(pubkey.toBase58());
+      await authenticate(pubkey.toBase58(), async (msg) => {
+        const { signature } = await provider.signMessage(msg, 'utf8');
+        return signature;
+      });
       return;
     }
 
@@ -41,18 +65,16 @@ export function useWallet() {
 
       const pubkey = new PublicKey(authResult.accounts[0].address);
       setWallet(pubkey.toBase58(), pubkey);
-      await authenticate(pubkey.toBase58());
+
+      await authenticate(pubkey.toBase58(), async (msg) => {
+        const signed = await wallet.signMessages({
+          addresses: [authResult.accounts[0].address],
+          payloads: [msg],
+        });
+        return signed[0];
+      });
     });
   }, []);
-
-  const authenticate = async (walletAddress: string) => {
-    const { nonce } = await api.getChallenge(walletAddress);
-    // In production, sign the nonce with the wallet and verify
-    // For now, simplified flow
-    const { token } = await api.verify(walletAddress, 'placeholder-sig');
-    api.setToken(token);
-    setAuthToken(token);
-  };
 
   const signAndSendTransaction = useCallback(
     async (transaction: Transaction): Promise<string> => {
@@ -75,7 +97,9 @@ export function useWallet() {
         const signedTxs = await wallet.signAndSendTransactions({
           transactions: [transaction],
         });
-        signature = signedTxs[0] ? Buffer.from(signedTxs[0]).toString('base64') : '';
+        signature = signedTxs[0]
+          ? Buffer.from(signedTxs[0]).toString('base64')
+          : '';
       });
       return signature;
     },
@@ -83,6 +107,7 @@ export function useWallet() {
   );
 
   const disconnect = useCallback(() => {
+    api.clearToken();
     clearWallet();
   }, []);
 
