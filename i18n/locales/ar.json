@@ -66,7 +66,10 @@
     "total": "الإجمالي",
     "placeOrder": "تأكيد الطلب",
     "placingOrder": "جاري تأكيد الطلب...",
-    "orderPlaced": "تم تأكيد الطلب بنجاح!"
+    "orderPlaced": "تم تأكيد الطلب بنجاح!",
+    "deliveryAddress": "عنوان التوصيل",
+    "deliveryAddressPlaceholder": "أدخل عنوان التوصيل",
+    "deliveryAddressHint": "الشارع، رقم الشقة، المدينة"
   },
   "order": {
     "order": "طلب",
@@ -142,5 +145,17 @@
   "language": {
     "title": "اختر اللغة",
     "changed": "تم تغيير اللغة"
+  },
+  "restaurantSettings": {
+    "name": "الاسم",
+    "namePlaceholder": "اسم المطعم",
+    "description": "الوصف",
+    "descriptionPlaceholder": "عن مطعمك...",
+    "address": "العنوان",
+    "addressPlaceholder": "عنوان الشارع",
+    "currency": "العملة",
+    "deliveryFee": "رسوم التوصيل",
+    "pageTemplate": "قالب الصفحة",
+    "saveSettings": "حفظ الإعدادات"
   }
 }

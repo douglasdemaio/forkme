@@ -66,7 +66,10 @@
     "total": "Toplam",
     "placeOrder": "Sipariş Ver",
     "placingOrder": "Sipariş veriliyor...",
-    "orderPlaced": "Sipariş başarıyla verildi!"
+    "orderPlaced": "Sipariş başarıyla verildi!",
+    "deliveryAddress": "Teslimat Adresi",
+    "deliveryAddressPlaceholder": "Teslimat adresinizi girin",
+    "deliveryAddressHint": "Sokak, bina, daire, şehir"
   },
   "order": {
     "order": "Sipariş",
@@ -142,5 +145,17 @@
   "language": {
     "title": "Dil Seç",
     "changed": "Dil değiştirildi"
+  },
+  "restaurantSettings": {
+    "name": "Ad",
+    "namePlaceholder": "Restoran adı",
+    "description": "Açıklama",
+    "descriptionPlaceholder": "Restoranınız hakkında...",
+    "address": "Adres",
+    "addressPlaceholder": "Sokak adresi",
+    "currency": "Para Birimi",
+    "deliveryFee": "Teslimat Ücreti",
+    "pageTemplate": "Sayfa Şablonu",
+    "saveSettings": "Ayarları Kaydet"
   }
 }

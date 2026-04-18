@@ -29,6 +29,11 @@
       "package": "com.forkit.forkme",
       "permissions": ["CAMERA", "ACCESS_FINE_LOCATION"]
     },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "single"
+    },
     "plugins": [
       "expo-router",
       "expo-camera",

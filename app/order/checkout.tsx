@@ -1,6 +1,7 @@
 import {
   View,
   Text,
+  TextInput,
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
@@ -21,6 +22,7 @@ import {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
+import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/store/app-store';
 import { useWallet } from '@/hooks/useWallet';
 import { api } from '@/lib/api';
@@ -47,6 +49,8 @@ export default function CheckoutScreen() {
   );
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<'review' | 'processing' | 'done'>('review');
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const { t } = useTranslation();
 
   const foodTotal = cartTotal();
   const deliveryFee = 2.0; // TODO: dynamic delivery fee from API
@@ -234,7 +238,23 @@ export default function CheckoutScreen() {
 
   return (
     <ScrollView className="flex-1 bg-dark-950 px-4 pt-4">
-      <Text className="text-white text-2xl font-bold mb-4">Checkout</Text>
+      <Text className="text-white text-2xl font-bold mb-4">{t('order.checkout')}</Text>
+
+      {/* Delivery address */}
+      <View className="bg-dark-900 rounded-2xl p-4 mb-4">
+        <Text className="text-white font-semibold mb-3">{t('cart.deliveryAddress')}</Text>
+        <TextInput
+          className="bg-dark-800 text-white rounded-xl px-4 py-3 text-base"
+          value={deliveryAddress}
+          onChangeText={setDeliveryAddress}
+          placeholder={t('cart.deliveryAddressPlaceholder')}
+          placeholderTextColor="#5c6bc0"
+          multiline
+          numberOfLines={2}
+          textAlignVertical="top"
+        />
+        <Text className="text-dark-400 text-xs mt-1 ml-1">{t('cart.deliveryAddressHint')}</Text>
+      </View>
 
       {/* Cart items */}
       <View className="bg-dark-900 rounded-2xl p-4 mb-4">

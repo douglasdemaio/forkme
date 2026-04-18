@@ -66,7 +66,10 @@
     "total": "合计",
     "placeOrder": "下单",
     "placingOrder": "正在下单...",
-    "orderPlaced": "下单成功！"
+    "orderPlaced": "下单成功！",
+    "deliveryAddress": "配送地址",
+    "deliveryAddressPlaceholder": "请输入配送地址",
+    "deliveryAddressHint": "街道、楼号、门牌号、城市"
   },
   "order": {
     "order": "订单",
@@ -142,5 +145,17 @@
   "language": {
     "title": "选择语言",
     "changed": "语言已切换"
+  },
+  "restaurantSettings": {
+    "name": "名称",
+    "namePlaceholder": "餐厅名称",
+    "description": "简介",
+    "descriptionPlaceholder": "关于你的餐厅...",
+    "address": "地址",
+    "addressPlaceholder": "街道地址",
+    "currency": "币种",
+    "deliveryFee": "配送费",
+    "pageTemplate": "页面模板",
+    "saveSettings": "保存设置"
   }
 }

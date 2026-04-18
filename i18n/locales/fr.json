@@ -66,7 +66,10 @@
     "total": "Total",
     "placeOrder": "Passer commande",
     "placingOrder": "Commande en cours...",
-    "orderPlaced": "Commande passée avec succès !"
+    "orderPlaced": "Commande passée avec succès !",
+    "deliveryAddress": "Adresse de livraison",
+    "deliveryAddressPlaceholder": "Entrez votre adresse de livraison",
+    "deliveryAddressHint": "Rue, appartement, ville"
   },
   "order": {
     "order": "Commande",
@@ -142,5 +145,17 @@
   "language": {
     "title": "Choisir la langue",
     "changed": "Langue modifiée"
+  },
+  "restaurantSettings": {
+    "name": "Nom",
+    "namePlaceholder": "Nom du restaurant",
+    "description": "Description",
+    "descriptionPlaceholder": "À propos de votre restaurant...",
+    "address": "Adresse",
+    "addressPlaceholder": "Adresse postale",
+    "currency": "Devise",
+    "deliveryFee": "Frais de livraison",
+    "pageTemplate": "Modèle de page",
+    "saveSettings": "Enregistrer les paramètres"
   }
 }

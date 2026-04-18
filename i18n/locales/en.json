@@ -66,7 +66,10 @@
     "total": "Total",
     "placeOrder": "Place Order",
     "placingOrder": "Placing order...",
-    "orderPlaced": "Order placed successfully!"
+    "orderPlaced": "Order placed successfully!",
+    "deliveryAddress": "Delivery Address",
+    "deliveryAddressPlaceholder": "Enter your delivery address",
+    "deliveryAddressHint": "Street address, apartment, city"
   },
   "order": {
     "order": "Order",
@@ -142,5 +145,17 @@
   "language": {
     "title": "Choose Language",
     "changed": "Language changed"
+  },
+  "restaurantSettings": {
+    "name": "Name",
+    "namePlaceholder": "Restaurant name",
+    "description": "Description",
+    "descriptionPlaceholder": "About your restaurant...",
+    "address": "Address",
+    "addressPlaceholder": "Street address",
+    "currency": "Currency",
+    "deliveryFee": "Delivery Fee",
+    "pageTemplate": "Page Template",
+    "saveSettings": "Save Settings"
   }
 }

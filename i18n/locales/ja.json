@@ -66,7 +66,10 @@
     "total": "合計",
     "placeOrder": "注文する",
     "placingOrder": "注文中...",
-    "orderPlaced": "注文が完了しました！"
+    "orderPlaced": "注文が完了しました！",
+    "deliveryAddress": "配達先住所",
+    "deliveryAddressPlaceholder": "配達先住所を入力",
+    "deliveryAddressHint": "住所、建物名、部屋番号"
   },
   "order": {
     "order": "注文",
@@ -142,5 +145,17 @@
   "language": {
     "title": "言語を選ぶ",
     "changed": "言語を変更しました"
+  },
+  "restaurantSettings": {
+    "name": "店名",
+    "namePlaceholder": "レストラン名",
+    "description": "説明",
+    "descriptionPlaceholder": "お店について...",
+    "address": "住所",
+    "addressPlaceholder": "住所を入力",
+    "currency": "通貨",
+    "deliveryFee": "配達料",
+    "pageTemplate": "ページテンプレート",
+    "saveSettings": "設定を保存"
   }
 }
