@@ -21,6 +21,7 @@
     "@solana/spl-token": "^0.4.0",
     "bs58": "^5.0.0",
     "expo": "~52.0.0",
+    "expo-asset": "~11.0.0",
     "expo-barcode-scanner": "~13.0.0",
     "expo-camera": "~16.0.0",
     "expo-image-picker": "~16.0.0",
