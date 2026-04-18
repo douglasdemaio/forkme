@@ -1,0 +1,146 @@
+{
+  "common": {
+    "appName": "ForkMe",
+    "connectWallet": "连接钱包",
+    "disconnect": "断开",
+    "disconnectWallet": "断开钱包",
+    "loading": "加载中...",
+    "error": "出错了",
+    "cancel": "取消",
+    "confirm": "确认",
+    "back": "返回",
+    "next": "下一步",
+    "done": "完成",
+    "retry": "重试",
+    "save": "保存",
+    "delete": "删除",
+    "close": "关闭",
+    "search": "搜索",
+    "noResults": "没有找到结果"
+  },
+  "roles": {
+    "customer": "顾客",
+    "driver": "骑手",
+    "restaurant": "商家"
+  },
+  "home": {
+    "nearbyRestaurants": "附近的餐厅",
+    "searchRestaurants": "搜索餐厅...",
+    "noRestaurantsFound": "没有找到餐厅",
+    "browse": "浏览",
+    "popular": "热门",
+    "all": "全部"
+  },
+  "driver": {
+    "availableDeliveries": "可接的订单",
+    "noDeliveriesAvailable": "暂无可接订单",
+    "acceptDelivery": "接单",
+    "pickupFrom": "取餐地点",
+    "deliverTo": "送餐地点",
+    "activeDelivery": "配送中"
+  },
+  "restaurantHome": {
+    "incomingOrders": "新订单",
+    "noOrdersYet": "暂无订单",
+    "acceptOrder": "接受订单",
+    "startPreparing": "开始制作",
+    "markReady": "标记已备好",
+    "createRestaurant": "创建餐厅",
+    "editMenu": "编辑菜单",
+    "restaurantSettings": "餐厅设置"
+  },
+  "menu": {
+    "menu": "菜单",
+    "addToCart": "加入购物车",
+    "added": "已添加！",
+    "viewCart": "查看购物车",
+    "available": "可点",
+    "unavailable": "已售罄"
+  },
+  "cart": {
+    "yourCart": "购物车",
+    "cartEmpty": "购物车是空的",
+    "browseToAdd": "去逛逛餐厅，添加点好吃的吧",
+    "subtotal": "小计",
+    "deliveryFee": "配送费",
+    "total": "合计",
+    "placeOrder": "下单",
+    "placingOrder": "正在下单...",
+    "orderPlaced": "下单成功！"
+  },
+  "order": {
+    "order": "订单",
+    "orderDetails": "订单详情",
+    "orderNumber": "订单 #{{id}}",
+    "items": "商品",
+    "subtotal": "小计",
+    "delivery": "配送",
+    "total": "合计",
+    "scheduledDelivery": "预约送达",
+    "scheduledPickup": "预约取餐",
+    "asap": "尽快",
+    "checkout": "结算",
+    "chipIn": "拼单"
+  },
+  "status": {
+    "created": "已创建",
+    "funded": "已付款",
+    "preparing": "制作中",
+    "readyForPickup": "等待取餐",
+    "pickedUp": "已取餐",
+    "delivered": "已送达",
+    "settled": "已完成",
+    "disputed": "有争议",
+    "cancelled": "已取消",
+    "refunded": "已退款"
+  },
+  "contributions": {
+    "splitTheBill": "拼单付款",
+    "shareOrder": "分享订单",
+    "contribute": "参与付款",
+    "fundingProgress": "付款进度",
+    "percentFunded": "已筹{{percent}}%",
+    "amountRemaining": "还差{{amount}}",
+    "shareLinkCopied": "链接已复制！",
+    "contributeToOrder": "参与这个订单"
+  },
+  "codes": {
+    "pickupCode": "取餐码",
+    "deliveryCode": "配送码",
+    "showToDriver": "把这个码给骑手看",
+    "showToCustomer": "把这个码给顾客看",
+    "scanCode": "扫码",
+    "enterCode": "输入验证码"
+  },
+  "tracking": {
+    "trackDelivery": "追踪配送",
+    "driverOnTheWay": "骑手正在赶来",
+    "estimatedArrival": "预计到达",
+    "minutesAway": "还有{{minutes}}分钟"
+  },
+  "profile": {
+    "profile": "我的",
+    "wallet": "钱包",
+    "connectedWallet": "已连接的钱包",
+    "role": "身份",
+    "yourRole": "当前身份",
+    "switchRole": "切换身份",
+    "trustScore": "信用分",
+    "completedOrders": "已完成订单",
+    "rating": "评分",
+    "reputation": "信誉",
+    "reputationLoading": "链上信誉加载中...",
+    "language": "语言"
+  },
+  "tiers": {
+    "none": "无",
+    "bronze": "铜牌",
+    "silver": "银牌",
+    "gold": "金牌",
+    "platinum": "铂金"
+  },
+  "language": {
+    "title": "选择语言",
+    "changed": "语言已切换"
+  }
+}

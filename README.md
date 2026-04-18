@@ -35,12 +35,13 @@ ForkMe is the React Native (Expo) mobile companion for **ForkIt**, a decentraliz
 - Browse nearby restaurants and menus
 - Add items to cart and checkout
 - Pay via ForkIt escrow on Solana (USDC or EURC)
-- Share contribution links for split payment with friends
+- Share contribution links for split payment with friends (contribute even after funding to reimburse the original payer)
+- Schedule preferred delivery and pickup times, or order for ASAP
 - Track delivery in real time
 - Confirm delivery with Code B
 
 ### 🚴 Drivers
-- View available funded orders ready for pickup
+- View available funded orders ready for pickup (with scheduled pickup/delivery times when set)
 - Accept deliveries
 - Verify pickup with Code A from the restaurant
 - Confirm delivery with Code B from the customer
@@ -136,12 +137,39 @@ Treasury wallet: `BiP5PJuUiXPYCFx98RMCGCnRhdUVrkxSke9C6y2ZohQ9`
 - **[forkit](https://github.com/user/forkit)** — Solana smart contracts (Anchor programs for escrow, registry, loyalty)
 - **[forkit-site](https://github.com/user/forkit-site)** — Next.js web platform with API routes (the backend this app connects to)
 
+## Internationalization (i18n)
+
+ForkMe supports 10 languages out of the box, auto-detecting the device language on first launch:
+
+| Code | Language | Native Name |
+|------|----------|-------------|
+| `en` | English | English |
+| `de` | German | Deutsch |
+| `es` | Spanish | Español |
+| `fr` | French | Français |
+| `ja` | Japanese | 日本語 |
+| `zh` | Chinese | 中文 |
+| `pt` | Portuguese | Português |
+| `ko` | Korean | 한국어 |
+| `ar` | Arabic | العربية |
+| `tr` | Turkish | Türkçe |
+
+Users can change language from **Profile → Language**. The preference is persisted with AsyncStorage.
+
+Translation files live in `i18n/locales/*.json`. To add a new language:
+1. Create a new JSON file in `i18n/locales/` (copy `en.json` as a starting point)
+2. Add the import and resource entry in `i18n/index.ts`
+3. Add the locale metadata to `supportedLocales` in `i18n/index.ts` and `SUPPORTED_LOCALES` in `lib/constants.ts`
+
+Powered by [i18next](https://www.i18next.com/) + [react-i18next](https://react.i18next.com/) + [expo-localization](https://docs.expo.dev/versions/latest/sdk/localization/).
+
 ## Tech Stack
 
 - [Expo](https://expo.dev/) / React Native
 - [Expo Router](https://docs.expo.dev/router/introduction/) (file-based routing)
 - [NativeWind](https://www.nativewind.dev/) (Tailwind CSS for React Native)
 - [Zustand](https://github.com/pmndrs/zustand) (state management)
+- [i18next](https://www.i18next.com/) + [react-i18next](https://react.i18next.com/) (internationalization)
 - [Solana Web3.js](https://solana-labs.github.io/solana-web3.js/) + [SPL Token](https://spl.solana.com/)
 - [Solana Mobile Wallet Adapter](https://github.com/solana-mobile/mobile-wallet-adapter)
 - [Socket.IO](https://socket.io/) (real-time order tracking)

@@ -1,0 +1,146 @@
+{
+  "common": {
+    "appName": "ForkMe",
+    "connectWallet": "Cüzdanı Bağla",
+    "disconnect": "Bağlantıyı Kes",
+    "disconnectWallet": "Cüzdanı Ayır",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "cancel": "İptal",
+    "confirm": "Onayla",
+    "back": "Geri",
+    "next": "İleri",
+    "done": "Tamam",
+    "retry": "Tekrar Dene",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "close": "Kapat",
+    "search": "Ara",
+    "noResults": "Sonuç bulunamadı"
+  },
+  "roles": {
+    "customer": "Müşteri",
+    "driver": "Kurye",
+    "restaurant": "Restoran"
+  },
+  "home": {
+    "nearbyRestaurants": "Yakındaki Restoranlar",
+    "searchRestaurants": "Restoran ara...",
+    "noRestaurantsFound": "Restoran bulunamadı",
+    "browse": "Keşfet",
+    "popular": "Popüler",
+    "all": "Tümü"
+  },
+  "driver": {
+    "availableDeliveries": "Müsait Teslimatlar",
+    "noDeliveriesAvailable": "Şu an teslimat yok",
+    "acceptDelivery": "Teslimatı Kabul Et",
+    "pickupFrom": "Teslim alma",
+    "deliverTo": "Teslim yeri",
+    "activeDelivery": "Aktif Teslimat"
+  },
+  "restaurantHome": {
+    "incomingOrders": "Gelen Siparişler",
+    "noOrdersYet": "Henüz sipariş yok",
+    "acceptOrder": "Siparişi Kabul Et",
+    "startPreparing": "Hazırlamaya Başla",
+    "markReady": "Hazır Olarak İşaretle",
+    "createRestaurant": "Restoran Oluştur",
+    "editMenu": "Menüyü Düzenle",
+    "restaurantSettings": "Restoran Ayarları"
+  },
+  "menu": {
+    "menu": "Menü",
+    "addToCart": "Sepete Ekle",
+    "added": "Eklendi!",
+    "viewCart": "Sepeti Gör",
+    "available": "Mevcut",
+    "unavailable": "Tükendi"
+  },
+  "cart": {
+    "yourCart": "Sepetin",
+    "cartEmpty": "Sepet boş",
+    "browseToAdd": "Restoranları keşfet ve ürün ekle",
+    "subtotal": "Ara Toplam",
+    "deliveryFee": "Teslimat Ücreti",
+    "total": "Toplam",
+    "placeOrder": "Sipariş Ver",
+    "placingOrder": "Sipariş veriliyor...",
+    "orderPlaced": "Sipariş başarıyla verildi!"
+  },
+  "order": {
+    "order": "Sipariş",
+    "orderDetails": "Sipariş Detayları",
+    "orderNumber": "Sipariş #{{id}}",
+    "items": "Ürünler",
+    "subtotal": "Ara Toplam",
+    "delivery": "Teslimat",
+    "total": "Toplam",
+    "scheduledDelivery": "Planlı Teslimat",
+    "scheduledPickup": "Planlı Teslim Alma",
+    "asap": "Hemen",
+    "checkout": "Ödeme",
+    "chipIn": "Katkıda Bulun"
+  },
+  "status": {
+    "created": "Oluşturuldu",
+    "funded": "Ödendi",
+    "preparing": "Hazırlanıyor",
+    "readyForPickup": "Teslim Almaya Hazır",
+    "pickedUp": "Teslim Alındı",
+    "delivered": "Teslim Edildi",
+    "settled": "Tamamlandı",
+    "disputed": "İtiraz Edildi",
+    "cancelled": "İptal Edildi",
+    "refunded": "İade Edildi"
+  },
+  "contributions": {
+    "splitTheBill": "Hesabı Böl",
+    "shareOrder": "Siparişi Paylaş",
+    "contribute": "Katkıda Bulun",
+    "fundingProgress": "Fonlama Durumu",
+    "percentFunded": "%{{percent}} fonlandı",
+    "amountRemaining": "{{amount}} kaldı",
+    "shareLinkCopied": "Link kopyalandı!",
+    "contributeToOrder": "Bu siparişe katkıda bulun"
+  },
+  "codes": {
+    "pickupCode": "Teslim Alma Kodu",
+    "deliveryCode": "Teslimat Kodu",
+    "showToDriver": "Bu kodu kuryeye göster",
+    "showToCustomer": "Bu kodu müşteriye göster",
+    "scanCode": "Kodu Tara",
+    "enterCode": "Kodu Gir"
+  },
+  "tracking": {
+    "trackDelivery": "Teslimatı Takip Et",
+    "driverOnTheWay": "Kurye yolda",
+    "estimatedArrival": "Tahmini varış",
+    "minutesAway": "{{minutes}} dakika"
+  },
+  "profile": {
+    "profile": "Profil",
+    "wallet": "Cüzdan",
+    "connectedWallet": "Bağlı Cüzdan",
+    "role": "Rol",
+    "yourRole": "Rolün",
+    "switchRole": "Rol Değiştir",
+    "trustScore": "Güven Puanı",
+    "completedOrders": "Tamamlanan Siparişler",
+    "rating": "Değerlendirme",
+    "reputation": "İtibar",
+    "reputationLoading": "Zincir üstü itibar yükleniyor...",
+    "language": "Dil"
+  },
+  "tiers": {
+    "none": "Yok",
+    "bronze": "Bronz",
+    "silver": "Gümüş",
+    "gold": "Altın",
+    "platinum": "Platin"
+  },
+  "language": {
+    "title": "Dil Seç",
+    "changed": "Dil değiştirildi"
+  }
+}

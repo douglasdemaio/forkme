@@ -35,9 +35,12 @@ export const TREASURY_WALLET = new PublicKey(
   'BiP5PJuUiXPYCFx98RMCGCnRhdUVrkxSke9C6y2ZohQ9'
 );
 export const FEE_BASIS_POINTS = 2; // 0.02 %
-export const DEPOSIT_BASIS_POINTS = 200; // 2 %
 export const MAX_CONTRIBUTORS = 10;
 export const FUNDING_TIMEOUT_SECONDS = 900; // 15 min
+export const CANCEL_WINDOW_SECONDS = 60;
+export const PREP_TIMEOUT_SECONDS = 2700; // 45 min
+export const PICKUP_TIMEOUT_SECONDS = 2700; // 45 min
+export const DELIVERY_TIMEOUT_SECONDS = 10800; // 3 hours
 export const APP_SCHEME = 'forkme';
 
 // ── Stablecoin tokens ───────────────────────────────────────────────
@@ -75,6 +78,20 @@ export function explorerTxUrl(txSignature: string): string {
     SOLANA_NETWORK === 'mainnet-beta' ? '' : `?cluster=${SOLANA_NETWORK}`;
   return `https://explorer.solana.com/tx/${txSignature}${cluster}`;
 }
+
+// ── Supported locales ────────────────────────────────────────────────
+export const SUPPORTED_LOCALES = [
+  { code: 'en', name: 'English', nativeName: 'English' },
+  { code: 'de', name: 'German', nativeName: 'Deutsch' },
+  { code: 'es', name: 'Spanish', nativeName: 'Español' },
+  { code: 'fr', name: 'French', nativeName: 'Français' },
+  { code: 'ja', name: 'Japanese', nativeName: '日本語' },
+  { code: 'zh', name: 'Chinese', nativeName: '中文' },
+  { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
+  { code: 'ko', name: 'Korean', nativeName: '한국어' },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
+  { code: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
+] as const;
 
 // ── Restaurant page templates ───────────────────────────────────────
 export type RestaurantTemplate = 'classic' | 'modern' | 'minimal' | 'vibrant';

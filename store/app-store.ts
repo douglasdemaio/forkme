@@ -37,6 +37,10 @@ interface AppState {
   currentRestaurantId: string | null;
   setCurrentRestaurantId: (id: string | null) => void;
 
+  // Language
+  language: string;
+  setLanguage: (lang: string) => void;
+
   // Cart
   cart: CartItem[];
   addToCart: (item: { menuItemId: string; name: string; price: number }) => void;
@@ -82,6 +86,10 @@ export const useAppStore = create<AppState>((set, get) => ({
   // Current restaurant
   currentRestaurantId: null,
   setCurrentRestaurantId: (id) => set({ currentRestaurantId: id }),
+
+  // Language
+  language: 'en',
+  setLanguage: (lang) => set({ language: lang }),
 
   // Cart
   cart: [],

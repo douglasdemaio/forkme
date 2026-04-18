@@ -1,0 +1,146 @@
+{
+  "common": {
+    "appName": "ForkMe",
+    "connectWallet": "Connect Wallet",
+    "disconnect": "Disconnect",
+    "disconnectWallet": "Disconnect Wallet",
+    "loading": "Loading...",
+    "error": "Error",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done",
+    "retry": "Retry",
+    "save": "Save",
+    "delete": "Delete",
+    "close": "Close",
+    "search": "Search",
+    "noResults": "No results found"
+  },
+  "roles": {
+    "customer": "Customer",
+    "driver": "Driver",
+    "restaurant": "Restaurant"
+  },
+  "home": {
+    "nearbyRestaurants": "Nearby Restaurants",
+    "searchRestaurants": "Search restaurants...",
+    "noRestaurantsFound": "No restaurants found",
+    "browse": "Browse",
+    "popular": "Popular",
+    "all": "All"
+  },
+  "driver": {
+    "availableDeliveries": "Available Deliveries",
+    "noDeliveriesAvailable": "No deliveries available",
+    "acceptDelivery": "Accept Delivery",
+    "pickupFrom": "Pickup from",
+    "deliverTo": "Deliver to",
+    "activeDelivery": "Active Delivery"
+  },
+  "restaurantHome": {
+    "incomingOrders": "Incoming Orders",
+    "noOrdersYet": "No orders yet",
+    "acceptOrder": "Accept Order",
+    "startPreparing": "Start Preparing",
+    "markReady": "Mark Ready",
+    "createRestaurant": "Create Restaurant",
+    "editMenu": "Edit Menu",
+    "restaurantSettings": "Restaurant Settings"
+  },
+  "menu": {
+    "menu": "Menu",
+    "addToCart": "Add to Cart",
+    "added": "Added!",
+    "viewCart": "View Cart",
+    "available": "Available",
+    "unavailable": "Unavailable"
+  },
+  "cart": {
+    "yourCart": "Your Cart",
+    "cartEmpty": "Cart is empty",
+    "browseToAdd": "Browse restaurants to add items",
+    "subtotal": "Subtotal",
+    "deliveryFee": "Delivery Fee",
+    "total": "Total",
+    "placeOrder": "Place Order",
+    "placingOrder": "Placing order...",
+    "orderPlaced": "Order placed successfully!"
+  },
+  "order": {
+    "order": "Order",
+    "orderDetails": "Order Details",
+    "orderNumber": "Order #{{id}}",
+    "items": "Items",
+    "subtotal": "Subtotal",
+    "delivery": "Delivery",
+    "total": "Total",
+    "scheduledDelivery": "Scheduled Delivery",
+    "scheduledPickup": "Scheduled Pickup",
+    "asap": "ASAP",
+    "checkout": "Checkout",
+    "chipIn": "Chip In"
+  },
+  "status": {
+    "created": "Created",
+    "funded": "Funded",
+    "preparing": "Preparing",
+    "readyForPickup": "Ready for Pickup",
+    "pickedUp": "Picked Up",
+    "delivered": "Delivered",
+    "settled": "Settled",
+    "disputed": "Disputed",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded"
+  },
+  "contributions": {
+    "splitTheBill": "Split the Bill",
+    "shareOrder": "Share Order",
+    "contribute": "Contribute",
+    "fundingProgress": "Funding Progress",
+    "percentFunded": "{{percent}}% funded",
+    "amountRemaining": "{{amount}} remaining",
+    "shareLinkCopied": "Share link copied!",
+    "contributeToOrder": "Contribute to this order"
+  },
+  "codes": {
+    "pickupCode": "Pickup Code",
+    "deliveryCode": "Delivery Code",
+    "showToDriver": "Show this code to the driver",
+    "showToCustomer": "Show this code to the customer",
+    "scanCode": "Scan Code",
+    "enterCode": "Enter Code"
+  },
+  "tracking": {
+    "trackDelivery": "Track Delivery",
+    "driverOnTheWay": "Driver is on the way",
+    "estimatedArrival": "Estimated arrival",
+    "minutesAway": "{{minutes}} minutes away"
+  },
+  "profile": {
+    "profile": "Profile",
+    "wallet": "Wallet",
+    "connectedWallet": "Connected Wallet",
+    "role": "Role",
+    "yourRole": "Your Role",
+    "switchRole": "Switch Role",
+    "trustScore": "Trust Score",
+    "completedOrders": "Completed Orders",
+    "rating": "Rating",
+    "reputation": "Reputation",
+    "reputationLoading": "On-chain reputation loading...",
+    "language": "Language"
+  },
+  "tiers": {
+    "none": "None",
+    "bronze": "Bronze",
+    "silver": "Silver",
+    "gold": "Gold",
+    "platinum": "Platinum"
+  },
+  "language": {
+    "title": "Choose Language",
+    "changed": "Language changed"
+  }
+}

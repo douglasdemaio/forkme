@@ -85,7 +85,6 @@ export interface Order {
   tokenMint: string;
   foodTotal: number;
   deliveryFee: number;
-  depositAmount: number;
   escrowTarget: number;
   escrowFunded: number;
   status: OrderStatus;
@@ -96,6 +95,8 @@ export interface Order {
   driverWallet?: string;
   driverLocation?: { lat: number; lng: number };
   deliveryService?: DeliveryService;
+  requestedDeliveryTime?: string; // ISO timestamp or null for ASAP
+  requestedPickupTime?: string;   // ISO timestamp or null for ASAP
   createdAt: string;
   updatedAt: string;
   settledAt?: string;
@@ -124,9 +125,8 @@ export interface OrderReceipt {
   foodTotal: number;
   deliveryFee: number;
   protocolFee: number;
-  depositAmount: number;
-  depositRefunded: number;
   totalCharged: number;
+  reimbursement: number;
   netPaid: number;
   status: OrderStatus;
   createdAt: string;

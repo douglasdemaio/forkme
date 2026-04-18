@@ -1,0 +1,146 @@
+{
+  "common": {
+    "appName": "ForkMe",
+    "connectWallet": "Conectar Carteira",
+    "disconnect": "Desconectar",
+    "disconnectWallet": "Desconectar Carteira",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "done": "Pronto",
+    "retry": "Tentar de novo",
+    "save": "Salvar",
+    "delete": "Excluir",
+    "close": "Fechar",
+    "search": "Buscar",
+    "noResults": "Nenhum resultado encontrado"
+  },
+  "roles": {
+    "customer": "Cliente",
+    "driver": "Entregador",
+    "restaurant": "Restaurante"
+  },
+  "home": {
+    "nearbyRestaurants": "Restaurantes próximos",
+    "searchRestaurants": "Buscar restaurantes...",
+    "noRestaurantsFound": "Nenhum restaurante encontrado",
+    "browse": "Explorar",
+    "popular": "Popular",
+    "all": "Todos"
+  },
+  "driver": {
+    "availableDeliveries": "Entregas disponíveis",
+    "noDeliveriesAvailable": "Nenhuma entrega disponível",
+    "acceptDelivery": "Aceitar entrega",
+    "pickupFrom": "Retirar em",
+    "deliverTo": "Entregar em",
+    "activeDelivery": "Entrega ativa"
+  },
+  "restaurantHome": {
+    "incomingOrders": "Pedidos recebidos",
+    "noOrdersYet": "Nenhum pedido ainda",
+    "acceptOrder": "Aceitar pedido",
+    "startPreparing": "Começar a preparar",
+    "markReady": "Marcar como pronto",
+    "createRestaurant": "Criar restaurante",
+    "editMenu": "Editar cardápio",
+    "restaurantSettings": "Configurações do restaurante"
+  },
+  "menu": {
+    "menu": "Cardápio",
+    "addToCart": "Adicionar ao carrinho",
+    "added": "Adicionado!",
+    "viewCart": "Ver carrinho",
+    "available": "Disponível",
+    "unavailable": "Indisponível"
+  },
+  "cart": {
+    "yourCart": "Seu carrinho",
+    "cartEmpty": "Carrinho vazio",
+    "browseToAdd": "Explore restaurantes para adicionar itens",
+    "subtotal": "Subtotal",
+    "deliveryFee": "Taxa de entrega",
+    "total": "Total",
+    "placeOrder": "Fazer pedido",
+    "placingOrder": "Fazendo pedido...",
+    "orderPlaced": "Pedido feito com sucesso!"
+  },
+  "order": {
+    "order": "Pedido",
+    "orderDetails": "Detalhes do pedido",
+    "orderNumber": "Pedido #{{id}}",
+    "items": "Itens",
+    "subtotal": "Subtotal",
+    "delivery": "Entrega",
+    "total": "Total",
+    "scheduledDelivery": "Entrega agendada",
+    "scheduledPickup": "Retirada agendada",
+    "asap": "O mais rápido possível",
+    "checkout": "Pagamento",
+    "chipIn": "Rachar"
+  },
+  "status": {
+    "created": "Criado",
+    "funded": "Pago",
+    "preparing": "Preparando",
+    "readyForPickup": "Pronto para retirada",
+    "pickedUp": "Retirado",
+    "delivered": "Entregue",
+    "settled": "Finalizado",
+    "disputed": "Em disputa",
+    "cancelled": "Cancelado",
+    "refunded": "Reembolsado"
+  },
+  "contributions": {
+    "splitTheBill": "Rachar a conta",
+    "shareOrder": "Compartilhar pedido",
+    "contribute": "Contribuir",
+    "fundingProgress": "Progresso do pagamento",
+    "percentFunded": "{{percent}}% pago",
+    "amountRemaining": "faltam {{amount}}",
+    "shareLinkCopied": "Link copiado!",
+    "contributeToOrder": "Contribuir com este pedido"
+  },
+  "codes": {
+    "pickupCode": "Código de retirada",
+    "deliveryCode": "Código de entrega",
+    "showToDriver": "Mostre este código ao entregador",
+    "showToCustomer": "Mostre este código ao cliente",
+    "scanCode": "Escanear código",
+    "enterCode": "Digitar código"
+  },
+  "tracking": {
+    "trackDelivery": "Rastrear entrega",
+    "driverOnTheWay": "Entregador a caminho",
+    "estimatedArrival": "Chegada estimada",
+    "minutesAway": "{{minutes}} minutos"
+  },
+  "profile": {
+    "profile": "Perfil",
+    "wallet": "Carteira",
+    "connectedWallet": "Carteira conectada",
+    "role": "Função",
+    "yourRole": "Sua função",
+    "switchRole": "Trocar função",
+    "trustScore": "Pontuação de confiança",
+    "completedOrders": "Pedidos concluídos",
+    "rating": "Avaliação",
+    "reputation": "Reputação",
+    "reputationLoading": "Carregando reputação on-chain...",
+    "language": "Idioma"
+  },
+  "tiers": {
+    "none": "Nenhum",
+    "bronze": "Bronze",
+    "silver": "Prata",
+    "gold": "Ouro",
+    "platinum": "Platina"
+  },
+  "language": {
+    "title": "Escolher idioma",
+    "changed": "Idioma alterado"
+  }
+}

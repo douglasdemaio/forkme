@@ -1,0 +1,146 @@
+{
+  "common": {
+    "appName": "ForkMe",
+    "connectWallet": "ربط المحفظة",
+    "disconnect": "قطع الاتصال",
+    "disconnectWallet": "فصل المحفظة",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "next": "التالي",
+    "done": "تم",
+    "retry": "إعادة المحاولة",
+    "save": "حفظ",
+    "delete": "حذف",
+    "close": "إغلاق",
+    "search": "بحث",
+    "noResults": "لم يتم العثور على نتائج"
+  },
+  "roles": {
+    "customer": "زبون",
+    "driver": "سائق توصيل",
+    "restaurant": "مطعم"
+  },
+  "home": {
+    "nearbyRestaurants": "مطاعم قريبة",
+    "searchRestaurants": "ابحث عن مطاعم...",
+    "noRestaurantsFound": "لم يتم العثور على مطاعم",
+    "browse": "تصفح",
+    "popular": "الأكثر طلباً",
+    "all": "الكل"
+  },
+  "driver": {
+    "availableDeliveries": "طلبات توصيل متاحة",
+    "noDeliveriesAvailable": "لا توجد طلبات توصيل حالياً",
+    "acceptDelivery": "قبول التوصيل",
+    "pickupFrom": "الاستلام من",
+    "deliverTo": "التوصيل إلى",
+    "activeDelivery": "توصيل جارٍ"
+  },
+  "restaurantHome": {
+    "incomingOrders": "طلبات واردة",
+    "noOrdersYet": "لا توجد طلبات بعد",
+    "acceptOrder": "قبول الطلب",
+    "startPreparing": "بدء التحضير",
+    "markReady": "جاهز للاستلام",
+    "createRestaurant": "إنشاء مطعم",
+    "editMenu": "تعديل القائمة",
+    "restaurantSettings": "إعدادات المطعم"
+  },
+  "menu": {
+    "menu": "القائمة",
+    "addToCart": "أضف إلى السلة",
+    "added": "تمت الإضافة!",
+    "viewCart": "عرض السلة",
+    "available": "متوفر",
+    "unavailable": "غير متوفر"
+  },
+  "cart": {
+    "yourCart": "سلتك",
+    "cartEmpty": "السلة فارغة",
+    "browseToAdd": "تصفح المطاعم لإضافة أصناف",
+    "subtotal": "المجموع الفرعي",
+    "deliveryFee": "رسوم التوصيل",
+    "total": "الإجمالي",
+    "placeOrder": "تأكيد الطلب",
+    "placingOrder": "جاري تأكيد الطلب...",
+    "orderPlaced": "تم تأكيد الطلب بنجاح!"
+  },
+  "order": {
+    "order": "طلب",
+    "orderDetails": "تفاصيل الطلب",
+    "orderNumber": "طلب #{{id}}",
+    "items": "الأصناف",
+    "subtotal": "المجموع الفرعي",
+    "delivery": "التوصيل",
+    "total": "الإجمالي",
+    "scheduledDelivery": "توصيل مجدول",
+    "scheduledPickup": "استلام مجدول",
+    "asap": "في أقرب وقت",
+    "checkout": "الدفع",
+    "chipIn": "ساهم"
+  },
+  "status": {
+    "created": "تم الإنشاء",
+    "funded": "تم الدفع",
+    "preparing": "قيد التحضير",
+    "readyForPickup": "جاهز للاستلام",
+    "pickedUp": "تم الاستلام",
+    "delivered": "تم التوصيل",
+    "settled": "مكتمل",
+    "disputed": "متنازع عليه",
+    "cancelled": "ملغي",
+    "refunded": "تم الاسترداد"
+  },
+  "contributions": {
+    "splitTheBill": "تقسيم الفاتورة",
+    "shareOrder": "مشاركة الطلب",
+    "contribute": "ساهم",
+    "fundingProgress": "تقدم التمويل",
+    "percentFunded": "تم تمويل {{percent}}%",
+    "amountRemaining": "متبقي {{amount}}",
+    "shareLinkCopied": "تم نسخ الرابط!",
+    "contributeToOrder": "ساهم في هذا الطلب"
+  },
+  "codes": {
+    "pickupCode": "رمز الاستلام",
+    "deliveryCode": "رمز التوصيل",
+    "showToDriver": "أظهر هذا الرمز للسائق",
+    "showToCustomer": "أظهر هذا الرمز للزبون",
+    "scanCode": "مسح الرمز",
+    "enterCode": "إدخال الرمز"
+  },
+  "tracking": {
+    "trackDelivery": "تتبع التوصيل",
+    "driverOnTheWay": "السائق في الطريق",
+    "estimatedArrival": "الوصول المتوقع",
+    "minutesAway": "{{minutes}} دقائق"
+  },
+  "profile": {
+    "profile": "الملف الشخصي",
+    "wallet": "المحفظة",
+    "connectedWallet": "المحفظة المتصلة",
+    "role": "الدور",
+    "yourRole": "دورك",
+    "switchRole": "تغيير الدور",
+    "trustScore": "نقاط الثقة",
+    "completedOrders": "الطلبات المكتملة",
+    "rating": "التقييم",
+    "reputation": "السمعة",
+    "reputationLoading": "جاري تحميل السمعة على البلوكتشين...",
+    "language": "اللغة"
+  },
+  "tiers": {
+    "none": "بدون",
+    "bronze": "برونزي",
+    "silver": "فضي",
+    "gold": "ذهبي",
+    "platinum": "بلاتيني"
+  },
+  "language": {
+    "title": "اختر اللغة",
+    "changed": "تم تغيير اللغة"
+  }
+}

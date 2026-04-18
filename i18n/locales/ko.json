@@ -1,0 +1,146 @@
+{
+  "common": {
+    "appName": "ForkMe",
+    "connectWallet": "지갑 연결",
+    "disconnect": "연결 해제",
+    "disconnectWallet": "지갑 연결 해제",
+    "loading": "로딩 중...",
+    "error": "오류",
+    "cancel": "취소",
+    "confirm": "확인",
+    "back": "뒤로",
+    "next": "다음",
+    "done": "완료",
+    "retry": "다시 시도",
+    "save": "저장",
+    "delete": "삭제",
+    "close": "닫기",
+    "search": "검색",
+    "noResults": "결과가 없어요"
+  },
+  "roles": {
+    "customer": "손님",
+    "driver": "배달기사",
+    "restaurant": "가게"
+  },
+  "home": {
+    "nearbyRestaurants": "근처 맛집",
+    "searchRestaurants": "맛집 검색...",
+    "noRestaurantsFound": "주변 맛집이 없어요",
+    "browse": "둘러보기",
+    "popular": "인기",
+    "all": "전체"
+  },
+  "driver": {
+    "availableDeliveries": "배달 가능한 주문",
+    "noDeliveriesAvailable": "배달할 주문이 없어요",
+    "acceptDelivery": "배달 수락",
+    "pickupFrom": "픽업 장소",
+    "deliverTo": "배달 장소",
+    "activeDelivery": "배달 중"
+  },
+  "restaurantHome": {
+    "incomingOrders": "새 주문",
+    "noOrdersYet": "아직 주문이 없어요",
+    "acceptOrder": "주문 수락",
+    "startPreparing": "조리 시작",
+    "markReady": "준비 완료",
+    "createRestaurant": "가게 만들기",
+    "editMenu": "메뉴 편집",
+    "restaurantSettings": "가게 설정"
+  },
+  "menu": {
+    "menu": "메뉴",
+    "addToCart": "장바구니에 담기",
+    "added": "담았어요!",
+    "viewCart": "장바구니 보기",
+    "available": "주문 가능",
+    "unavailable": "품절"
+  },
+  "cart": {
+    "yourCart": "장바구니",
+    "cartEmpty": "장바구니가 비었어요",
+    "browseToAdd": "맛집을 둘러보고 메뉴를 담아보세요",
+    "subtotal": "소계",
+    "deliveryFee": "배달비",
+    "total": "합계",
+    "placeOrder": "주문하기",
+    "placingOrder": "주문 중...",
+    "orderPlaced": "주문 완료!"
+  },
+  "order": {
+    "order": "주문",
+    "orderDetails": "주문 상세",
+    "orderNumber": "주문 #{{id}}",
+    "items": "메뉴",
+    "subtotal": "소계",
+    "delivery": "배달",
+    "total": "합계",
+    "scheduledDelivery": "예약 배달",
+    "scheduledPickup": "예약 픽업",
+    "asap": "바로",
+    "checkout": "결제",
+    "chipIn": "같이 내기"
+  },
+  "status": {
+    "created": "주문됨",
+    "funded": "결제됨",
+    "preparing": "조리 중",
+    "readyForPickup": "픽업 대기",
+    "pickedUp": "픽업 완료",
+    "delivered": "배달 완료",
+    "settled": "정산 완료",
+    "disputed": "분쟁 중",
+    "cancelled": "취소됨",
+    "refunded": "환불됨"
+  },
+  "contributions": {
+    "splitTheBill": "더치페이",
+    "shareOrder": "주문 공유",
+    "contribute": "참여하기",
+    "fundingProgress": "모금 현황",
+    "percentFunded": "{{percent}}% 모임",
+    "amountRemaining": "{{amount}} 남음",
+    "shareLinkCopied": "링크 복사됨!",
+    "contributeToOrder": "이 주문에 참여하기"
+  },
+  "codes": {
+    "pickupCode": "픽업 코드",
+    "deliveryCode": "배달 코드",
+    "showToDriver": "이 코드를 배달기사에게 보여주세요",
+    "showToCustomer": "이 코드를 손님에게 보여주세요",
+    "scanCode": "코드 스캔",
+    "enterCode": "코드 입력"
+  },
+  "tracking": {
+    "trackDelivery": "배달 추적",
+    "driverOnTheWay": "배달기사가 이동 중이에요",
+    "estimatedArrival": "도착 예정",
+    "minutesAway": "{{minutes}}분 남음"
+  },
+  "profile": {
+    "profile": "프로필",
+    "wallet": "지갑",
+    "connectedWallet": "연결된 지갑",
+    "role": "역할",
+    "yourRole": "내 역할",
+    "switchRole": "역할 변경",
+    "trustScore": "신뢰 점수",
+    "completedOrders": "완료 주문",
+    "rating": "평점",
+    "reputation": "평판",
+    "reputationLoading": "온체인 평판 로딩 중...",
+    "language": "언어"
+  },
+  "tiers": {
+    "none": "없음",
+    "bronze": "브론즈",
+    "silver": "실버",
+    "gold": "골드",
+    "platinum": "플래티넘"
+  },
+  "language": {
+    "title": "언어 선택",
+    "changed": "언어가 변경되었어요"
+  }
+}

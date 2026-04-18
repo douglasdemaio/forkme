@@ -1,0 +1,146 @@
+{
+  "common": {
+    "appName": "ForkMe",
+    "connectWallet": "ウォレットを接続",
+    "disconnect": "切断",
+    "disconnectWallet": "ウォレットを切断",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "back": "戻る",
+    "next": "次へ",
+    "done": "完了",
+    "retry": "もう一度",
+    "save": "保存",
+    "delete": "削除",
+    "close": "閉じる",
+    "search": "検索",
+    "noResults": "結果が見つかりません"
+  },
+  "roles": {
+    "customer": "お客さん",
+    "driver": "配達員",
+    "restaurant": "レストラン"
+  },
+  "home": {
+    "nearbyRestaurants": "近くのレストラン",
+    "searchRestaurants": "レストランを検索...",
+    "noRestaurantsFound": "レストランが見つかりません",
+    "browse": "探す",
+    "popular": "人気",
+    "all": "すべて"
+  },
+  "driver": {
+    "availableDeliveries": "受付中の配達",
+    "noDeliveriesAvailable": "配達はありません",
+    "acceptDelivery": "配達を受ける",
+    "pickupFrom": "受け取り先",
+    "deliverTo": "届け先",
+    "activeDelivery": "配達中"
+  },
+  "restaurantHome": {
+    "incomingOrders": "新しい注文",
+    "noOrdersYet": "まだ注文はありません",
+    "acceptOrder": "注文を受ける",
+    "startPreparing": "調理開始",
+    "markReady": "準備完了にする",
+    "createRestaurant": "レストランを作成",
+    "editMenu": "メニューを編集",
+    "restaurantSettings": "レストラン設定"
+  },
+  "menu": {
+    "menu": "メニュー",
+    "addToCart": "カートに追加",
+    "added": "追加しました！",
+    "viewCart": "カートを見る",
+    "available": "注文可",
+    "unavailable": "品切れ"
+  },
+  "cart": {
+    "yourCart": "カート",
+    "cartEmpty": "カートは空です",
+    "browseToAdd": "レストランを探して商品を追加しよう",
+    "subtotal": "小計",
+    "deliveryFee": "配達料",
+    "total": "合計",
+    "placeOrder": "注文する",
+    "placingOrder": "注文中...",
+    "orderPlaced": "注文が完了しました！"
+  },
+  "order": {
+    "order": "注文",
+    "orderDetails": "注文の詳細",
+    "orderNumber": "注文 #{{id}}",
+    "items": "商品",
+    "subtotal": "小計",
+    "delivery": "配達",
+    "total": "合計",
+    "scheduledDelivery": "配達予定",
+    "scheduledPickup": "受け取り予定",
+    "asap": "すぐに",
+    "checkout": "お会計",
+    "chipIn": "割り勘"
+  },
+  "status": {
+    "created": "作成済み",
+    "funded": "支払い済み",
+    "preparing": "調理中",
+    "readyForPickup": "受け取り可能",
+    "pickedUp": "受け取り済み",
+    "delivered": "配達完了",
+    "settled": "完了",
+    "disputed": "問題あり",
+    "cancelled": "キャンセル済み",
+    "refunded": "返金済み"
+  },
+  "contributions": {
+    "splitTheBill": "割り勘する",
+    "shareOrder": "注文をシェア",
+    "contribute": "出す",
+    "fundingProgress": "集金の進捗",
+    "percentFunded": "{{percent}}%集まった",
+    "amountRemaining": "あと{{amount}}",
+    "shareLinkCopied": "リンクをコピーしました！",
+    "contributeToOrder": "この注文に参加する"
+  },
+  "codes": {
+    "pickupCode": "受け取りコード",
+    "deliveryCode": "配達コード",
+    "showToDriver": "このコードを配達員に見せてね",
+    "showToCustomer": "このコードをお客さんに見せてね",
+    "scanCode": "コードを読み取る",
+    "enterCode": "コードを入力"
+  },
+  "tracking": {
+    "trackDelivery": "配達を追跡",
+    "driverOnTheWay": "配達員が向かっています",
+    "estimatedArrival": "到着予定",
+    "minutesAway": "あと{{minutes}}分"
+  },
+  "profile": {
+    "profile": "プロフィール",
+    "wallet": "ウォレット",
+    "connectedWallet": "接続中のウォレット",
+    "role": "役割",
+    "yourRole": "あなたの役割",
+    "switchRole": "役割を変更",
+    "trustScore": "信頼スコア",
+    "completedOrders": "完了した注文",
+    "rating": "評価",
+    "reputation": "評判",
+    "reputationLoading": "オンチェーンの評判を読み込み中...",
+    "language": "言語"
+  },
+  "tiers": {
+    "none": "なし",
+    "bronze": "ブロンズ",
+    "silver": "シルバー",
+    "gold": "ゴールド",
+    "platinum": "プラチナ"
+  },
+  "language": {
+    "title": "言語を選ぶ",
+    "changed": "言語を変更しました"
+  }
+}
