@@ -11,8 +11,9 @@ export const WS_URL =
   process.env.EXPO_PUBLIC_WS_URL || 'ws://localhost:3000';
 
 // ── Solana ──────────────────────────────────────────────────────────
+// Custom RPC gateway via Tatum — fall back to public devnet if not configured
 export const SOLANA_RPC_URL =
-  process.env.EXPO_PUBLIC_SOLANA_RPC_URL || 'https://api.devnet.solana.com';
+  process.env.EXPO_PUBLIC_SOLANA_RPC_URL || 'https://forkit-2a5ac542.gateway.tatum.io/';
 export const SOLANA_NETWORK =
   process.env.EXPO_PUBLIC_SOLANA_NETWORK || 'devnet';
 
