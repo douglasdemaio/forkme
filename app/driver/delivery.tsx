@@ -6,10 +6,13 @@ import {
   Alert,
   ActivityIndicator,
   ScrollView,
+  Modal,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import QRCode from 'react-native-qrcode-svg';
 import { api } from '@/lib/api';
 import { getTokenByMint, explorerTxUrl } from '@/lib/constants';
 import type { Order } from '@/lib/types';
@@ -23,6 +26,9 @@ export default function DeliveryScreen() {
   const [codeInput, setCodeInput] = useState('');
   const [verifying, setVerifying] = useState(false);
   const [settleTx, setSettleTx] = useState<string | null>(null);
+  const [scanning, setScanning] = useState(false);
+  const [showDeliveryQr, setShowDeliveryQr] = useState(false);
+  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
 
   useEffect(() => {
     if (!orderId) return;
@@ -32,6 +38,28 @@ export default function DeliveryScreen() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [orderId]);
+
+  const handleScanQr = async () => {
+    if (!cameraPermission?.granted) {
+      const { granted } = await requestCameraPermission();
+      if (!granted) {
+        Alert.alert('Camera Permission', 'Camera access is needed to scan QR codes.');
+        return;
+      }
+    }
+    setScanning(true);
+  };
+
+  const handleQrScanned = ({ data }: { data: string }) => {
+    setScanning(false);
+    // Parse forkit:orderId:code format
+    let code = data;
+    if (data.startsWith('forkit:')) {
+      const parts = data.split(':');
+      code = parts[2] || data;
+    }
+    setCodeInput(code.trim().toUpperCase());
+  };
 
   const handleVerifyPickup = async () => {
     if (!orderId || !codeInput.trim()) return;
@@ -123,8 +151,20 @@ export default function DeliveryScreen() {
             </Text>
           </View>
           <Text className="text-dark-300 mb-3">
-            Ask the restaurant for Code A and enter it here.
+            Scan the restaurant&apos;s QR display or enter Code A manually.
           </Text>
+
+          {/* Scan QR button */}
+          <TouchableOpacity
+            className="bg-dark-800 border border-brand-500/40 rounded-xl py-3 items-center flex-row justify-center gap-2 mb-3"
+            onPress={handleScanQr}
+          >
+            <Ionicons name="qr-code-outline" size={20} color="#f9a825" />
+            <Text className="text-brand-500 font-semibold">Scan Restaurant QR</Text>
+          </TouchableOpacity>
+
+          <Text className="text-dark-500 text-xs text-center mb-2">— or enter manually —</Text>
+
           <TextInput
             className="bg-dark-800 text-white text-center text-2xl font-mono rounded-xl px-4 py-4 tracking-widest"
             placeholder="Enter Code A"
@@ -144,13 +184,35 @@ export default function DeliveryScreen() {
             {verifying ? (
               <ActivityIndicator color="#0a0e1a" />
             ) : (
-              <Text className="text-dark-950 font-bold">
-                Verify Pickup
-              </Text>
+              <Text className="text-dark-950 font-bold">Verify Pickup</Text>
             )}
           </TouchableOpacity>
         </View>
       )}
+
+      {/* QR Camera Scanner Modal */}
+      <Modal visible={scanning} animationType="slide" onRequestClose={() => setScanning(false)}>
+        <View className="flex-1 bg-dark-950">
+          <View className="flex-row items-center justify-between px-4 pt-12 pb-4">
+            <Text className="text-white text-lg font-bold">Scan Pickup QR</Text>
+            <TouchableOpacity onPress={() => setScanning(false)}>
+              <Ionicons name="close" size={24} color="#9ca3af" />
+            </TouchableOpacity>
+          </View>
+          <CameraView
+            className="flex-1"
+            facing="back"
+            barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
+            onBarcodeScanned={handleQrScanned}
+          />
+          <View className="absolute inset-0 items-center justify-center pointer-events-none">
+            <View className="w-64 h-64 border-2 border-brand-500 rounded-2xl" />
+          </View>
+          <Text className="text-gray-400 text-sm text-center py-6">
+            Point at the restaurant&apos;s QR display
+          </Text>
+        </View>
+      </Modal>
 
       {/* Step 2: Confirm delivery */}
       {isPickedUp && !isSettled && (
@@ -160,13 +222,24 @@ export default function DeliveryScreen() {
               <Text className="text-white font-bold">2</Text>
             </View>
             <Text className="text-white font-semibold text-lg">
-              Confirm Delivery (Code B)
+              Confirm Delivery
             </Text>
           </View>
-          <Text className="text-dark-300 mb-3">
-            The customer will show you Code B. Enter it to complete
-            delivery and trigger settlement.
+          <Text className="text-dark-300 mb-4">
+            Show the customer your QR code to scan, or ask them for Code B.
           </Text>
+
+          {/* Show QR for customer to scan */}
+          <TouchableOpacity
+            className="bg-dark-800 border border-green-600/40 rounded-xl py-3 items-center flex-row justify-center gap-2 mb-3"
+            onPress={() => setShowDeliveryQr(true)}
+          >
+            <Ionicons name="qr-code-outline" size={20} color="#4ade80" />
+            <Text className="text-green-400 font-semibold">Show QR for Customer</Text>
+          </TouchableOpacity>
+
+          <Text className="text-dark-500 text-xs text-center mb-2">— or enter Code B manually —</Text>
+
           <TextInput
             className="bg-dark-800 text-white text-center text-2xl font-mono rounded-xl px-4 py-4 tracking-widest"
             placeholder="Enter Code B"
@@ -186,13 +259,40 @@ export default function DeliveryScreen() {
             {verifying ? (
               <ActivityIndicator color="white" />
             ) : (
-              <Text className="text-white font-bold">
-                Confirm Delivery
-              </Text>
+              <Text className="text-white font-bold">Confirm Delivery</Text>
             )}
           </TouchableOpacity>
         </View>
       )}
+
+      {/* Delivery QR modal — customer scans this to confirm receipt */}
+      <Modal
+        visible={showDeliveryQr}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setShowDeliveryQr(false)}
+      >
+        <View className="flex-1 bg-black/80 items-center justify-center px-8">
+          <View className="bg-dark-900 rounded-3xl p-6 items-center w-full max-w-sm">
+            <Text className="text-white font-bold text-lg mb-1">Show to Customer</Text>
+            <Text className="text-dark-400 text-sm mb-5 text-center">
+              Ask them to scan with ForkMe to confirm delivery
+            </Text>
+            <View className="bg-white rounded-2xl p-4">
+              <QRCode
+                value={`forkme://confirm-delivery/${orderId}`}
+                size={220}
+              />
+            </View>
+            <TouchableOpacity
+              className="mt-6 bg-green-600 rounded-2xl py-3 px-8"
+              onPress={() => setShowDeliveryQr(false)}
+            >
+              <Text className="text-white font-bold">Done</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       {/* Settlement complete */}
       {isSettled && (

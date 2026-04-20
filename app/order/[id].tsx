@@ -181,12 +181,12 @@ export default function OrderDetailScreen() {
       {/* Delivery Codes — only for order creator */}
       {isCreator && order.codeA && (
         <View className="mt-3">
-          <DeliveryCode label="Pickup Code (A)" code={order.codeA} />
+          <DeliveryCode label="Pickup Code (A)" code={order.codeA} orderId={order.id} />
         </View>
       )}
       {isCreator && order.codeB && (
         <View className="mt-3">
-          <DeliveryCode label="Delivery Code (B)" code={order.codeB} />
+          <DeliveryCode label="Delivery Code (B)" code={order.codeB} orderId={order.id} />
         </View>
       )}
 
