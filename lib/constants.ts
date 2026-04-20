@@ -39,7 +39,8 @@ export const DEVNET_EURC_MINT = 'CXk2AMBfi3TwaEL2468s6zP8xq9NxTXjp9gjMgzeUynM';
 export const TREASURY_WALLET = new PublicKey(
   'BiP5PJuUiXPYCFx98RMCGCnRhdUVrkxSke9C6y2ZohQ9'
 );
-export const FEE_BASIS_POINTS = 2; // 0.02 %
+export const FEE_BASIS_POINTS = 2;     // 0.02 %
+export const DEPOSIT_BASIS_POINTS = 200; // 2 % refundable deposit
 export const MAX_CONTRIBUTORS = 10;
 export const FUNDING_TIMEOUT_SECONDS = 900; // 15 min
 export const CANCEL_WINDOW_SECONDS = 60;
@@ -99,30 +100,41 @@ export const SUPPORTED_LOCALES = [
 ] as const;
 
 // ── Restaurant page templates ───────────────────────────────────────
-export type RestaurantTemplate = 'classic' | 'modern' | 'minimal' | 'vibrant';
+export type RestaurantTemplate =
+  | 'classic-bistro'
+  | 'modern-minimal'
+  | 'street-food'
+  | 'fine-dining'
+  | 'custom';
+
 export const RESTAURANT_TEMPLATES: {
   id: RestaurantTemplate;
   label: string;
   description: string;
 }[] = [
   {
-    id: 'classic',
-    label: 'Classic',
+    id: 'classic-bistro',
+    label: 'Classic Bistro',
     description: 'Traditional layout with warm colours',
   },
   {
-    id: 'modern',
-    label: 'Modern',
+    id: 'modern-minimal',
+    label: 'Modern Minimal',
     description: 'Clean lines, large hero images',
   },
   {
-    id: 'minimal',
-    label: 'Minimal',
-    description: 'Text-first, fast-loading',
+    id: 'street-food',
+    label: 'Street Food',
+    description: 'Bold colours, playful typography',
   },
   {
-    id: 'vibrant',
-    label: 'Vibrant',
-    description: 'Bold colours, playful typography',
+    id: 'fine-dining',
+    label: 'Fine Dining',
+    description: 'Elegant, premium aesthetic',
+  },
+  {
+    id: 'custom',
+    label: 'Custom',
+    description: 'Your own colours and fonts',
   },
 ];

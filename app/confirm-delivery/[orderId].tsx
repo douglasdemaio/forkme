@@ -34,7 +34,7 @@ export default function ConfirmDeliveryScreen() {
   }, [orderId]);
 
   const isMyOrder =
-    !!walletAddress && !!order && order.customerWallet === walletAddress;
+    !!walletAddress && !!order && order.customer?.wallet === walletAddress;
 
   const handleConfirm = async () => {
     if (!order?.codeB || !orderId) return;

@@ -12,6 +12,23 @@ import type {
 import type { RestaurantTemplate } from './constants';
 
 // ─────────────────────────────────────────────────────────────────────
+// Field mappers: forkit-site DB field names → forkme type field names
+// ─────────────────────────────────────────────────────────────────────
+
+function mapRestaurant(r: any): Restaurant {
+  return {
+    ...r,
+    walletAddress: r.walletAddress ?? r.wallet,
+    logoUrl: r.logoUrl ?? r.logo,
+    bannerUrl: r.bannerUrl ?? r.banner,
+    menuItems: (r.menuItems ?? []).map((m: any) => ({
+      ...m,
+      imageUrl: m.imageUrl ?? m.image ?? '',
+    })),
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────
 // API client that talks to forkit-site (Next.js App Router API routes)
 // ─────────────────────────────────────────────────────────────────────
 
@@ -91,15 +108,20 @@ class ApiClient {
     const qs = new URLSearchParams();
     if (params?.lat != null) qs.set('lat', String(params.lat));
     if (params?.lng != null) qs.set('lng', String(params.lng));
-    if (params?.q) qs.set('q', params.q);
+    if (params?.q) qs.set('search', params.q);
     if (params?.limit) qs.set('limit', String(params.limit));
     const query = qs.toString();
-    return this.request(`/api/restaurants${query ? `?${query}` : ''}`);
+    const result = await this.request<Restaurant[] | { restaurants: any[]; pagination?: any }>(
+      `/api/restaurants${query ? `?${query}` : ''}`
+    );
+    const list: any[] = Array.isArray(result) ? result : (result as any).restaurants ?? [];
+    return list.map(mapRestaurant);
   }
 
   /** Get a single restaurant by ID (public) */
   async getRestaurant(id: string): Promise<Restaurant> {
-    return this.request(`/api/restaurants/${id}`);
+    const data = await this.request<any>(`/api/restaurants/${id}`);
+    return mapRestaurant(data);
   }
 
   /** Create a new restaurant (owner) */
@@ -132,10 +154,15 @@ class ApiClient {
       lng: number;
     }>
   ): Promise<Restaurant> {
-    return this.request(`/api/restaurants/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify(data),
+    const { logoUrl, bannerUrl, ...rest } = data;
+    const body: Record<string, unknown> = { ...rest };
+    if (logoUrl !== undefined) body.logo = logoUrl;
+    if (bannerUrl !== undefined) body.banner = bannerUrl;
+    const result = await this.request<any>(`/api/restaurants/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(body),
     });
+    return mapRestaurant(result);
   }
 
   // ── Menu ────────────────────────────────────────────────────────
@@ -198,7 +225,8 @@ class ApiClient {
 
   /** Get the current user's orders */
   async getMyOrders(): Promise<Order[]> {
-    return this.request('/api/orders');
+    const result = await this.request<Order[] | { orders: Order[] }>('/api/orders');
+    return Array.isArray(result) ? result : (result as any).orders ?? [];
   }
 
   /** Get a single order by ID */
@@ -249,7 +277,8 @@ class ApiClient {
 
   /** Get incoming orders for the authenticated restaurant owner */
   async getIncomingOrders(): Promise<Order[]> {
-    return this.request('/api/orders?role=restaurant');
+    const result = await this.request<Order[] | { orders: Order[] }>('/api/orders?role=restaurant');
+    return Array.isArray(result) ? result : (result as any).orders ?? [];
   }
 
   /** Mark an order as preparing (restaurant) */

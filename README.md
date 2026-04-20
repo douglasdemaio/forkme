@@ -27,7 +27,7 @@ ForkMe is the React Native (Expo) mobile companion for **ForkIt**, a decentraliz
 ### 🍽 Restaurant Owners
 - Connect wallet, create and manage your restaurant
 - Upload food images, set names, prices, categories
-- Choose a page template (Classic, Modern, Minimal, Vibrant)
+- Choose a page template (Classic Bistro, Modern Minimal, Street Food, Fine Dining, Custom)
 - View and manage incoming orders
 - Accept orders and mark them as ready for pickup
 
@@ -113,7 +113,14 @@ ForkMe does **not** have its own backend. All API calls go to the forkit-site Ne
 - `GET /api/orders` — List user's orders
 - `GET /api/orders/[id]` — Order details
 - `POST /api/orders/[id]/contribute` — Record contribution
-- `POST /api/orders/[id]/status` — Update order status
+- `POST /api/orders/[id]/status` — Advance order status (Preparing, ReadyForPickup, PickedUp…)
+- `POST /api/orders/[id]/verify-pickup` — Driver verifies Code A (ReadyForPickup → PickedUp)
+- `POST /api/orders/[id]/verify-delivery` — Customer confirms Code B (PickedUp → Settled)
+- `POST /api/orders/[id]/contribute` — Record on-chain contribution
+- `GET /api/orders/[id]/funding` — Funding progress
+- `GET /api/orders/[id]/receipt` — Settlement receipt
+- `POST /api/orders/[id]/share` — Generate shareable contribution link
+- `GET /api/orders/share/[shareLink]` — Resolve share link to order
 - `POST /api/upload` — Upload images (menu items, logos, banners)
 
 ## On-Chain Programs
@@ -175,6 +182,23 @@ Powered by [i18next](https://www.i18next.com/) + [react-i18next](https://react.i
 - [Solana Mobile Wallet Adapter](https://github.com/solana-mobile/mobile-wallet-adapter)
 - [Socket.IO](https://socket.io/) (real-time order tracking)
 - [expo-location](https://docs.expo.dev/versions/latest/sdk/location/) (GPS — foreground location with Berlin fallback)
+
+## Order Status Values
+
+Order statuses mirror the on-chain `OrderStatus` enum exactly:
+
+| Status | Description |
+|--------|-------------|
+| `Created` | Order placed, awaiting full funding |
+| `Funded` | Escrow fully funded, ready for restaurant |
+| `Preparing` | Restaurant accepted, preparing food |
+| `ReadyForPickup` | Food ready, waiting for driver |
+| `PickedUp` | Driver confirmed pickup (Code A verified) |
+| `Delivered` | Delivery confirmed (Code B verified) |
+| `Settled` | Funds distributed to restaurant, driver, and treasury |
+| `Disputed` | Customer escalated after delivery timeout |
+| `Cancelled` | Customer cancelled within 60-second window |
+| `Refunded` | Timeout or dispute resolved as refund |
 
 ## Known Limitations
 
