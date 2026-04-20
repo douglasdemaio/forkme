@@ -41,7 +41,7 @@ ForkMe is the React Native (Expo) mobile companion for **ForkIt**, a decentraliz
 - Confirm delivery with Code B
 
 ### 🚴 Drivers
-- View available funded orders ready for pickup (with scheduled pickup/delivery times when set)
+- View available orders — only **funded** orders (escrow funded on-chain) are shown, not merely created ones (with scheduled pickup/delivery times when set)
 - Accept deliveries
 - Verify pickup with Code A from the restaurant
 - Confirm delivery with Code B from the customer
@@ -55,6 +55,7 @@ ForkMe is the React Native (Expo) mobile companion for **ForkIt**, a decentraliz
 - Expo CLI (`npm install -g expo-cli`)
 - A Solana wallet (Phantom, Solflare, or Saga/Seeker built-in)
 - A running [forkit-site](https://github.com/user/forkit-site) instance
+- `expo-location` is included in dependencies — no manual install needed (required for GPS-based restaurant discovery)
 
 ### Setup
 
@@ -173,6 +174,12 @@ Powered by [i18next](https://www.i18next.com/) + [react-i18next](https://react.i
 - [Solana Web3.js](https://solana-labs.github.io/solana-web3.js/) + [SPL Token](https://spl.solana.com/)
 - [Solana Mobile Wallet Adapter](https://github.com/solana-mobile/mobile-wallet-adapter)
 - [Socket.IO](https://socket.io/) (real-time order tracking)
+- [expo-location](https://docs.expo.dev/versions/latest/sdk/location/) (GPS — foreground location with Berlin fallback)
+
+## Known Limitations
+
+- **Live map not yet rendered:** `react-native-maps` is installed and the Track tab displays delivery coordinates, but map rendering is not yet wired — coordinates are shown as text for now.
+- **Loyalty tier discounts are Phase 2:** The Bronze→Platinum tier discount system is aspirational. The smart contract stub exists in the loyalty program, but tier logic and the $FORK token are not yet implemented.
 
 ## License
 
