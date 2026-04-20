@@ -20,16 +20,16 @@ class ApiClient {
 
   // Auth
   async getChallenge(walletAddress: string) {
-    return this.fetch<{ nonce: string }>('/api/auth/challenge', {
+    return this.fetch<{ nonce: string; message: string }>('/api/auth/nonce', {
       method: 'POST',
       body: JSON.stringify({ walletAddress }),
     });
   }
 
-  async verify(walletAddress: string, signature: string) {
+  async verify(walletAddress: string, signature: string, message: string) {
     return this.fetch<{ token: string }>('/api/auth/verify', {
       method: 'POST',
-      body: JSON.stringify({ walletAddress, signature }),
+      body: JSON.stringify({ walletAddress, signature, message }),
     });
   }
 
