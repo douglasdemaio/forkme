@@ -31,6 +31,10 @@ export const LOYALTY_PROGRAM_ID = new PublicKey(
     '6DaFmi7haz2Ci9sXaHRviz3biwbmTwipvwc9L9cdeugR'
 );
 
+// ── Devnet stablecoin mint addresses ───────────────────────────────
+export const DEVNET_USDC_MINT = '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU';
+export const DEVNET_EURC_MINT = 'CXk2AMBfi3TwaEL2468s6zP8xq9NxTXjp9gjMgzeUynM';
+
 // ── Protocol parameters ─────────────────────────────────────────────
 export const TREASURY_WALLET = new PublicKey(
   'BiP5PJuUiXPYCFx98RMCGCnRhdUVrkxSke9C6y2ZohQ9'
