@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { PublicKey, Transaction } from '@solana/web3.js';
+import bs58 from 'bs58';
 import {
   transact,
   Web3MobileWallet,
@@ -97,9 +98,7 @@ export function useWallet() {
         const signedTxs = await wallet.signAndSendTransactions({
           transactions: [transaction],
         });
-        signature = signedTxs[0]
-          ? Buffer.from(signedTxs[0]).toString('base64')
-          : '';
+        signature = signedTxs[0] ? bs58.encode(signedTxs[0]) : '';
       });
       return signature;
     },

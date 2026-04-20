@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { useContribute } from '@/hooks/useContribute';
 import { api } from '@/lib/api';
+import { DEVNET_USDC_MINT } from '@/lib/constants';
 import { FundingBar } from '@/components/funding-bar';
 import type { FundingProgress } from '@/lib/types';
 
@@ -52,8 +53,8 @@ export default function ContributeScreen() {
       const result = await contribute(
         resolvedOrderId,
         BigInt(resolvedOnChainId),
-        '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU', // USDC devnet mint
-        Math.round(parseFloat(amount) * 1_000_000)
+        DEVNET_USDC_MINT,
+        Math.round(parseFloat(amount) * 1_000_000) // USDC has 6 decimals
       );
       setSuccess(true);
       if (result.funded) {

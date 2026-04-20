@@ -18,7 +18,7 @@ import type {
  */
 export function useOrderTracking(orderId: string | null) {
   const socketRef = useRef<Socket | null>(null);
-  const { authToken, setActiveOrder, activeOrder } = useAppStore();
+  const { authToken, setActiveOrder } = useAppStore();
 
   const [statusHistory, setStatusHistory] = useState<StatusEvent[]>([]);
   const [receipt, setReceipt] = useState<OrderReceipt | null>(null);
@@ -46,15 +46,16 @@ export function useOrderTracking(orderId: string | null) {
     if (!orderId || !authToken) return;
 
     // Seed history from current order state
-    if (activeOrder?.status) {
+    const initialOrder = useAppStore.getState().activeOrder;
+    if (initialOrder?.status) {
       addStatusEvent({
-        status: activeOrder.status as OrderStatus,
-        timestamp: activeOrder.createdAt,
+        status: initialOrder.status as OrderStatus,
+        timestamp: initialOrder.createdAt,
       });
     }
     if (
-      activeOrder?.status === 'Settled' ||
-      activeOrder?.status === 'Delivered'
+      initialOrder?.status === 'Settled' ||
+      initialOrder?.status === 'Delivered'
     ) {
       fetchReceipt(orderId);
     }
@@ -76,8 +77,9 @@ export function useOrderTracking(orderId: string | null) {
         deliveryService?: string;
         note?: string;
       }) => {
-        if (!activeOrder || data.orderId !== activeOrder.id) return;
-        setActiveOrder({ ...activeOrder, status: data.status });
+        const current = useAppStore.getState().activeOrder;
+        if (!current || data.orderId !== current.id) return;
+        setActiveOrder({ ...current, status: data.status });
         addStatusEvent({
           status: data.status,
           timestamp: new Date().toISOString(),
@@ -94,8 +96,9 @@ export function useOrderTracking(orderId: string | null) {
         escrowFunded: number;
         percentFunded: number;
       }) => {
-        if (activeOrder && data.orderId === activeOrder.id) {
-          setActiveOrder({ ...activeOrder, escrowFunded: data.escrowFunded });
+        const current = useAppStore.getState().activeOrder;
+        if (current && data.orderId === current.id) {
+          setActiveOrder({ ...current, escrowFunded: data.escrowFunded });
         }
       }
     );
@@ -103,9 +106,10 @@ export function useOrderTracking(orderId: string | null) {
     socket.on(
       'order:driver-location',
       (data: { orderId: string; lat: number; lng: number }) => {
-        if (activeOrder && data.orderId === activeOrder.id) {
+        const current = useAppStore.getState().activeOrder;
+        if (current && data.orderId === current.id) {
           setActiveOrder({
-            ...activeOrder,
+            ...current,
             driverLocation: { lat: data.lat, lng: data.lng },
           });
         }
@@ -115,9 +119,10 @@ export function useOrderTracking(orderId: string | null) {
     socket.on('order:funds-released', (data: FundsReleasedPayload) => {
       if (data.orderId !== orderId) return;
       setFundsReleased(data);
-      if (activeOrder) {
+      const current = useAppStore.getState().activeOrder;
+      if (current) {
         setActiveOrder({
-          ...activeOrder,
+          ...current,
           status: 'Settled',
           settleTxSignature: data.txSignature,
         });
