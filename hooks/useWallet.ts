@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Platform } from 'react-native';
 import { PublicKey, Transaction } from '@solana/web3.js';
+import bs58 from 'bs58';
 import {
   transact,
   Web3MobileWallet,
@@ -18,17 +19,23 @@ export function useWallet() {
 
   const connect = useCallback(async () => {
     if (Platform.OS === 'web') {
-      // Web fallback — use window.solana (Phantom browser extension)
       const provider = (window as any).solana;
       if (!provider?.isPhantom) throw new Error('Phantom not found');
       const resp = await provider.connect();
       const pubkey = new PublicKey(resp.publicKey.toString());
-      setWallet(pubkey.toBase58(), pubkey);
-      await authenticate(pubkey.toBase58());
+      const walletAddress = pubkey.toBase58();
+      setWallet(walletAddress, pubkey);
+
+      const { message } = await api.getChallenge(walletAddress);
+      const msgBytes = new TextEncoder().encode(message);
+      const { signature } = await provider.signMessage(msgBytes, 'utf8');
+      const sig = bs58.encode(signature);
+      const { token } = await api.verify(walletAddress, sig, message);
+      api.setToken(token);
+      setAuthToken(token);
       return;
     }
 
-    // Mobile: Solana Mobile Wallet Adapter
     await transact(async (wallet: Web3MobileWallet) => {
       const authResult = await wallet.authorize({
         identity: {
@@ -40,19 +47,21 @@ export function useWallet() {
       });
 
       const pubkey = new PublicKey(authResult.accounts[0].address);
-      setWallet(pubkey.toBase58(), pubkey);
-      await authenticate(pubkey.toBase58());
+      const walletAddress = pubkey.toBase58();
+      setWallet(walletAddress, pubkey);
+
+      const { message } = await api.getChallenge(walletAddress);
+      const msgBytes = new TextEncoder().encode(message);
+      const signedMessages = await wallet.signMessages({
+        addresses: [authResult.accounts[0].address],
+        payloads: [msgBytes],
+      });
+      const sig = bs58.encode(signedMessages[0]);
+      const { token } = await api.verify(walletAddress, sig, message);
+      api.setToken(token);
+      setAuthToken(token);
     });
   }, []);
-
-  const authenticate = async (walletAddress: string) => {
-    const { nonce } = await api.getChallenge(walletAddress);
-    // In production, sign the nonce with the wallet and verify
-    // For now, simplified flow
-    const { token } = await api.verify(walletAddress, 'placeholder-sig');
-    api.setToken(token);
-    setAuthToken(token);
-  };
 
   const signAndSendTransaction = useCallback(
     async (transaction: Transaction): Promise<string> => {
