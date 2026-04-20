@@ -1,0 +1,99 @@
+{
+  "translation": {
+    "appName": "ForkMe",
+    "tagline": "Decentralized food delivery on Solana",
+    "nav": {
+      "browse": "Browse",
+      "orders": "Orders",
+      "drive": "Drive",
+      "profile": "Profile"
+    },
+    "home": {
+      "title": "Nearby Restaurants",
+      "subtitle": "Order food, split the bill with friends",
+      "search": "Search restaurants...",
+      "noResults": "No restaurants found",
+      "kmAway": "{{dist}} km away",
+      "items": "{{n}} items"
+    },
+    "restaurant": {
+      "menu": "Menu",
+      "addToCart": "Add",
+      "unavailable": "Unavailable",
+      "deliveryFee": "Delivery fee"
+    },
+    "cart": {
+      "title": "Your Cart",
+      "empty": "Your cart is empty",
+      "total": "Total",
+      "deliveryFee": "Delivery",
+      "checkout": "Checkout with Solana",
+      "connectFirst": "Connect your wallet to checkout",
+      "deliveryAddress": "Delivery address (optional)",
+      "currency": "Pay with"
+    },
+    "order": {
+      "title": "Order #{{id}}",
+      "status": {
+        "Created": "Awaiting payment",
+        "Funded": "Funded — awaiting restaurant",
+        "Preparing": "Being prepared",
+        "ReadyForPickup": "Ready for pickup",
+        "PickedUp": "On the way",
+        "Delivered": "Delivered",
+        "Settled": "Completed",
+        "Disputed": "Disputed",
+        "Cancelled": "Cancelled",
+        "Refunded": "Refunded"
+      },
+      "shareLink": "Share link",
+      "copyLink": "Copy split-bill link",
+      "contributions": "Contributions",
+      "fundingProgress": "{{pct}}% funded",
+      "items": "Items",
+      "fundOrder": "Fund this order",
+      "contributeAmount": "Your contribution"
+    },
+    "driver": {
+      "title": "Available Orders",
+      "noOrders": "No orders available right now",
+      "accept": "Accept delivery",
+      "pickupCode": "Pickup code (scan at restaurant)",
+      "deliveryCode": "Delivery code (scan at customer door)",
+      "scanPickup": "Scan pickup QR",
+      "scanDelivery": "Scan delivery QR",
+      "verifyPickup": "Verify pickup",
+      "confirmDelivery": "Confirm delivery",
+      "earning": "Delivery fee"
+    },
+    "profile": {
+      "title": "Profile",
+      "wallet": "Wallet",
+      "role": "Role",
+      "roleCustomer": "Customer",
+      "roleDriver": "Delivery Driver",
+      "switchRole": "Switch role",
+      "disconnect": "Disconnect wallet",
+      "language": "Language",
+      "myOrders": "My orders"
+    },
+    "connect": {
+      "title": "Connect Wallet",
+      "subtitle": "Use Phantom or Solflare to connect your Solana wallet",
+      "button": "Connect",
+      "noWallet": "No wallet detected. Install Phantom or Solflare browser extension."
+    },
+    "common": {
+      "loading": "Loading...",
+      "error": "Something went wrong",
+      "retry": "Retry",
+      "back": "Back",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "save": "Save",
+      "close": "Close",
+      "copied": "Copied!",
+      "success": "Success"
+    }
+  }
+}

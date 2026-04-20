@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { @apply bg-dark-950 text-white; }
+  body { @apply bg-dark-950 text-white min-h-screen; }
+  * { @apply box-border; }
+}
+
+@layer utilities {
+  .page { @apply max-w-2xl mx-auto px-4 py-6 pb-24 md:pb-6; }
+}
+
+/* Override wallet adapter button */
+.wallet-adapter-button {
+  background-color: #f9a825 !important;
+  color: #0a0e1a !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+}
+.wallet-adapter-button:hover {
+  background-color: #fab93d !important;
+}
+.wallet-adapter-modal-wrapper {
+  background-color: #0d1421 !important;
+}
