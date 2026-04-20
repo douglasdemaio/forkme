@@ -10,6 +10,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useEffect, useState, useCallback } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import * as Location from 'expo-location';
 import { useAppStore } from '@/store/app-store';
 import { api } from '@/lib/api';
 import type { Restaurant } from '@/lib/types';
@@ -58,9 +59,20 @@ function CustomerHome() {
       if (isRefresh) setRefreshing(true);
       else setLoading(true);
       try {
+        // Request real device GPS; fall back to Berlin if denied
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        let lat = 52.52;
+        let lng = 13.405;
+        if (status === 'granted') {
+          const loc = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Balanced,
+          });
+          lat = loc.coords.latitude;
+          lng = loc.coords.longitude;
+        }
         const data = await api.getRestaurants({
-          lat: 52.52,
-          lng: 13.405,
+          lat,
+          lng,
           q: search || undefined,
         });
         setRestaurants(data);
