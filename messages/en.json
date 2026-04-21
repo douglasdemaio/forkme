@@ -29,7 +29,9 @@
       "deliveryFee": "Delivery",
       "checkout": "Checkout with Solana",
       "connectFirst": "Connect your wallet to checkout",
-      "deliveryAddress": "Delivery address (optional)",
+      "street": "Street address (optional)",
+      "city": "City (optional)",
+      "country": "Country (optional)",
       "currency": "Pay with"
     },
     "order": {

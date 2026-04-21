@@ -68,13 +68,14 @@ export function useEscrow() {
         data,
       });
 
-      const tx = new Transaction();
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const tx = new Transaction({ recentBlockhash: blockhash, feePayer: publicKey });
       const ataInfo = await connection.getAccountInfo(escrowTokenAccount);
       if (!ataInfo) tx.add(createAssociatedTokenAccountInstruction(publicKey, escrowTokenAccount, escrowPda, mint));
       tx.add(ix);
 
       const signature = await sendTransaction(tx, connection);
-      await connection.confirmTransaction(signature, 'confirmed');
+      await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
       return { signature, escrowPda: escrowPda.toBase58() };
     },
     [publicKey, sendTransaction, connection]
@@ -108,9 +109,10 @@ export function useEscrow() {
         data,
       });
 
-      const tx = new Transaction().add(ix);
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const tx = new Transaction({ recentBlockhash: blockhash, feePayer: publicKey }).add(ix);
       const signature = await sendTransaction(tx, connection);
-      await connection.confirmTransaction(signature, 'confirmed');
+      await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
       return { signature };
     },
     [publicKey, sendTransaction, connection]

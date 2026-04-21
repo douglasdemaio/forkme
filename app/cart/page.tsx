@@ -20,7 +20,9 @@ export default function CartPage() {
   const { createOrder } = useEscrow();
   const { cart, cartTotal, cartRestaurantId, updateQty, removeFromCart, clearCart } = useAppStore();
 
-  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
   const [currency, setCurrency] = useState<'USDC' | 'EURC'>('USDC');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -55,7 +57,7 @@ export default function CartPage() {
         restaurantId: cartRestaurantId!,
         items: cart.map((i) => ({ menuItemId: i.id, quantity: i.quantity })),
         tokenMint,
-        deliveryAddress: deliveryAddress || undefined,
+        deliveryAddress: [street, city, country].filter(Boolean).join(', ') || undefined,
       });
 
       // Fund escrow on-chain
@@ -122,13 +124,26 @@ export default function CartPage() {
 
       {/* Options */}
       <div className="space-y-4 mb-6">
-        <div>
-          <label className="block text-dark-300 text-sm mb-2">{t('cart.deliveryAddress')}</label>
+        <div className="space-y-2">
           <input
             type="text"
-            value={deliveryAddress}
-            onChange={(e) => setDeliveryAddress(e.target.value)}
-            placeholder="123 Main St..."
+            value={street}
+            onChange={(e) => setStreet(e.target.value)}
+            placeholder={t('cart.street')}
+            className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors"
+          />
+          <input
+            type="text"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            placeholder={t('cart.city')}
+            className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors"
+          />
+          <input
+            type="text"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            placeholder={t('cart.country')}
             className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors"
           />
         </div>
