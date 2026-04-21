@@ -8,7 +8,7 @@ export function RestaurantCard({ r }: { r: RestaurantData }) {
 
   return (
     <Link href={`/restaurants/${r.slug}`}
-      className="block bg-dark-900 rounded-2xl overflow-hidden hover:ring-1 hover:ring-brand-500/40 transition-all">
+      className="block bg-dark-900 rounded-2xl overflow-hidden border border-dark-800 card-hover">
       {r.banner ? (
         <div className="relative h-32 w-full">
           <Image src={r.banner} alt={r.name} fill className="object-cover" unoptimized />

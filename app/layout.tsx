@@ -12,13 +12,14 @@ export const metadata: Metadata = {
   title: 'ForkMe — Decentralized Food Delivery',
   description: 'Order food and split the bill with friends on Solana',
   manifest: '/manifest.json',
+  icons: { icon: '/logo.png', apple: '/logo.png' },
   appleWebApp: { capable: true, title: 'ForkMe', statusBarStyle: 'black-translucent' },
 };
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#0a0e1a',
+  themeColor: '#FF6B35',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

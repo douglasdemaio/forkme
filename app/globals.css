@@ -4,12 +4,24 @@
 
 @layer base {
   html { @apply bg-dark-950 text-white; }
-  body { @apply bg-dark-950 text-white min-h-screen; }
+  body { @apply bg-dark-950 text-white min-h-screen antialiased; }
   * { @apply box-border; }
 }
 
 @layer utilities {
   .page { @apply max-w-2xl mx-auto px-4 py-6 pb-24 md:pb-6; }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* Cards get a subtle inner glow on hover */
+.card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.card-hover:hover {
+  box-shadow: 0 0 0 1px rgba(255, 107, 53, 0.25), 0 8px 24px rgba(0,0,0,0.4);
+  transform: translateY(-1px);
 }
 
 /* Wallet adapter — forkit orange */
@@ -18,10 +30,15 @@
   color: #ffffff !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
+  transition: background-color 0.15s ease !important;
 }
 .wallet-adapter-button:hover {
   background-color: #ff7e4a !important;
 }
 .wallet-adapter-modal-wrapper {
-  background-color: #13131f !important;
+  background-color: #111128 !important;
+  border: 1px solid #1a1a38 !important;
+}
+.wallet-adapter-modal-title {
+  color: #ffffff !important;
 }

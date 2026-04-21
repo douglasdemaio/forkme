@@ -5,32 +5,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary accent — matches forkit-site orange #FF6B35
+        // Primary accent — forkit orange
         brand: {
           50:  '#fff4f0',
           100: '#ffe4d6',
           200: '#ffbfa5',
           300: '#ff9a74',
-          400: '#ff7e4a',  // hover / lighter
-          500: '#FF6B35',  // PRIMARY — forkit orange
+          400: '#ff7e4a',  // hover
+          500: '#FF6B35',  // PRIMARY
           600: '#e85520',
           700: '#bc4219',
           800: '#903312',
           900: '#64230d',
         },
-        // Dark backgrounds — matches forkit-site dark #1A1A2E
+        // Dark backgrounds — forkit navy, with enough contrast between layers
         dark: {
-          50:  '#f0f0f8',
-          100: '#d5d5e8',
-          200: '#b0b0cc',
-          300: '#8888aa',  // muted text
-          400: '#606080',  // more muted text
-          500: '#404060',
-          600: '#2e2e50',
-          700: '#252540',
-          800: '#1e1e38',  // borders
-          900: '#13131f',  // card backgrounds
-          950: '#0d0d1a',  // page background
+          50:  '#f0f0fa',
+          100: '#d8d8f0',
+          200: '#b0b0d8',
+          300: '#9090c0',  // subtitle / muted text — readable purple-gray
+          400: '#686898',  // more muted text
+          500: '#44446e',
+          600: '#303058',
+          700: '#222244',  // used for secondary surfaces
+          800: '#1a1a38',  // borders — visible but subtle
+          900: '#111128',  // card backgrounds — clearly distinct from 950
+          950: '#09090f',  // page background — near black
         },
       },
       fontFamily: {
