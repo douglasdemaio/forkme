@@ -5,7 +5,7 @@
     "nav": {
       "browse": "Browse",
       "orders": "Orders",
-      "drive": "Drive",
+      "drive": "Delivery",
       "profile": "Profile"
     },
     "home": {
@@ -59,7 +59,15 @@
       "rateDriver": "Rate your driver",
       "rateDriverDesc": "This was their first delivery — your rating helps build their reputation.",
       "submitRating": "Submit rating",
-      "ratingThanks": "Thanks for rating! Your feedback helps new drivers grow."
+      "ratingThanks": "Thanks for rating! Your feedback helps new drivers grow.",
+      "invoiceTitle": "Order Invoice",
+      "invoiceDate": "Date",
+      "invoiceSubtotal": "Subtotal",
+      "invoiceDeliveryFee": "Delivery Fee",
+      "invoiceTotal": "Total",
+      "invoicePaidWith": "Paid with",
+      "viewInvoice": "View Invoice",
+      "hideInvoice": "Hide Invoice"
     },
     "driver": {
       "title": "Available Orders",
@@ -67,10 +75,15 @@
       "autoRefresh": "Auto-refreshes every 30 seconds",
       "connectPrompt": "Connect your wallet to see available deliveries",
       "accept": "Accept delivery",
-      "bid": "Bid",
-      "bidPending": "Bid placed ✓",
-      "bidPlaced": "Bid placed! The restaurant will assign a driver soon.",
-      "bidAutoAssigned": "You've been auto-assigned this delivery!",
+      "bid": "Submit Offer",
+      "submitOffer": "Submit Offer",
+      "offerAmount": "Your delivery offer",
+      "bidPending": "Offer submitted ✓",
+      "bidPlaced": "Offer submitted! The restaurant will confirm a driver soon.",
+      "bidAutoAssigned": "Your offer was accepted — you're assigned this delivery!",
+      "offerConfirmed": "Delivery confirmed!",
+      "pickupCodeLabel": "Pickup Code",
+      "goToDelivery": "Go to delivery →",
       "pickupCode": "Pickup code (scan at restaurant)",
       "deliveryCode": "Delivery code (scan at customer door)",
       "scanPickup": "Scan pickup QR",

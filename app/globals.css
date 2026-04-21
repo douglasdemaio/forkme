@@ -12,16 +12,16 @@
   .page { @apply max-w-2xl mx-auto px-4 py-6 pb-24 md:pb-6; }
 }
 
-/* Override wallet adapter button */
+/* Wallet adapter — forkit orange */
 .wallet-adapter-button {
-  background-color: #f9a825 !important;
-  color: #0a0e1a !important;
+  background-color: #FF6B35 !important;
+  color: #ffffff !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
 }
 .wallet-adapter-button:hover {
-  background-color: #fab93d !important;
+  background-color: #ff7e4a !important;
 }
 .wallet-adapter-modal-wrapper {
-  background-color: #0d1421 !important;
+  background-color: #13131f !important;
 }

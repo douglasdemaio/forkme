@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,6 +11,7 @@ import { useEscrow } from '@/hooks/useEscrow';
 import { useWalletAuth } from '@/hooks/useWalletAuth';
 import { api } from '@/lib/api';
 import { USDC_MINT, EURC_MINT } from '@/lib/constants';
+import type { RestaurantData } from '@/lib/types';
 
 export default function CartPage() {
   const { t } = useTranslation();
@@ -23,10 +24,16 @@ export default function CartPage() {
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
-  const [currency, setCurrency] = useState<'USDC' | 'EURC'>('USDC');
+  const [restaurant, setRestaurant] = useState<RestaurantData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (!cartRestaurantId) return;
+    api.getRestaurant(cartRestaurantId).then(setRestaurant).catch(() => {});
+  }, [cartRestaurantId]);
+
+  const currency = (restaurant?.currency === 'EURC' ? 'EURC' : 'USDC') as 'USDC' | 'EURC';
   const total = cartTotal();
 
   if (cart.length === 0) {
@@ -46,12 +53,10 @@ export default function CartPage() {
     setLoading(true);
     setError(null);
     try {
-      // Ensure authenticated
       let jwt = token;
       if (!jwt) jwt = await authenticate();
       if (!jwt) throw new Error('Authentication failed');
 
-      // Create order in forkit-site
       const tokenMint = currency === 'EURC' ? EURC_MINT.toBase58() : USDC_MINT.toBase58();
       const order = await api.createOrder({
         restaurantId: cartRestaurantId!,
@@ -60,18 +65,16 @@ export default function CartPage() {
         deliveryAddress: [street, city, country].filter(Boolean).join(', ') || undefined,
       });
 
-      // Fund escrow on-chain
-      const restaurant = order.restaurant;
-      if (!restaurant?.wallet) throw new Error('Restaurant wallet not found');
+      const rest = order.restaurant;
+      if (!rest?.wallet) throw new Error('Restaurant wallet not found');
 
       const { signature } = await createOrder({
         orderId: order.id,
-        restaurantWallet: restaurant.wallet,
+        restaurantWallet: rest.wallet,
         amount: order.escrowTarget,
         currency,
       });
 
-      // Record contribution
       await api.recordContribution(order.id, {
         wallet: publicKey!.toBase58(),
         amount: order.escrowTarget,
@@ -100,12 +103,12 @@ export default function CartPage() {
           <div key={item.id} className="flex items-center gap-3 bg-dark-900 rounded-2xl p-3">
             {item.image && (
               <div className="relative w-14 h-14 rounded-xl overflow-hidden flex-shrink-0">
-                <Image src={item.image} alt={item.name} fill className="object-cover" />
+                <Image src={item.image} alt={item.name} fill className="object-cover" unoptimized />
               </div>
             )}
             <div className="flex-1 min-w-0">
               <p className="text-white font-medium truncate">{item.name}</p>
-              <p className="text-brand-500 text-sm">{(item.price * item.quantity).toFixed(2)}</p>
+              <p className="text-brand-500 text-sm">{(item.price * item.quantity).toFixed(2)} {currency}</p>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={() => updateQty(item.id, item.quantity - 1)}
@@ -122,45 +125,25 @@ export default function CartPage() {
         ))}
       </div>
 
-      {/* Options */}
-      <div className="space-y-4 mb-6">
-        <div className="space-y-2">
-          <input
-            type="text"
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-            placeholder={t('cart.street')}
-            className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors"
-          />
-          <input
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder={t('cart.city')}
-            className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors"
-          />
-          <input
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder={t('cart.country')}
-            className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors"
-          />
-        </div>
+      {/* Delivery address */}
+      <div className="space-y-2 mb-6">
+        <input type="text" value={street} onChange={(e) => setStreet(e.target.value)}
+          placeholder={t('cart.street')}
+          className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors" />
+        <input type="text" value={city} onChange={(e) => setCity(e.target.value)}
+          placeholder={t('cart.city')}
+          className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors" />
+        <input type="text" value={country} onChange={(e) => setCountry(e.target.value)}
+          placeholder={t('cart.country')}
+          className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors" />
+      </div>
 
-        <div>
-          <label className="block text-dark-300 text-sm mb-2">{t('cart.currency')}</label>
-          <div className="flex gap-2">
-            {(['USDC', 'EURC'] as const).map((c) => (
-              <button key={c} onClick={() => setCurrency(c)}
-                className={`flex-1 py-2 rounded-xl text-sm font-medium transition-colors ${
-                  currency === c ? 'bg-brand-500 text-dark-950' : 'bg-dark-900 text-dark-300 hover:text-white'
-                }`}>
-                {c}
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* Payment currency — locked to restaurant preference */}
+      <div className="flex items-center justify-between bg-dark-900 rounded-xl px-4 py-3 mb-6">
+        <span className="text-dark-300 text-sm">{t('cart.currency')}</span>
+        <span className="px-3 py-1 bg-brand-500/20 text-brand-400 rounded-full text-sm font-semibold">
+          {currency}
+        </span>
       </div>
 
       {/* Summary */}

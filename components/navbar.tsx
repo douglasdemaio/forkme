@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useAppStore } from '@/store/app-store';
 import { useTranslation } from 'react-i18next';
@@ -8,8 +9,10 @@ import { useTranslation } from 'react-i18next';
 export function Navbar() {
   const { t } = useTranslation();
   const pathname = usePathname();
-  const { cart, cartCount } = useAppStore();
-  const count = cartCount();
+  const { cartCount } = useAppStore();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const count = mounted ? cartCount() : 0;
 
   const links = [
     { href: '/',         label: t('nav.browse') },

@@ -65,8 +65,11 @@ class ApiClient {
     return raw.orders ?? [];
   }
 
-  placeBid(orderId: string) {
-    return this.req<{ bid: DriverBid; autoAssigned: boolean }>(`/api/orders/${orderId}/bids`, { method: 'POST', body: JSON.stringify({}) });
+  placeBid(orderId: string, offerAmount?: number) {
+    return this.req<{ bid: DriverBid; autoAssigned: boolean }>(`/api/orders/${orderId}/bids`, {
+      method: 'POST',
+      body: JSON.stringify(offerAmount !== undefined ? { offerAmount } : {}),
+    });
   }
 
   getDriverProfile(wallet: string) {

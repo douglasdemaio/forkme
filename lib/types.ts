@@ -64,6 +64,7 @@ export interface DriverBid {
   orderId: string;
   driverWallet: string;
   status: 'Pending' | 'Accepted' | 'Rejected' | 'Expired';
+  offerAmount?: number;
   createdAt: string;
   myBidStatus?: string | null;
 }

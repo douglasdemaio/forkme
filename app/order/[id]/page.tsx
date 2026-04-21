@@ -9,6 +9,12 @@ import { QRDisplay } from '@/components/qr-display';
 import { api } from '@/lib/api';
 import type { OrderData, DriverProfile } from '@/lib/types';
 
+function tokenLabel(mint: string | null) {
+  if (!mint) return 'USDC';
+  if (mint.startsWith('CXk2')) return 'EURC';
+  return 'USDC';
+}
+
 export default function OrderPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
@@ -24,13 +30,13 @@ export default function OrderPage() {
   const [shareLink, setShareLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const [showInvoice, setShowInvoice] = useState(false);
 
   const load = useCallback(async () => {
     try {
       const o = await api.getOrder(id);
       setOrder(o);
       if (o.shareLink) setShareLink(o.shareLink);
-      // Fetch driver profile when order is settled and driver is newcomer
       if (o.status === 'Settled' && o.driverWallet) {
         api.getDriverProfile(o.driverWallet).then((p) => {
           if (p.isNewcomer) setDriverProfile(p);
@@ -45,7 +51,6 @@ export default function OrderPage() {
 
   useEffect(() => { load(); }, [load]);
 
-  // Poll for status updates
   useEffect(() => {
     const active = ['Created', 'Funded', 'Preparing', 'ReadyForPickup', 'PickedUp'];
     if (!order || !active.includes(order.status)) return;
@@ -78,8 +83,9 @@ export default function OrderPage() {
 
   if (!order) return null;
 
-  const currency = order.restaurant?.currency ?? 'USDC';
+  const currency = order.restaurant?.currency ?? tokenLabel(order.tokenMint);
   const statusLabel = t(`order.status.${order.status}` as any);
+  const formattedDate = new Date(order.createdAt).toLocaleString();
 
   return (
     <div className="page">
@@ -132,7 +138,7 @@ export default function OrderPage() {
         </div>
       )}
 
-      {/* Pickup codes (show when order is funded/preparing/ready) */}
+      {/* Pickup codes */}
       {['Funded', 'Preparing', 'ReadyForPickup'].includes(order.status) && order.codeA && (
         <div className="bg-dark-900 rounded-2xl p-5 mb-4">
           <h3 className="text-white font-semibold mb-3">Your Pickup Code</h3>
@@ -153,6 +159,71 @@ export default function OrderPage() {
           <QRDisplay value={order.codeB} label="Delivery confirmation code" />
         </div>
       )}
+
+      {/* Invoice */}
+      <div className="bg-dark-900 rounded-2xl mb-4 overflow-hidden">
+        <button
+          onClick={() => setShowInvoice(!showInvoice)}
+          className="w-full flex items-center justify-between px-5 py-4 text-white hover:bg-dark-800 transition-colors"
+        >
+          <span className="font-semibold">🧾 {t('order.invoiceTitle')}</span>
+          <span className="text-dark-400 text-sm">{showInvoice ? '▲' : '▼'}</span>
+        </button>
+        {showInvoice && (
+          <div className="px-5 pb-5 border-t border-dark-800">
+            <div className="space-y-2 mt-4 text-sm">
+              <div className="flex justify-between">
+                <span className="text-dark-400">Invoice #</span>
+                <span className="text-white font-mono">{order.id.slice(0, 8).toUpperCase()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-dark-400">{t('order.invoiceDate')}</span>
+                <span className="text-white">{formattedDate}</span>
+              </div>
+              {order.restaurant && (
+                <div className="flex justify-between">
+                  <span className="text-dark-400">Restaurant</span>
+                  <span className="text-white">{order.restaurant.name}</span>
+                </div>
+              )}
+              {order.deliveryAddress && (
+                <div className="flex justify-between">
+                  <span className="text-dark-400">Delivery to</span>
+                  <span className="text-white text-right max-w-[60%]">{order.deliveryAddress}</span>
+                </div>
+              )}
+            </div>
+            <div className="border-t border-dark-800 mt-4 pt-4 space-y-2 text-sm">
+              {order.items.map((item, i) => (
+                <div key={i} className="flex justify-between">
+                  <span className="text-dark-300">{item.quantity}× {item.name}</span>
+                  <span className="text-white">{(item.price * item.quantity).toFixed(2)} {currency}</span>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-dark-800 mt-4 pt-4 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-dark-400">{t('order.invoiceSubtotal')}</span>
+                <span className="text-white">{order.foodTotal.toFixed(2)} {currency}</span>
+              </div>
+              {order.deliveryFee > 0 && (
+                <div className="flex justify-between">
+                  <span className="text-dark-400">{t('order.invoiceDeliveryFee')}</span>
+                  <span className="text-white">{order.deliveryFee.toFixed(2)} {currency}</span>
+                </div>
+              )}
+              <div className="flex justify-between font-semibold">
+                <span className="text-white">{t('order.invoiceTotal')}</span>
+                <span className="text-brand-500">{order.escrowTarget.toFixed(2)} {currency}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-dark-400">{t('order.invoicePaidWith')}</span>
+                <span className="text-white">{currency} (Solana)</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Soft rating prompt for newcomer drivers */}
       {order.status === 'Settled' && driverProfile?.isNewcomer && !ratingDismissed && !ratingDone && (

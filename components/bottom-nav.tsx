@@ -1,13 +1,17 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '@/store/app-store';
 
 export function BottomNav() {
   const { t } = useTranslation();
   const pathname = usePathname();
-  const cartCount = useAppStore((s) => s.cartCount());
+  const rawCartCount = useAppStore((s) => s.cartCount());
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const cartCount = mounted ? rawCartCount : 0;
 
   const tabs = [
     { href: '/',        label: t('nav.browse'),  icon: HomeIcon   },

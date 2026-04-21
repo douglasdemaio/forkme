@@ -5,15 +5,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Primary accent — matches forkit-site orange #FF6B35
         brand: {
-          50: '#fef3e2', 100: '#fde5b9', 200: '#fcd58c', 300: '#fbc55f',
-          400: '#fab93d', 500: '#f9a825', 600: '#f57f17', 700: '#ef6c00',
-          800: '#e65100', 900: '#bf360c',
+          50:  '#fff4f0',
+          100: '#ffe4d6',
+          200: '#ffbfa5',
+          300: '#ff9a74',
+          400: '#ff7e4a',  // hover / lighter
+          500: '#FF6B35',  // PRIMARY — forkit orange
+          600: '#e85520',
+          700: '#bc4219',
+          800: '#903312',
+          900: '#64230d',
         },
+        // Dark backgrounds — matches forkit-site dark #1A1A2E
         dark: {
-          50: '#e8eaf6', 100: '#c5cae9', 200: '#9fa8da', 300: '#7986cb',
-          400: '#5c6bc0', 500: '#3f51b5', 600: '#303f9f', 700: '#283593',
-          800: '#1a237e', 900: '#0d1421', 950: '#0a0e1a',
+          50:  '#f0f0f8',
+          100: '#d5d5e8',
+          200: '#b0b0cc',
+          300: '#8888aa',  // muted text
+          400: '#606080',  // more muted text
+          500: '#404060',
+          600: '#2e2e50',
+          700: '#252540',
+          800: '#1e1e38',  // borders
+          900: '#13131f',  // card backgrounds
+          950: '#0d0d1a',  // page background
         },
       },
       fontFamily: {

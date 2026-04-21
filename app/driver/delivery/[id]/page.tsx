@@ -128,10 +128,18 @@ export default function DeliveryPage() {
       {/* Actions */}
       <div className="space-y-3">
         {order.status === 'DriverAssigned' && (
-          <div className="bg-dark-900 rounded-2xl p-5 text-center">
-            <span className="text-3xl">👍</span>
-            <p className="text-white font-semibold mt-2">{t('driver.assignedWaiting')}</p>
-            <p className="text-dark-400 text-sm mt-1">{t('driver.assignedWaitingDesc')}</p>
+          <div className="bg-dark-900 rounded-2xl p-5">
+            <div className="text-center mb-4">
+              <span className="text-3xl">👍</span>
+              <p className="text-white font-semibold mt-2">{t('driver.assignedWaiting')}</p>
+              <p className="text-dark-400 text-sm mt-1">{t('driver.assignedWaitingDesc')}</p>
+            </div>
+            {order.codeA && (
+              <div className="bg-dark-800 rounded-xl px-4 py-3 flex items-center justify-between mt-3">
+                <span className="text-dark-300 text-sm">{t('driver.pickupCodeLabel')}</span>
+                <span className="text-white font-mono font-bold text-lg tracking-widest">{order.codeA}</span>
+              </div>
+            )}
           </div>
         )}
 
