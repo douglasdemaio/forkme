@@ -127,6 +127,14 @@ export default function DeliveryPage() {
 
       {/* Actions */}
       <div className="space-y-3">
+        {order.status === 'DriverAssigned' && (
+          <div className="bg-dark-900 rounded-2xl p-5 text-center">
+            <span className="text-3xl">👍</span>
+            <p className="text-white font-semibold mt-2">{t('driver.assignedWaiting')}</p>
+            <p className="text-dark-400 text-sm mt-1">{t('driver.assignedWaitingDesc')}</p>
+          </div>
+        )}
+
         {order.status === 'ReadyForPickup' && (
           <button onClick={handleAccept} disabled={actionLoading}
             className="w-full py-4 bg-brand-500 text-dark-950 rounded-2xl font-bold hover:bg-brand-400 transition-colors disabled:opacity-60 flex items-center justify-center gap-2">

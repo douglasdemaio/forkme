@@ -1,5 +1,5 @@
 import { API_BASE_URL } from './constants';
-import type { MenuItemData, OrderData, RestaurantData } from './types';
+import type { MenuItemData, OrderData, RestaurantData, DriverProfile, DriverBid } from './types';
 
 class ApiClient {
   private token: string | null = null;
@@ -60,9 +60,21 @@ class ApiClient {
 
   getOrder(id: string) { return this.req<OrderData>(`/api/orders/${id}`); }
 
-  async getAvailableOrders(): Promise<OrderData[]> {
-    const raw = await this.req<OrderData[] | { orders: OrderData[] }>('/api/orders?role=driver&status=ReadyForPickup');
-    return Array.isArray(raw) ? raw : raw.orders ?? [];
+  async getAvailableOrders(): Promise<(OrderData & { myBidStatus: string | null })[]> {
+    const raw = await this.req<{ orders: (OrderData & { myBidStatus: string | null })[] }>('/api/orders/available');
+    return raw.orders ?? [];
+  }
+
+  placeBid(orderId: string) {
+    return this.req<{ bid: DriverBid; autoAssigned: boolean }>(`/api/orders/${orderId}/bids`, { method: 'POST', body: JSON.stringify({}) });
+  }
+
+  getDriverProfile(wallet: string) {
+    return this.req<DriverProfile>(`/api/drivers/${wallet}`);
+  }
+
+  rateDriver(orderId: string, rating: number, comment?: string) {
+    return this.req(`/api/orders/${orderId}/rate-driver`, { method: 'POST', body: JSON.stringify({ rating, comment }) });
   }
 
   recordContribution(orderId: string, data: { wallet: string; amount: number; txSignature: string }) {

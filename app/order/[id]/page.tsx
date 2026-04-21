@@ -2,17 +2,24 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { OrderStatusBadge } from '@/components/order-status-badge';
 import { FundingProgress } from '@/components/funding-progress';
 import { QRDisplay } from '@/components/qr-display';
 import { api } from '@/lib/api';
-import type { OrderData } from '@/lib/types';
+import type { OrderData, DriverProfile } from '@/lib/types';
 
 export default function OrderPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const { t } = useTranslation();
+  const { publicKey } = useWallet();
   const [order, setOrder] = useState<OrderData | null>(null);
+  const [driverProfile, setDriverProfile] = useState<DriverProfile | null>(null);
+  const [ratingDismissed, setRatingDismissed] = useState(false);
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [submittingRating, setSubmittingRating] = useState(false);
+  const [ratingDone, setRatingDone] = useState(false);
   const [loading, setLoading] = useState(true);
   const [shareLink, setShareLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -23,6 +30,12 @@ export default function OrderPage() {
       const o = await api.getOrder(id);
       setOrder(o);
       if (o.shareLink) setShareLink(o.shareLink);
+      // Fetch driver profile when order is settled and driver is newcomer
+      if (o.status === 'Settled' && o.driverWallet) {
+        api.getDriverProfile(o.driverWallet).then((p) => {
+          if (p.isNewcomer) setDriverProfile(p);
+        }).catch(() => {});
+      }
     } catch {
       router.push('/orders');
     } finally {
@@ -138,6 +151,52 @@ export default function OrderPage() {
           <h3 className="text-white font-semibold mb-3">Your Delivery Code</h3>
           <p className="text-dark-300 text-sm mb-3">Show this to the driver when your food arrives</p>
           <QRDisplay value={order.codeB} label="Delivery confirmation code" />
+        </div>
+      )}
+
+      {/* Soft rating prompt for newcomer drivers */}
+      {order.status === 'Settled' && driverProfile?.isNewcomer && !ratingDismissed && !ratingDone && (
+        <div className="bg-dark-900 rounded-2xl p-5 mb-4 border border-brand-500/30">
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <p className="text-white font-semibold">{t('order.rateDriver')}</p>
+              <p className="text-dark-400 text-sm mt-1">{t('order.rateDriverDesc')}</p>
+            </div>
+            <button onClick={() => setRatingDismissed(true)} className="text-dark-500 hover:text-dark-300 text-xl leading-none ml-3">×</button>
+          </div>
+          <div className="flex gap-2 mb-4">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                onClick={() => setSelectedRating(star)}
+                className={`text-2xl transition-transform hover:scale-110 ${star <= selectedRating ? 'text-yellow-400' : 'text-dark-600'}`}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+          <button
+            disabled={selectedRating === 0 || submittingRating}
+            onClick={async () => {
+              if (!selectedRating) return;
+              setSubmittingRating(true);
+              try {
+                await api.rateDriver(id, selectedRating);
+                setRatingDone(true);
+              } catch {} finally {
+                setSubmittingRating(false);
+              }
+            }}
+            className="w-full py-3 bg-brand-500 text-dark-950 rounded-xl font-semibold disabled:opacity-40 hover:bg-brand-400 transition-colors"
+          >
+            {submittingRating ? '…' : t('order.submitRating')}
+          </button>
+        </div>
+      )}
+      {order.status === 'Settled' && ratingDone && (
+        <div className="bg-green-900/20 border border-green-800/50 rounded-2xl p-4 mb-4 text-center">
+          <span className="text-2xl">🙏</span>
+          <p className="text-green-400 text-sm mt-1">{t('order.ratingThanks')}</p>
         </div>
       )}
 

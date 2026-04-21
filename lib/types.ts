@@ -5,6 +5,9 @@ export interface RestaurantData {
   name: string;
   slug: string;
   description: string;
+  addressStreet: string | null;
+  addressCity: string | null;
+  addressCountry: string | null;
   template: string;
   logo: string | null;
   banner: string | null;
@@ -39,6 +42,7 @@ export type OrderStatus =
   | 'Created'
   | 'Funded'
   | 'Preparing'
+  | 'DriverAssigned'
   | 'ReadyForPickup'
   | 'PickedUp'
   | 'Delivered'
@@ -46,6 +50,23 @@ export type OrderStatus =
   | 'Disputed'
   | 'Cancelled'
   | 'Refunded';
+
+export interface DriverProfile {
+  wallet: string;
+  completedDeliveries: number;
+  avgRating: number;
+  ratingCount: number;
+  isNewcomer: boolean;
+}
+
+export interface DriverBid {
+  id: string;
+  orderId: string;
+  driverWallet: string;
+  status: 'Pending' | 'Accepted' | 'Rejected' | 'Expired';
+  createdAt: string;
+  myBidStatus?: string | null;
+}
 
 export interface OrderItem {
   menuItemId: string;
