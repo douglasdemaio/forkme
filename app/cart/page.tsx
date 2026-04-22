@@ -68,11 +68,14 @@ export default function CartPage() {
       const rest = order.restaurant;
       if (!rest?.wallet) throw new Error('Restaurant wallet not found');
 
-      const { signature } = await createOrder({
+      const { signature, orderPda } = await createOrder({
         orderId: order.id,
         restaurantWallet: rest.wallet,
-        amount: order.escrowTarget,
+        foodAmount: order.foodTotal,
+        deliveryAmount: order.deliveryFee,
         currency,
+        codeAHash: order.codeAHash || '',
+        codeBHash: order.codeBHash || '',
       });
 
       await api.recordContribution(order.id, {
