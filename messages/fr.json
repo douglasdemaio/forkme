@@ -1,1 +1,107 @@
-{ "translation": { "appName": "ForkMe", "tagline": "Livraison décentralisée sur Solana", "nav": { "browse": "Explorer", "orders": "Commandes", "drive": "Conduire", "profile": "Profil" }, "home": { "title": "Restaurants à proximité", "subtitle": "Commandez et partagez la note", "search": "Rechercher des restaurants...", "noResults": "Aucun restaurant trouvé", "kmAway": "{{dist}} km", "items": "{{n}} articles" }, "restaurant": { "menu": "Menu", "addToCart": "Ajouter", "unavailable": "Indisponible", "deliveryFee": "Frais de livraison" }, "cart": { "title": "Votre panier", "empty": "Votre panier est vide", "total": "Total", "deliveryFee": "Livraison", "checkout": "Payer avec Solana", "connectFirst": "Connectez votre wallet", "street": "Rue (optionnel)", "city": "Ville (optionnel)", "country": "Pays (optionnel)", "currency": "Payer avec" }, "order": { "title": "Commande #{{id}}", "status": { "Created": "En attente de paiement", "Funded": "Financée", "Preparing": "En préparation", "ReadyForPickup": "Prête pour enlèvement", "PickedUp": "En route", "Delivered": "Livrée", "Settled": "Terminée", "Disputed": "Contestée", "Cancelled": "Annulée", "Refunded": "Remboursée" }, "shareLink": "Partager le lien", "copyLink": "Copier le lien", "contributions": "Contributions", "fundingProgress": "{{pct}}% financé", "items": "Articles", "fundOrder": "Financer la commande", "contributeAmount": "Votre contribution" }, "driver": { "title": "Commandes disponibles", "noOrders": "Aucune commande disponible", "accept": "Accepter la livraison", "pickupCode": "Code de retrait", "deliveryCode": "Code de livraison", "scanPickup": "Scanner le retrait", "scanDelivery": "Scanner la livraison", "verifyPickup": "Vérifier le retrait", "confirmDelivery": "Confirmer la livraison", "earning": "Frais de livraison" }, "profile": { "title": "Profil", "wallet": "Wallet", "role": "Rôle", "roleCustomer": "Client", "roleDriver": "Livreur", "switchRole": "Changer de rôle", "disconnect": "Déconnecter", "language": "Langue", "myOrders": "Mes commandes" }, "connect": { "title": "Connecter le wallet", "subtitle": "Utilisez Phantom ou Solflare", "button": "Connecter", "noWallet": "Aucun wallet détecté." }, "common": { "loading": "Chargement...", "error": "Une erreur est survenue", "retry": "Réessayer", "back": "Retour", "cancel": "Annuler", "confirm": "Confirmer", "save": "Enregistrer", "close": "Fermer", "copied": "Copié !", "success": "Succès" } } }
+{
+  "translation": {
+    "appName": "ForkMe",
+    "tagline": "Livraison décentralisée sur Solana",
+    "nav": {
+      "browse": "Explorer",
+      "orders": "Commandes",
+      "drive": "Conduire",
+      "profile": "Profil"
+    },
+    "home": {
+      "title": "Restaurants à proximité",
+      "subtitle": "Commandez et partagez la note",
+      "search": "Rechercher des restaurants...",
+      "noResults": "Aucun restaurant trouvé",
+      "kmAway": "{{dist}} km",
+      "items": "{{n}} articles"
+    },
+    "restaurant": {
+      "menu": "Menu",
+      "addToCart": "Ajouter",
+      "unavailable": "Indisponible",
+      "deliveryFee": "Frais de livraison"
+    },
+    "cart": {
+      "title": "Votre panier",
+      "empty": "Votre panier est vide",
+      "total": "Total",
+      "deliveryFee": "Livraison",
+      "checkout": "Payer avec Solana",
+      "connectFirst": "Connectez votre wallet",
+      "street": "Rue (optionnel)",
+      "city": "Ville (optionnel)",
+      "country": "Pays (optionnel)",
+      "currency": "Payer avec"
+    },
+    "order": {
+      "title": "Commande #{{id}}",
+      "status": {
+        "Created": "En attente de paiement",
+        "Funded": "Financée",
+        "Preparing": "En préparation",
+        "ReadyForPickup": "Prête pour enlèvement",
+        "PickedUp": "En route",
+        "Delivered": "Livrée",
+        "Settled": "Terminée",
+        "Disputed": "Contestée",
+        "Cancelled": "Annulée",
+        "Refunded": "Remboursée"
+      },
+      "shareLink": "Partager le lien",
+      "copyLink": "Copier le lien",
+      "contributions": "Contributions",
+      "fundingProgress": "{{pct}}% financé",
+      "items": "Articles",
+      "fundOrder": "Financer la commande",
+      "contributeAmount": "Votre contribution"
+    },
+    "driver": {
+      "title": "Commandes disponibles",
+      "noOrders": "Aucune commande disponible",
+      "accept": "Accepter la livraison",
+      "pickupCode": "Code de retrait",
+      "deliveryCode": "Code de livraison",
+      "scanPickup": "Scanner le retrait",
+      "scanDelivery": "Scanner la livraison",
+      "verifyPickup": "Vérifier le retrait",
+      "confirmDelivery": "Confirmer la livraison",
+      "earning": "Frais de livraison",
+      "vehicleType": "Vehicle Type",
+      "vehicleTypeHint": "Helps customers find eco-friendly drivers",
+      "vehicleSaved": "Vehicle updated"
+    },
+    "profile": {
+      "title": "Profil",
+      "wallet": "Wallet",
+      "role": "Rôle",
+      "roleCustomer": "Client",
+      "roleDriver": "Livreur",
+      "switchRole": "Changer de rôle",
+      "disconnect": "Déconnecter",
+      "language": "Langue",
+      "myOrders": "Mes commandes",
+      "ecoDelivery": "Prefer eco delivery",
+      "ecoDeliveryDesc": "Show preference for bikes, e-bikes, and electric vehicles",
+      "ecoSaved": "Preference saved"
+    },
+    "connect": {
+      "title": "Connecter le wallet",
+      "subtitle": "Utilisez Phantom ou Solflare",
+      "button": "Connecter",
+      "noWallet": "Aucun wallet détecté."
+    },
+    "common": {
+      "loading": "Chargement...",
+      "error": "Une erreur est survenue",
+      "retry": "Réessayer",
+      "back": "Retour",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "save": "Enregistrer",
+      "close": "Fermer",
+      "copied": "Copié !",
+      "success": "Succès"
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { API_BASE_URL } from './constants';
-import type { MenuItemData, OrderData, RestaurantData, DriverProfile, DriverBid } from './types';
+import type { MenuItemData, OrderData, RestaurantData, DriverProfile, DriverBid, CustomerProfile } from './types';
 
 class ApiClient {
   private token: string | null = null;
@@ -74,6 +74,22 @@ class ApiClient {
 
   getDriverProfile(wallet: string) {
     return this.req<DriverProfile>(`/api/drivers/${wallet}`);
+  }
+
+  updateDriverVehicle(wallet: string, vehicleType: string) {
+    return this.req<DriverProfile>(`/api/drivers/${wallet}`, {
+      method: 'PATCH', body: JSON.stringify({ vehicleType }),
+    });
+  }
+
+  getCustomerProfile() {
+    return this.req<CustomerProfile>('/api/profile/customer');
+  }
+
+  updateCustomerProfile(data: { preferEco: boolean }) {
+    return this.req<CustomerProfile>('/api/profile/customer', {
+      method: 'PATCH', body: JSON.stringify(data),
+    });
   }
 
   rateDriver(orderId: string, rating: number, comment?: string) {

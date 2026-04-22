@@ -1,1 +1,107 @@
-{ "translation": { "appName": "ForkMe", "tagline": "Solana üzerinde merkezi olmayan yemek teslimatı", "nav": { "browse": "Keşfet", "orders": "Siparişler", "drive": "Teslimat", "profile": "Profil" }, "home": { "title": "Yakın Restoranlar", "subtitle": "Yemek sipariş et, hesabı arkadaşlarınla böl", "search": "Restoran ara...", "noResults": "Restoran bulunamadı", "kmAway": "{{dist}} km uzakta", "items": "{{n}} ürün" }, "restaurant": { "menu": "Menü", "addToCart": "Ekle", "unavailable": "Mevcut değil", "deliveryFee": "Teslimat ücreti" }, "cart": { "title": "Sepetiniz", "empty": "Sepetiniz boş", "total": "Toplam", "deliveryFee": "Teslimat", "checkout": "Solana ile öde", "connectFirst": "Cüzdanınızı bağlayın", "street": "Sokak (isteğe bağlı)", "city": "Şehir (isteğe bağlı)", "country": "Ülke (isteğe bağlı)", "currency": "Ödeme yöntemi" }, "order": { "title": "Sipariş #{{id}}", "status": { "Created": "Ödeme bekleniyor", "Funded": "Ödendi", "Preparing": "Hazırlanıyor", "ReadyForPickup": "Teslim almaya hazır", "PickedUp": "Yolda", "Delivered": "Teslim edildi", "Settled": "Tamamlandı", "Disputed": "İtirazda", "Cancelled": "İptal edildi", "Refunded": "İade edildi" }, "shareLink": "Bağlantıyı paylaş", "copyLink": "Bölme bağlantısını kopyala", "contributions": "Katkılar", "fundingProgress": "%{{pct}} finanse edildi", "items": "Ürünler", "fundOrder": "Siparişi finanse et", "contributeAmount": "Katkınız" }, "driver": { "title": "Mevcut Siparişler", "noOrders": "Şu an sipariş yok", "accept": "Teslimatı kabul et", "pickupCode": "Teslim alma kodu", "deliveryCode": "Teslimat kodu", "scanPickup": "Teslim alma QR tara", "scanDelivery": "Teslimat QR tara", "verifyPickup": "Teslim almayı doğrula", "confirmDelivery": "Teslimatı onayla", "earning": "Teslimat ücreti" }, "profile": { "title": "Profil", "wallet": "Cüzdan", "role": "Rol", "roleCustomer": "Müşteri", "roleDriver": "Kurye", "switchRole": "Rol değiştir", "disconnect": "Bağlantıyı kes", "language": "Dil", "myOrders": "Siparişlerim" }, "connect": { "title": "Cüzdan bağla", "subtitle": "Phantom veya Solflare kullanın", "button": "Bağlan", "noWallet": "Cüzdan bulunamadı." }, "common": { "loading": "Yükleniyor...", "error": "Bir şeyler ters gitti", "retry": "Tekrar dene", "back": "Geri", "cancel": "İptal", "confirm": "Onayla", "save": "Kaydet", "close": "Kapat", "copied": "Kopyalandı!", "success": "Başarılı" } } }
+{
+  "translation": {
+    "appName": "ForkMe",
+    "tagline": "Solana üzerinde merkezi olmayan yemek teslimatı",
+    "nav": {
+      "browse": "Keşfet",
+      "orders": "Siparişler",
+      "drive": "Teslimat",
+      "profile": "Profil"
+    },
+    "home": {
+      "title": "Yakın Restoranlar",
+      "subtitle": "Yemek sipariş et, hesabı arkadaşlarınla böl",
+      "search": "Restoran ara...",
+      "noResults": "Restoran bulunamadı",
+      "kmAway": "{{dist}} km uzakta",
+      "items": "{{n}} ürün"
+    },
+    "restaurant": {
+      "menu": "Menü",
+      "addToCart": "Ekle",
+      "unavailable": "Mevcut değil",
+      "deliveryFee": "Teslimat ücreti"
+    },
+    "cart": {
+      "title": "Sepetiniz",
+      "empty": "Sepetiniz boş",
+      "total": "Toplam",
+      "deliveryFee": "Teslimat",
+      "checkout": "Solana ile öde",
+      "connectFirst": "Cüzdanınızı bağlayın",
+      "street": "Sokak (isteğe bağlı)",
+      "city": "Şehir (isteğe bağlı)",
+      "country": "Ülke (isteğe bağlı)",
+      "currency": "Ödeme yöntemi"
+    },
+    "order": {
+      "title": "Sipariş #{{id}}",
+      "status": {
+        "Created": "Ödeme bekleniyor",
+        "Funded": "Ödendi",
+        "Preparing": "Hazırlanıyor",
+        "ReadyForPickup": "Teslim almaya hazır",
+        "PickedUp": "Yolda",
+        "Delivered": "Teslim edildi",
+        "Settled": "Tamamlandı",
+        "Disputed": "İtirazda",
+        "Cancelled": "İptal edildi",
+        "Refunded": "İade edildi"
+      },
+      "shareLink": "Bağlantıyı paylaş",
+      "copyLink": "Bölme bağlantısını kopyala",
+      "contributions": "Katkılar",
+      "fundingProgress": "%{{pct}} finanse edildi",
+      "items": "Ürünler",
+      "fundOrder": "Siparişi finanse et",
+      "contributeAmount": "Katkınız"
+    },
+    "driver": {
+      "title": "Mevcut Siparişler",
+      "noOrders": "Şu an sipariş yok",
+      "accept": "Teslimatı kabul et",
+      "pickupCode": "Teslim alma kodu",
+      "deliveryCode": "Teslimat kodu",
+      "scanPickup": "Teslim alma QR tara",
+      "scanDelivery": "Teslimat QR tara",
+      "verifyPickup": "Teslim almayı doğrula",
+      "confirmDelivery": "Teslimatı onayla",
+      "earning": "Teslimat ücreti",
+      "vehicleType": "Vehicle Type",
+      "vehicleTypeHint": "Helps customers find eco-friendly drivers",
+      "vehicleSaved": "Vehicle updated"
+    },
+    "profile": {
+      "title": "Profil",
+      "wallet": "Cüzdan",
+      "role": "Rol",
+      "roleCustomer": "Müşteri",
+      "roleDriver": "Kurye",
+      "switchRole": "Rol değiştir",
+      "disconnect": "Bağlantıyı kes",
+      "language": "Dil",
+      "myOrders": "Siparişlerim",
+      "ecoDelivery": "Prefer eco delivery",
+      "ecoDeliveryDesc": "Show preference for bikes, e-bikes, and electric vehicles",
+      "ecoSaved": "Preference saved"
+    },
+    "connect": {
+      "title": "Cüzdan bağla",
+      "subtitle": "Phantom veya Solflare kullanın",
+      "button": "Bağlan",
+      "noWallet": "Cüzdan bulunamadı."
+    },
+    "common": {
+      "loading": "Yükleniyor...",
+      "error": "Bir şeyler ters gitti",
+      "retry": "Tekrar dene",
+      "back": "Geri",
+      "cancel": "İptal",
+      "confirm": "Onayla",
+      "save": "Kaydet",
+      "close": "Kapat",
+      "copied": "Kopyalandı!",
+      "success": "Başarılı"
+    }
+  }
+}

@@ -1,1 +1,107 @@
-{ "translation": { "appName": "ForkMe", "tagline": "基于Solana的去中心化外卖", "nav": { "browse": "浏览", "orders": "订单", "drive": "配送", "profile": "个人" }, "home": { "title": "附近餐厅", "subtitle": "点餐并与朋友分摊账单", "search": "搜索餐厅...", "noResults": "未找到餐厅", "kmAway": "{{dist}}公里", "items": "{{n}}道菜" }, "restaurant": { "menu": "菜单", "addToCart": "加入", "unavailable": "不可用", "deliveryFee": "配送费" }, "cart": { "title": "购物车", "empty": "购物车为空", "total": "总计", "deliveryFee": "配送", "checkout": "用Solana支付", "connectFirst": "请连接钱包", "street": "街道（可选）", "city": "城市（可选）", "country": "国家（可选）", "currency": "支付方式" }, "order": { "title": "订单 #{{id}}", "status": { "Created": "等待付款", "Funded": "已付款", "Preparing": "准备中", "ReadyForPickup": "等待取货", "PickedUp": "配送中", "Delivered": "已送达", "Settled": "已完成", "Disputed": "争议中", "Cancelled": "已取消", "Refunded": "已退款" }, "shareLink": "分享链接", "copyLink": "复制分摊链接", "contributions": "贡献", "fundingProgress": "{{pct}}%已筹集", "items": "商品", "fundOrder": "为订单出资", "contributeAmount": "您的贡献额" }, "driver": { "title": "可接订单", "noOrders": "暂无可接订单", "accept": "接受配送", "pickupCode": "取货码", "deliveryCode": "送达码", "scanPickup": "扫描取货码", "scanDelivery": "扫描送达码", "verifyPickup": "确认取货", "confirmDelivery": "确认送达", "earning": "配送费" }, "profile": { "title": "个人资料", "wallet": "钱包", "role": "角色", "roleCustomer": "顾客", "roleDriver": "配送员", "switchRole": "切换角色", "disconnect": "断开连接", "language": "语言", "myOrders": "我的订单" }, "connect": { "title": "连接钱包", "subtitle": "使用Phantom或Solflare", "button": "连接", "noWallet": "未检测到钱包。" }, "common": { "loading": "加载中...", "error": "出错了", "retry": "重试", "back": "返回", "cancel": "取消", "confirm": "确认", "save": "保存", "close": "关闭", "copied": "已复制！", "success": "成功" } } }
+{
+  "translation": {
+    "appName": "ForkMe",
+    "tagline": "基于Solana的去中心化外卖",
+    "nav": {
+      "browse": "浏览",
+      "orders": "订单",
+      "drive": "配送",
+      "profile": "个人"
+    },
+    "home": {
+      "title": "附近餐厅",
+      "subtitle": "点餐并与朋友分摊账单",
+      "search": "搜索餐厅...",
+      "noResults": "未找到餐厅",
+      "kmAway": "{{dist}}公里",
+      "items": "{{n}}道菜"
+    },
+    "restaurant": {
+      "menu": "菜单",
+      "addToCart": "加入",
+      "unavailable": "不可用",
+      "deliveryFee": "配送费"
+    },
+    "cart": {
+      "title": "购物车",
+      "empty": "购物车为空",
+      "total": "总计",
+      "deliveryFee": "配送",
+      "checkout": "用Solana支付",
+      "connectFirst": "请连接钱包",
+      "street": "街道（可选）",
+      "city": "城市（可选）",
+      "country": "国家（可选）",
+      "currency": "支付方式"
+    },
+    "order": {
+      "title": "订单 #{{id}}",
+      "status": {
+        "Created": "等待付款",
+        "Funded": "已付款",
+        "Preparing": "准备中",
+        "ReadyForPickup": "等待取货",
+        "PickedUp": "配送中",
+        "Delivered": "已送达",
+        "Settled": "已完成",
+        "Disputed": "争议中",
+        "Cancelled": "已取消",
+        "Refunded": "已退款"
+      },
+      "shareLink": "分享链接",
+      "copyLink": "复制分摊链接",
+      "contributions": "贡献",
+      "fundingProgress": "{{pct}}%已筹集",
+      "items": "商品",
+      "fundOrder": "为订单出资",
+      "contributeAmount": "您的贡献额"
+    },
+    "driver": {
+      "title": "可接订单",
+      "noOrders": "暂无可接订单",
+      "accept": "接受配送",
+      "pickupCode": "取货码",
+      "deliveryCode": "送达码",
+      "scanPickup": "扫描取货码",
+      "scanDelivery": "扫描送达码",
+      "verifyPickup": "确认取货",
+      "confirmDelivery": "确认送达",
+      "earning": "配送费",
+      "vehicleType": "Vehicle Type",
+      "vehicleTypeHint": "Helps customers find eco-friendly drivers",
+      "vehicleSaved": "Vehicle updated"
+    },
+    "profile": {
+      "title": "个人资料",
+      "wallet": "钱包",
+      "role": "角色",
+      "roleCustomer": "顾客",
+      "roleDriver": "配送员",
+      "switchRole": "切换角色",
+      "disconnect": "断开连接",
+      "language": "语言",
+      "myOrders": "我的订单",
+      "ecoDelivery": "Prefer eco delivery",
+      "ecoDeliveryDesc": "Show preference for bikes, e-bikes, and electric vehicles",
+      "ecoSaved": "Preference saved"
+    },
+    "connect": {
+      "title": "连接钱包",
+      "subtitle": "使用Phantom或Solflare",
+      "button": "连接",
+      "noWallet": "未检测到钱包。"
+    },
+    "common": {
+      "loading": "加载中...",
+      "error": "出错了",
+      "retry": "重试",
+      "back": "返回",
+      "cancel": "取消",
+      "confirm": "确认",
+      "save": "保存",
+      "close": "关闭",
+      "copied": "已复制！",
+      "success": "成功"
+    }
+  }
+}

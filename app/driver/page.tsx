@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useWalletAuth } from '@/hooks/useWalletAuth';
 import { api } from '@/lib/api';
+import { VEHICLE_TYPES } from '@/lib/constants';
 import type { OrderData, DriverProfile } from '@/lib/types';
 
 type AvailableOrder = OrderData & { myBidStatus: string | null };
@@ -102,13 +103,24 @@ export default function DriverPage() {
       {/* Driver reputation card */}
       {profile && (
         <div className="bg-dark-900 rounded-2xl p-4 mb-5">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
             <span className="text-dark-300 text-sm">{t('driver.yourReputation')}</span>
-            {profile.isNewcomer ? (
-              <span className="text-xs px-2 py-0.5 bg-yellow-800/40 text-yellow-400 rounded-full">{t('driver.newcomer')}</span>
-            ) : (
-              <span className="text-xs px-2 py-0.5 bg-green-800/40 text-green-400 rounded-full">{t('driver.established')}</span>
-            )}
+            <div className="flex items-center gap-1.5 flex-wrap justify-end">
+              {profile.vehicleType && (() => {
+                const v = VEHICLE_TYPES.find((x) => x.value === profile.vehicleType);
+                return v ? (
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${v.eco ? 'bg-green-800/40 text-green-300' : 'bg-dark-800 text-dark-400'}`}>
+                    {v.emoji} {v.label}
+                    {v.eco && ' 🌿'}
+                  </span>
+                ) : null;
+              })()}
+              {profile.isNewcomer ? (
+                <span className="text-xs px-2 py-0.5 bg-yellow-800/40 text-yellow-400 rounded-full">{t('driver.newcomer')}</span>
+              ) : (
+                <span className="text-xs px-2 py-0.5 bg-green-800/40 text-green-400 rounded-full">{t('driver.established')}</span>
+              )}
+            </div>
           </div>
           <div className="flex gap-6 mt-3">
             <div>

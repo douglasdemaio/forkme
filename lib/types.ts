@@ -56,7 +56,13 @@ export interface DriverProfile {
   completedDeliveries: number;
   avgRating: number;
   ratingCount: number;
+  vehicleType: string | null;
   isNewcomer: boolean;
+}
+
+export interface CustomerProfile {
+  wallet: string;
+  preferEco: boolean;
 }
 
 export interface DriverBid {

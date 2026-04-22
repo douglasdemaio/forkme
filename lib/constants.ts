@@ -26,6 +26,17 @@ export const SOLANA_RPC_URL =
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
+export const VEHICLE_TYPES = [
+  { value: 'bicycle',    label: 'Bicycle',          emoji: '🚲',  eco: true  },
+  { value: 'ebike',      label: 'E-Bike',            emoji: '⚡🚲', eco: true  },
+  { value: 'escooter',   label: 'E-Scooter',         emoji: '🛴',  eco: true  },
+  { value: 'ev',         label: 'Electric Vehicle',  emoji: '⚡🚗', eco: true  },
+  { value: 'motorcycle', label: 'Motorcycle',        emoji: '🏍️', eco: false },
+  { value: 'car',        label: 'Car',               emoji: '🚗',  eco: false },
+] as const;
+
+export type VehicleTypeValue = typeof VEHICLE_TYPES[number]['value'];
+
 export function resolveImageUrl(path: string | null | undefined): string | undefined {
   if (!path) return undefined;
   if (path.startsWith('http')) return path;

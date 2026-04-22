@@ -99,7 +99,10 @@
       "avgRating": "avg rating",
       "newcomerHint": "Complete 5+ deliveries with a 4.0+ rating to be auto-assigned orders.",
       "assignedWaiting": "You're assigned — food is being prepared",
-      "assignedWaitingDesc": "Head to the restaurant when you're ready. You'll be notified when the order is ready for pickup."
+      "assignedWaitingDesc": "Head to the restaurant when you're ready. You'll be notified when the order is ready for pickup.",
+      "vehicleType": "Vehicle Type",
+      "vehicleTypeHint": "Helps customers find eco-friendly drivers",
+      "vehicleSaved": "Vehicle updated"
     },
     "profile": {
       "title": "Profile",
@@ -110,7 +113,10 @@
       "switchRole": "Switch role",
       "disconnect": "Disconnect wallet",
       "language": "Language",
-      "myOrders": "My orders"
+      "myOrders": "My orders",
+      "ecoDelivery": "Prefer eco delivery",
+      "ecoDeliveryDesc": "Show preference for bikes, e-bikes, and electric vehicles",
+      "ecoSaved": "Preference saved"
     },
     "connect": {
       "title": "Connect Wallet",

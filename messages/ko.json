@@ -1,1 +1,107 @@
-{ "translation": { "appName": "ForkMe", "tagline": "Solana 기반 분산형 음식 배달", "nav": { "browse": "탐색", "orders": "주문", "drive": "배달", "profile": "프로필" }, "home": { "title": "근처 식당", "subtitle": "음식을 주문하고 친구와 나눠 내세요", "search": "식당 검색...", "noResults": "식당을 찾을 수 없습니다", "kmAway": "{{dist}} km", "items": "{{n}}개 메뉴" }, "restaurant": { "menu": "메뉴", "addToCart": "추가", "unavailable": "불가", "deliveryFee": "배달비" }, "cart": { "title": "장바구니", "empty": "장바구니가 비어 있습니다", "total": "합계", "deliveryFee": "배달", "checkout": "Solana로 결제", "connectFirst": "지갑을 연결하세요", "street": "도로명 주소 (선택)", "city": "도시 (선택)", "country": "국가 (선택)", "currency": "결제 수단" }, "order": { "title": "주문 #{{id}}", "status": { "Created": "결제 대기", "Funded": "결제 완료", "Preparing": "준비 중", "ReadyForPickup": "픽업 대기", "PickedUp": "배달 중", "Delivered": "배달 완료", "Settled": "완료", "Disputed": "분쟁 중", "Cancelled": "취소됨", "Refunded": "환불됨" }, "shareLink": "링크 공유", "copyLink": "분할 링크 복사", "contributions": "기여", "fundingProgress": "{{pct}}% 펀딩됨", "items": "상품", "fundOrder": "주문 펀딩", "contributeAmount": "기여 금액" }, "driver": { "title": "수락 가능한 주문", "noOrders": "현재 주문 없음", "accept": "배달 수락", "pickupCode": "픽업 코드", "deliveryCode": "배달 코드", "scanPickup": "픽업 QR 스캔", "scanDelivery": "배달 QR 스캔", "verifyPickup": "픽업 확인", "confirmDelivery": "배달 확인", "earning": "배달비" }, "profile": { "title": "프로필", "wallet": "지갑", "role": "역할", "roleCustomer": "고객", "roleDriver": "배달 기사", "switchRole": "역할 전환", "disconnect": "연결 해제", "language": "언어", "myOrders": "내 주문" }, "connect": { "title": "지갑 연결", "subtitle": "Phantom 또는 Solflare 사용", "button": "연결", "noWallet": "지갑이 감지되지 않았습니다." }, "common": { "loading": "로딩 중...", "error": "오류가 발생했습니다", "retry": "재시도", "back": "뒤로", "cancel": "취소", "confirm": "확인", "save": "저장", "close": "닫기", "copied": "복사됨!", "success": "성공" } } }
+{
+  "translation": {
+    "appName": "ForkMe",
+    "tagline": "Solana 기반 분산형 음식 배달",
+    "nav": {
+      "browse": "탐색",
+      "orders": "주문",
+      "drive": "배달",
+      "profile": "프로필"
+    },
+    "home": {
+      "title": "근처 식당",
+      "subtitle": "음식을 주문하고 친구와 나눠 내세요",
+      "search": "식당 검색...",
+      "noResults": "식당을 찾을 수 없습니다",
+      "kmAway": "{{dist}} km",
+      "items": "{{n}}개 메뉴"
+    },
+    "restaurant": {
+      "menu": "메뉴",
+      "addToCart": "추가",
+      "unavailable": "불가",
+      "deliveryFee": "배달비"
+    },
+    "cart": {
+      "title": "장바구니",
+      "empty": "장바구니가 비어 있습니다",
+      "total": "합계",
+      "deliveryFee": "배달",
+      "checkout": "Solana로 결제",
+      "connectFirst": "지갑을 연결하세요",
+      "street": "도로명 주소 (선택)",
+      "city": "도시 (선택)",
+      "country": "국가 (선택)",
+      "currency": "결제 수단"
+    },
+    "order": {
+      "title": "주문 #{{id}}",
+      "status": {
+        "Created": "결제 대기",
+        "Funded": "결제 완료",
+        "Preparing": "준비 중",
+        "ReadyForPickup": "픽업 대기",
+        "PickedUp": "배달 중",
+        "Delivered": "배달 완료",
+        "Settled": "완료",
+        "Disputed": "분쟁 중",
+        "Cancelled": "취소됨",
+        "Refunded": "환불됨"
+      },
+      "shareLink": "링크 공유",
+      "copyLink": "분할 링크 복사",
+      "contributions": "기여",
+      "fundingProgress": "{{pct}}% 펀딩됨",
+      "items": "상품",
+      "fundOrder": "주문 펀딩",
+      "contributeAmount": "기여 금액"
+    },
+    "driver": {
+      "title": "수락 가능한 주문",
+      "noOrders": "현재 주문 없음",
+      "accept": "배달 수락",
+      "pickupCode": "픽업 코드",
+      "deliveryCode": "배달 코드",
+      "scanPickup": "픽업 QR 스캔",
+      "scanDelivery": "배달 QR 스캔",
+      "verifyPickup": "픽업 확인",
+      "confirmDelivery": "배달 확인",
+      "earning": "배달비",
+      "vehicleType": "Vehicle Type",
+      "vehicleTypeHint": "Helps customers find eco-friendly drivers",
+      "vehicleSaved": "Vehicle updated"
+    },
+    "profile": {
+      "title": "프로필",
+      "wallet": "지갑",
+      "role": "역할",
+      "roleCustomer": "고객",
+      "roleDriver": "배달 기사",
+      "switchRole": "역할 전환",
+      "disconnect": "연결 해제",
+      "language": "언어",
+      "myOrders": "내 주문",
+      "ecoDelivery": "Prefer eco delivery",
+      "ecoDeliveryDesc": "Show preference for bikes, e-bikes, and electric vehicles",
+      "ecoSaved": "Preference saved"
+    },
+    "connect": {
+      "title": "지갑 연결",
+      "subtitle": "Phantom 또는 Solflare 사용",
+      "button": "연결",
+      "noWallet": "지갑이 감지되지 않았습니다."
+    },
+    "common": {
+      "loading": "로딩 중...",
+      "error": "오류가 발생했습니다",
+      "retry": "재시도",
+      "back": "뒤로",
+      "cancel": "취소",
+      "confirm": "확인",
+      "save": "저장",
+      "close": "닫기",
+      "copied": "복사됨!",
+      "success": "성공"
+    }
+  }
+}
