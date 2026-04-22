@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { MenuItemCard } from '@/components/menu-item-card';
 import { api } from '@/lib/api';
 import { useAppStore } from '@/store/app-store';
+import { resolveImageUrl } from '@/lib/constants';
 import type { RestaurantData, MenuItemData } from '@/lib/types';
 
 export default function RestaurantPage() {
@@ -54,7 +55,7 @@ export default function RestaurantPage() {
       {/* Banner */}
       <div className="relative h-48 md:h-64 w-full">
         {restaurant.banner ? (
-          <Image src={restaurant.banner} alt={restaurant.name} fill className="object-cover" />
+          <Image src={resolveImageUrl(restaurant.banner)!} alt={restaurant.name} fill className="object-cover" unoptimized />
         ) : (
           <div className="h-full bg-gradient-to-br from-dark-800 to-dark-700 flex items-center justify-center">
             <span className="text-6xl">🍴</span>
@@ -71,7 +72,7 @@ export default function RestaurantPage() {
         <div className="flex items-start gap-4">
           {restaurant.logo && (
             <div className="relative w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 -mt-8 ring-4 ring-dark-950">
-              <Image src={restaurant.logo} alt="" fill className="object-cover" />
+              <Image src={resolveImageUrl(restaurant.logo)!} alt="" fill className="object-cover" unoptimized />
             </div>
           )}
           <div className="flex-1">

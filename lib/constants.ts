@@ -26,6 +26,12 @@ export const SOLANA_RPC_URL =
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
+export function resolveImageUrl(path: string | null | undefined): string | undefined {
+  if (!path) return undefined;
+  if (path.startsWith('http')) return path;
+  return `${API_BASE_URL}${path}`;
+}
+
 export function getMintForCurrency(currency: string): PublicKey {
   switch (currency?.toUpperCase()) {
     case 'EURC': return EURC_MINT;

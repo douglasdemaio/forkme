@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { RestaurantData } from '@/lib/types';
+import { resolveImageUrl } from '@/lib/constants';
 
 export function RestaurantCard({ r }: { r: RestaurantData }) {
   const accentColor = r.colorPrimary ?? undefined;
@@ -11,7 +12,7 @@ export function RestaurantCard({ r }: { r: RestaurantData }) {
       className="block bg-dark-900 rounded-2xl overflow-hidden border border-dark-800 card-hover">
       {r.banner ? (
         <div className="relative h-32 w-full">
-          <Image src={r.banner} alt={r.name} fill className="object-cover" unoptimized />
+          <Image src={resolveImageUrl(r.banner)!} alt={r.name} fill className="object-cover" unoptimized />
         </div>
       ) : (
         <div
@@ -24,7 +25,7 @@ export function RestaurantCard({ r }: { r: RestaurantData }) {
         <div className="flex items-start gap-3">
           {r.logo ? (
             <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0 -mt-7 ring-2 ring-dark-900">
-              <Image src={r.logo} alt="" fill className="object-cover" unoptimized />
+              <Image src={resolveImageUrl(r.logo)!} alt="" fill className="object-cover" unoptimized />
             </div>
           ) : (
             <div

@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import type { MenuItemData } from '@/lib/types';
+import { resolveImageUrl } from '@/lib/constants';
 
 interface Props {
   item: MenuItemData;
@@ -18,7 +19,7 @@ export function MenuItemCard({ item, currency, qty, onAdd, onRemove }: Props) {
     <div className={`flex gap-4 bg-dark-900 rounded-2xl p-4 ${!item.available ? 'opacity-50' : ''}`}>
       {item.image && (
         <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
-          <Image src={item.image} alt={item.name} fill className="object-cover" />
+          <Image src={resolveImageUrl(item.image)!} alt={item.name} fill className="object-cover" unoptimized />
         </div>
       )}
       <div className="flex-1 min-w-0">
