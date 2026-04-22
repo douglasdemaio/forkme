@@ -16,42 +16,52 @@ export default function ProfilePage() {
   const { wallet, logout, token, authenticate } = useWalletAuth();
   const { role, setRole } = useAppStore();
 
-  const [vehicleType, setVehicleType] = useState<string | null>(null);
+  const [savedVehicleType, setSavedVehicleType] = useState<string | null>(null);
+  const [pendingVehicleType, setPendingVehicleType] = useState<string | null>(null);
   const [savingVehicle, setSavingVehicle] = useState(false);
   const [vehicleSaved, setVehicleSaved] = useState(false);
-  const [preferEco, setPreferEco] = useState(false);
+
+  const [savedPreferEco, setSavedPreferEco] = useState(false);
+  const [pendingPreferEco, setPendingPreferEco] = useState(false);
   const [savingEco, setSavingEco] = useState(false);
   const [ecoSaved, setEcoSaved] = useState(false);
 
   useEffect(() => {
     if (!connected || !wallet) return;
     if (role === 'driver') {
-      api.getDriverProfile(wallet).then((p) => setVehicleType(p.vehicleType ?? null)).catch(() => {});
+      api.getDriverProfile(wallet).then((p) => {
+        const v = p.vehicleType ?? null;
+        setSavedVehicleType(v);
+        setPendingVehicleType(v);
+      }).catch(() => {});
     } else {
-      api.getCustomerProfile().then((p) => setPreferEco(p.preferEco)).catch(() => {});
+      api.getCustomerProfile().then((p) => {
+        setSavedPreferEco(p.preferEco);
+        setPendingPreferEco(p.preferEco);
+      }).catch(() => {});
     }
   }, [connected, wallet, role]);
 
-  const saveVehicle = async (type: string) => {
-    if (!wallet) return;
-    setVehicleType(type);
+  const saveVehicle = async () => {
+    if (!wallet || !pendingVehicleType) return;
     setSavingVehicle(true);
     setVehicleSaved(false);
     try {
       if (!token) await authenticate();
-      await api.updateDriverVehicle(wallet, type);
+      await api.updateDriverVehicle(wallet, pendingVehicleType);
+      setSavedVehicleType(pendingVehicleType);
       setVehicleSaved(true);
       setTimeout(() => setVehicleSaved(false), 2000);
     } catch {} finally { setSavingVehicle(false); }
   };
 
-  const saveEco = async (value: boolean) => {
-    setPreferEco(value);
+  const saveEco = async () => {
     setSavingEco(true);
     setEcoSaved(false);
     try {
       if (!token) await authenticate();
-      await api.updateCustomerProfile({ preferEco: value });
+      await api.updateCustomerProfile({ preferEco: pendingPreferEco });
+      setSavedPreferEco(pendingPreferEco);
       setEcoSaved(true);
       setTimeout(() => setEcoSaved(false), 2000);
     } catch {} finally { setSavingEco(false); }
@@ -110,17 +120,15 @@ export default function ProfilePage() {
           <div className="flex items-center justify-between mb-1">
             <p className="text-dark-300 text-sm">{t('driver.vehicleType')}</p>
             {vehicleSaved && <span className="text-green-400 text-xs">{t('driver.vehicleSaved')} ✓</span>}
-            {savingVehicle && <span className="text-dark-400 text-xs">Saving…</span>}
           </div>
           <p className="text-dark-500 text-xs mb-3">{t('driver.vehicleTypeHint')}</p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-2 mb-3">
             {VEHICLE_TYPES.map((v) => (
               <button
                 key={v.value}
-                onClick={() => saveVehicle(v.value)}
-                disabled={savingVehicle}
+                onClick={() => setPendingVehicleType(v.value)}
                 className={`py-3 px-2 rounded-xl text-xs font-medium transition-colors flex flex-col items-center gap-1 ${
-                  vehicleType === v.value
+                  pendingVehicleType === v.value
                     ? v.eco
                       ? 'bg-green-800/40 border border-green-600/50 text-green-300'
                       : 'bg-brand-500/20 border border-brand-500/40 text-brand-300'
@@ -132,6 +140,14 @@ export default function ProfilePage() {
               </button>
             ))}
           </div>
+          {pendingVehicleType !== savedVehicleType && (
+            <button
+              onClick={saveVehicle}
+              disabled={savingVehicle || !pendingVehicleType}
+              className="w-full py-2.5 bg-brand-500 text-dark-950 rounded-xl text-sm font-semibold hover:bg-brand-400 transition-colors disabled:opacity-60">
+              {savingVehicle ? t('common.loading') : t('common.save')}
+            </button>
+          )}
         </div>
       )}
 
@@ -143,19 +159,23 @@ export default function ProfilePage() {
               <p className="text-dark-300 text-sm">{t('profile.ecoDelivery')}</p>
               <p className="text-dark-500 text-xs mt-0.5">{t('profile.ecoDeliveryDesc')}</p>
             </div>
-            <div className="flex items-center gap-2 ml-4 flex-shrink-0">
-              {ecoSaved && <span className="text-green-400 text-xs">✓</span>}
-              {savingEco && <span className="text-dark-400 text-xs">…</span>}
-              <button
-                onClick={() => saveEco(!preferEco)}
-                disabled={savingEco}
-                className={`relative w-12 h-6 rounded-full transition-colors ${preferEco ? 'bg-green-600' : 'bg-dark-700'}`}>
-                <span className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${preferEco ? 'translate-x-7' : 'translate-x-1'}`} />
-              </button>
-            </div>
+            <button
+              onClick={() => setPendingPreferEco(!pendingPreferEco)}
+              className={`relative w-12 h-6 rounded-full transition-colors ml-4 flex-shrink-0 ${pendingPreferEco ? 'bg-green-600' : 'bg-dark-700'}`}>
+              <span className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${pendingPreferEco ? 'translate-x-7' : 'translate-x-1'}`} />
+            </button>
           </div>
-          {preferEco && (
+          {pendingPreferEco && (
             <p className="text-green-400 text-xs mt-3">🌿 You prefer eco-friendly delivery</p>
+          )}
+          {pendingPreferEco !== savedPreferEco && (
+            <button
+              onClick={saveEco}
+              disabled={savingEco}
+              className="w-full mt-3 py-2.5 bg-brand-500 text-dark-950 rounded-xl text-sm font-semibold hover:bg-brand-400 transition-colors disabled:opacity-60">
+              {savingEco ? t('common.loading') : t('common.save')}
+              {ecoSaved && ' ✓'}
+            </button>
           )}
         </div>
       )}
