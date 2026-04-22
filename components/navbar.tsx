@@ -32,9 +32,12 @@ export function Navbar() {
           height={34}
           className="rounded-xl ring-1 ring-brand-500/40 group-hover:ring-brand-500/70 transition-all"
         />
-        <span className="text-white font-bold text-lg tracking-tight group-hover:text-brand-500 transition-colors">
-          {t('appName')}
-        </span>
+        <div className="flex flex-col">
+          <span className="text-white font-bold text-lg tracking-tight group-hover:text-brand-500 transition-colors leading-tight">
+            {t('appName')}
+          </span>
+          <span className="text-xs text-dark-400 leading-tight">{t('tagline')}</span>
+        </div>
       </Link>
 
       <div className="flex items-center gap-6">
