@@ -62,6 +62,7 @@ export default function DriverPage() {
     setMessage(null);
     setError(null);
     try {
+      if (!token) await authenticate();
       const raw = offerAmounts[orderId];
       const offerAmount = raw ? parseFloat(raw) : undefined;
       const { autoAssigned } = await api.placeBid(orderId, offerAmount);
