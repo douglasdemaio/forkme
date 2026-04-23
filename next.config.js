@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Produce a self-contained build for minimal container images.
+  output: 'standalone',
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: '**' },

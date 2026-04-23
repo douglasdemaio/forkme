@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: forkme-config
+  namespace: forkit
+  labels:
+    app: forkme
+data:
+  # NEXT_PUBLIC_* are baked at build time, but NODE_ENV and runtime
+  # toggles can still be injected here.
+  NODE_ENV: "production"

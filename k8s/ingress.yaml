@@ -1,0 +1,30 @@
+# Requires an Ingress controller (nginx, traefik, etc.)
+# Set the host and TLS secret before applying.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: forkme
+  namespace: forkit
+  labels:
+    app: forkme
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+spec:
+  ingressClassName: nginx
+  # Uncomment and fill in for TLS:
+  # tls:
+  #   - hosts:
+  #       - forkme.your-forkit-node.example
+  #     secretName: forkme-tls
+  rules:
+    - host: forkme.your-forkit-node.example
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: forkme
+                port:
+                  number: 3001

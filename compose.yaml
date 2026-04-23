@@ -1,0 +1,27 @@
+# docker compose / podman compose entry point for forkme.
+#
+# Usage:
+#   docker compose up --build
+#   podman compose up --build
+#
+# NEXT_PUBLIC_* values are baked into the build at image-build time,
+# so pass them as build args (already wired below via the environment).
+
+services:
+  forkme:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://host.docker.internal:3000}
+        NEXT_PUBLIC_SOLANA_RPC_URL: ${NEXT_PUBLIC_SOLANA_RPC_URL:-https://api.devnet.solana.com}
+        NEXT_PUBLIC_SOLANA_NETWORK: ${NEXT_PUBLIC_SOLANA_NETWORK:-devnet}
+        NEXT_PUBLIC_ESCROW_PROGRAM_ID: ${NEXT_PUBLIC_ESCROW_PROGRAM_ID:-CNUWqYhXPXszPuB8psqG2VSnwCXf1MWzT4Pztp4y8fgj}
+        NEXT_PUBLIC_REGISTRY_PROGRAM_ID: ${NEXT_PUBLIC_REGISTRY_PROGRAM_ID:-EM1FgSzfS3F7cCYJWhUaqqPAK7ijZYpYRx7pzYkuyExz}
+        NEXT_PUBLIC_LOYALTY_PROGRAM_ID: ${NEXT_PUBLIC_LOYALTY_PROGRAM_ID:-BnnUntqkUadZ2BsW8j675P9hJQV3aqVcmt4xG4xfeoM8}
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
