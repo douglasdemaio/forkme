@@ -66,7 +66,12 @@ export default function OrderPage() {
         setShareLink(sl);
         link = sl;
       }
-      const url = `${window.location.origin}/order/${id}/contribute?link=${link}`;
+      // The DB stores `shareLink` as a full URL like
+      // `http://localhost:3000/order/<token>`. We want only the trailing token
+      // in the contribute URL — embedding the whole URL produces unencoded
+      // slashes that break the downstream `/api/orders/share/<token>` route.
+      const token = link.split('/').filter(Boolean).pop() ?? link;
+      const url = `${window.location.origin}/order/${id}/contribute?link=${encodeURIComponent(token)}`;
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);

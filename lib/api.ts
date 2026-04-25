@@ -118,7 +118,15 @@ class ApiClient {
 
   generateShareLink(orderId: string) { return this.req<{ shareLink: string }>(`/api/orders/${orderId}/share`, { method: 'POST' }); }
 
-  getByShareLink(shareLink: string) { return this.req<OrderData & { remaining: number; percentFunded: number }>(`/api/orders/share/${shareLink}`); }
+  getByShareLink(shareLink: string) {
+    // Accept both bare tokens (e.g. "ebba39f2") and full URLs
+    // (e.g. "http://localhost:3000/order/ebba39f2") for backwards compatibility
+    // with share links generated before the path-segment fix.
+    const token = shareLink.split('/').filter(Boolean).pop() ?? shareLink;
+    return this.req<OrderData & { remaining: number; percentFunded: number }>(
+      `/api/orders/share/${encodeURIComponent(token)}`
+    );
+  }
 }
 
 export const api = new ApiClient();

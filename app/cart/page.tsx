@@ -27,6 +27,10 @@ export default function CartPage() {
   const [restaurant, setRestaurant] = useState<RestaurantData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Split-with-friends: pay only part of the order now and let contributors fund the rest
+  // via the share link. Defaults to off (full payment).
+  const [splitWithFriends, setSplitWithFriends] = useState(false);
+  const [shareAmount, setShareAmount] = useState('');
 
   useEffect(() => {
     if (!cartRestaurantId) return;
@@ -80,11 +84,25 @@ export default function CartPage() {
       const rest = order.restaurant;
       if (!rest?.wallet) throw new Error('Restaurant wallet not found');
 
+      // Determine initial contribution: full target by default, or the user's
+      // chosen share if "split with friends" is enabled. Always > 0 (the on-chain
+      // create_order requires a non-zero initial contribution from the creator).
+      const target = order.escrowTarget;
+      let initialContribution = target;
+      if (splitWithFriends) {
+        const parsed = parseFloat(shareAmount);
+        if (!Number.isFinite(parsed) || parsed <= 0) {
+          throw new Error('Enter your share (greater than zero)');
+        }
+        initialContribution = Math.min(parsed, target);
+      }
+
       const { signature, orderPda } = await createOrder({
         orderId: order.id,
         restaurantWallet: rest.wallet,
         foodAmount: order.foodTotal,
         deliveryAmount: order.deliveryFee,
+        initialContribution,
         currency,
         codeAHash: order.codeAHash || '',
         codeBHash: order.codeBHash || '',
@@ -92,7 +110,7 @@ export default function CartPage() {
 
       await api.recordContribution(order.id, {
         wallet: publicKey!.toBase58(),
-        amount: order.escrowTarget,
+        amount: initialContribution,
         txSignature: signature,
       });
 
@@ -171,6 +189,42 @@ export default function CartPage() {
           <span className="text-white">{t('cart.total')}</span>
           <span className="text-brand-500">{total.toFixed(2)} {currency}</span>
         </div>
+      </div>
+
+      {/* Split with friends — optional partial-pay */}
+      <div className="bg-dark-900 rounded-2xl p-4 mb-6">
+        <label className="flex items-center justify-between cursor-pointer">
+          <div>
+            <p className="text-white font-medium text-sm">Split with friends</p>
+            <p className="text-dark-400 text-xs mt-0.5">Pay your share now and share a link for friends to chip in</p>
+          </div>
+          <input
+            type="checkbox"
+            checked={splitWithFriends}
+            onChange={(e) => setSplitWithFriends(e.target.checked)}
+            className="w-5 h-5 accent-brand-500"
+          />
+        </label>
+        {splitWithFriends && (
+          <div className="mt-3">
+            <label className="block text-dark-300 text-xs mb-1">Your share now ({currency})</label>
+            <input
+              type="number"
+              min="0.01"
+              max={total}
+              step="0.01"
+              value={shareAmount}
+              onChange={(e) => setShareAmount(e.target.value)}
+              placeholder={`Up to ${total.toFixed(2)}`}
+              className="w-full bg-dark-950 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors"
+            />
+            {shareAmount && parseFloat(shareAmount) > 0 && parseFloat(shareAmount) < total && (
+              <p className="text-dark-400 text-xs mt-2">
+                Remaining {(total - parseFloat(shareAmount)).toFixed(2)} {currency} — share the order link to collect.
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
       {error && (

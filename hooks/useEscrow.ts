@@ -75,6 +75,13 @@ export function useEscrow() {
       restaurantWallet: string;
       foodAmount: number;
       deliveryAmount: number;
+      /**
+       * Optional partial initial contribution (in display units, e.g. USDC).
+       * If omitted, defaults to `foodAmount + deliveryAmount` (full payment).
+       * When set lower, the order is created with `escrow_target` = full but
+       * `escrow_funded` = this amount; friends top it up via contribute_to_order.
+       */
+      initialContribution?: number;
       currency: string;
       codeAHash: string; // hex string — SHA256 of code A
       codeBHash: string; // hex string — SHA256 of code B
@@ -89,7 +96,15 @@ export function useEscrow() {
 
       const foodAmtLamports     = BigInt(Math.round((params.foodAmount ?? 0) * 10 ** TOKEN_DECIMALS));
       const deliveryAmtLamports = BigInt(Math.round((params.deliveryAmount ?? 0) * 10 ** TOKEN_DECIMALS));
-      const initialContribution = foodAmtLamports + deliveryAmtLamports;
+      const fullTarget = foodAmtLamports + deliveryAmtLamports;
+      const requestedInitial =
+        params.initialContribution !== undefined
+          ? BigInt(Math.round(params.initialContribution * 10 ** TOKEN_DECIMALS))
+          : fullTarget;
+      // The on-chain handler caps initial_contribution at escrow_target, but we
+      // also clamp here so the SPL transfer amount matches what we declare.
+      const initialContribution =
+        requestedInitial > fullTarget ? fullTarget : requestedInitial;
 
       const orderPda         = deriveOrderPda(orderIdBuf);
       const escrowVaultPda   = deriveEscrowVaultPda(orderIdBuf);
