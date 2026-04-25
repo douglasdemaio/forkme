@@ -10,10 +10,20 @@ export function useWalletAuth() {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   useEffect(() => {
-    const stored = typeof window !== 'undefined' ? localStorage.getItem('forkme-auth-token') : null;
-    if (stored) {
-      setToken(stored);
-      api.setToken(stored);
+    if (typeof window === 'undefined') return;
+    const stored = localStorage.getItem('forkme-auth-token');
+    if (!stored) return;
+    try {
+      const b64 = stored.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      const payload = JSON.parse(atob(b64));
+      if (payload.exp * 1000 > Date.now()) {
+        setToken(stored);
+        api.setToken(stored);
+      } else {
+        localStorage.removeItem('forkme-auth-token');
+      }
+    } catch {
+      localStorage.removeItem('forkme-auth-token');
     }
   }, []);
 

@@ -58,12 +58,24 @@ export default function CartPage() {
       if (!jwt) throw new Error('Authentication failed');
 
       const tokenMint = currency === 'EURC' ? EURC_MINT.toBase58() : USDC_MINT.toBase58();
-      const order = await api.createOrder({
+      const orderPayload = {
         restaurantId: cartRestaurantId!,
         items: cart.map((i) => ({ menuItemId: i.id, quantity: i.quantity })),
         tokenMint,
         deliveryAddress: [street, city, country].filter(Boolean).join(', ') || undefined,
-      });
+      };
+      let order;
+      try {
+        order = await api.createOrder(orderPayload);
+      } catch (e: any) {
+        if (typeof e?.message === 'string' && e.message.startsWith('API 401')) {
+          const fresh = await authenticate();
+          if (!fresh) throw new Error('Authentication failed');
+          order = await api.createOrder(orderPayload);
+        } else {
+          throw e;
+        }
+      }
 
       const rest = order.restaurant;
       if (!rest?.wallet) throw new Error('Restaurant wallet not found');
