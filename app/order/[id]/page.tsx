@@ -209,12 +209,14 @@ export default function OrderPage() {
         </div>
       )}
 
-      {/* Delivery confirmation — customer signs confirm_delivery on-chain to release escrow */}
-      {order.status === 'PickedUp' && order.codeB && (
+      {/* Delivery confirmation — customer signs confirm_delivery on-chain to release escrow.
+          Shown for any non-terminal order so the on-chain action is always reachable;
+          if the chain isn't yet in PickedUp the program will reject and show the reason. */}
+      {!['Settled', 'Cancelled', 'Refunded'].includes(order.status) && order.codeB && (
         <div className="bg-dark-900 rounded-2xl p-5 mb-4">
           <h3 className="text-white font-semibold mb-1">Confirm Delivery</h3>
           <p className="text-dark-300 text-sm mb-4">
-            When your food arrives, tap below to release {order.escrowTarget.toFixed(2)} {currency} from escrow to the restaurant and driver.
+            When your food arrives, tap below to release {order.escrowTarget.toFixed(2)} {currency} from escrow to the restaurant and driver. (Chain expects status PickedUp — current: {order.status}.)
           </p>
           <button
             onClick={handleConfirmDelivery}

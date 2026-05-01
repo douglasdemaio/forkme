@@ -160,7 +160,10 @@ export default function DeliveryPage() {
 
       {/* Actions */}
       <div className="space-y-3">
-        {order.status === 'DriverAssigned' && (
+        {/* Confirm trip — shown for every non-terminal status so the driver
+            can always reach accept_order. The on-chain program will reject
+            if status isn't Funded and surface a clear error. */}
+        {!['Settled', 'Cancelled', 'Refunded'].includes(order.status) && (
           <div className="bg-dark-900 rounded-2xl p-5">
             <div className="text-center mb-4">
               <span className="text-3xl">👍</span>
@@ -179,7 +182,7 @@ export default function DeliveryPage() {
               )}
             </button>
             <p className="text-dark-500 text-xs mt-2 text-center">
-              Signs accept_order so the restaurant can mark the order ready.
+              Signs accept_order so the restaurant can mark the order ready. (Chain expects status Funded — current: {order.status}.)
             </p>
             {order.codeA && (
               <div className="bg-dark-800 rounded-xl px-4 py-3 flex items-center justify-between mt-3">
