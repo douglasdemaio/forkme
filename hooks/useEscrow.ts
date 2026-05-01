@@ -20,8 +20,10 @@ import {
   TREASURY_WALLET,
   TOKEN_DECIMALS,
   DISCRIMINATORS,
+  REGISTRY_ROLE,
   getMintForCurrency,
 } from '@/lib/constants';
+import { deriveProfilePda } from '@/hooks/useRegistry';
 
 // Resolves which token program owns a mint (classic SPL Token vs Token-2022).
 // The on-chain escrow program now accepts both via Anchor's TokenInterface.
@@ -222,6 +224,37 @@ export function useEscrow() {
     [publicKey, sendTransaction, connection]
   );
 
+  const acceptOrder = useCallback(
+    async (params: { orderId: string }) => {
+      if (!publicKey || !sendTransaction) throw new Error('Wallet not connected');
+
+      const orderIdBuf = orderIdToLeBytes(params.orderId);
+      const orderPda = deriveOrderPda(orderIdBuf);
+      const driverProfilePda = deriveProfilePda(publicKey, REGISTRY_ROLE.Driver);
+
+      const data = Buffer.alloc(8);
+      DISCRIMINATORS.acceptOrder.copy(data, 0);
+
+      // AcceptOrder struct: order (mut), driver_profile (registry PDA), driver (signer)
+      const ix = new TransactionInstruction({
+        keys: [
+          { pubkey: orderPda,         isSigner: false, isWritable: true },
+          { pubkey: driverProfilePda, isSigner: false, isWritable: false },
+          { pubkey: publicKey,        isSigner: true,  isWritable: false },
+        ],
+        programId: ESCROW_PROGRAM_ID,
+        data,
+      });
+
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const tx = new Transaction({ recentBlockhash: blockhash, feePayer: publicKey }).add(ix);
+      const signature = await sendTransaction(tx, connection);
+      await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
+      return { signature };
+    },
+    [publicKey, sendTransaction, connection]
+  );
+
   const confirmPickup = useCallback(
     async (params: { orderId: string; codeA: string }) => {
       if (!publicKey || !sendTransaction) throw new Error('Wallet not connected');
@@ -313,5 +346,5 @@ export function useEscrow() {
     [publicKey, sendTransaction, connection]
   );
 
-  return { createOrder, contributeToOrder, confirmPickup, confirmDelivery };
+  return { createOrder, contributeToOrder, acceptOrder, confirmPickup, confirmDelivery };
 }

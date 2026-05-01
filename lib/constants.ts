@@ -59,13 +59,22 @@ export function fromTokenAmount(lamports: number): number {
 }
 
 // Instruction discriminators (Anchor sha256("global:<snake_case_name>")[..8]).
-// Names match the on-chain handler exactly:
-//   create_order, contribute_to_order, mark_ready_for_pickup,
-//   confirm_pickup, confirm_delivery
+// Escrow program: create_order, contribute_to_order, accept_order,
+//   mark_ready_for_pickup, confirm_pickup, confirm_delivery
+// Registry program: register
 export const DISCRIMINATORS = {
   createOrder:        Buffer.from([141,  54,  37, 207, 237, 210, 250, 215]),
   contribute:         Buffer.from([206,   3, 153, 116, 116, 195,  16,  23]),
+  acceptOrder:        Buffer.from([118, 157,  62,  39, 239, 234, 231, 193]),
   markReadyForPickup: Buffer.from([136,  90, 147,   6, 135,  88,  15, 125]),
   confirmPickup:      Buffer.from([ 37,   5, 149, 215,  41,  79, 248,  82]),
   confirmDelivery:    Buffer.from([ 11, 109, 227,  53, 179, 190,  88, 155]),
+  register:           Buffer.from([211, 124,  67,  15, 211, 194, 178, 240]),
 };
+
+// Registry Role enum (matches on-chain: Restaurant=0, Driver=1, Customer=2)
+export const REGISTRY_ROLE = {
+  Restaurant: 0,
+  Driver:     1,
+  Customer:   2,
+} as const;

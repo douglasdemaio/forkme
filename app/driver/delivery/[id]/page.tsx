@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { QRScanner } from '@/components/qr-scanner';
 import { OrderStatusBadge } from '@/components/order-status-badge';
 import { useEscrow } from '@/hooks/useEscrow';
+import { useRegistry } from '@/hooks/useRegistry';
 import { useWalletAuth } from '@/hooks/useWalletAuth';
 import { api } from '@/lib/api';
 import type { OrderData } from '@/lib/types';
@@ -14,7 +15,9 @@ export default function DeliveryPage() {
   const router = useRouter();
   const { t } = useTranslation();
   const { authenticate, token } = useWalletAuth();
-  const { confirmPickup } = useEscrow();
+  const { acceptOrder, confirmPickup } = useEscrow();
+  const { ensureProfile } = useRegistry();
+  const [accepting, setAccepting] = useState(false);
   const [order, setOrder] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
   const [scanning, setScanning] = useState<'pickup' | 'delivery' | null>(null);
@@ -46,6 +49,25 @@ export default function DeliveryPage() {
       setMessage('Order accepted! Go pick it up.');
     } catch (e: any) { setError(e.message); }
     finally { setActionLoading(false); }
+  };
+
+  // Driver claims the order on-chain (chain Funded → Preparing) and
+  // registers their driver profile if it doesn't exist yet. This must
+  // happen before the restaurant can sign mark_ready_for_pickup.
+  const handleConfirmTrip = async () => {
+    setAccepting(true);
+    setError(null);
+    try {
+      await ensureAuth();
+      await ensureProfile({ role: 'Driver' });
+      await acceptOrder({ orderId: id });
+      setMessage('Trip confirmed on-chain. Restaurant can now mark the order ready.');
+      await load();
+    } catch (e: any) {
+      setError(e.message || 'Failed to confirm trip');
+    } finally {
+      setAccepting(false);
+    }
   };
 
   const handleScanResult = async (code: string) => {
@@ -145,6 +167,20 @@ export default function DeliveryPage() {
               <p className="text-white font-semibold mt-2">{t('driver.assignedWaiting')}</p>
               <p className="text-dark-400 text-sm mt-1">{t('driver.assignedWaitingDesc')}</p>
             </div>
+            <button
+              onClick={handleConfirmTrip}
+              disabled={accepting}
+              className="w-full mt-3 py-3 bg-brand-500 text-dark-950 rounded-xl font-bold hover:bg-brand-400 transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+            >
+              {accepting ? (
+                <><div className="w-5 h-5 border-2 border-dark-950 border-t-transparent rounded-full animate-spin" /> Confirming…</>
+              ) : (
+                <>Confirm trip on-chain</>
+              )}
+            </button>
+            <p className="text-dark-500 text-xs mt-2 text-center">
+              Signs accept_order so the restaurant can mark the order ready.
+            </p>
             {order.codeA && (
               <div className="bg-dark-800 rounded-xl px-4 py-3 flex items-center justify-between mt-3">
                 <span className="text-dark-300 text-sm">{t('driver.pickupCodeLabel')}</span>
