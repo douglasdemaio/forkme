@@ -222,6 +222,39 @@ export function useEscrow() {
     [publicKey, sendTransaction, connection]
   );
 
+  const confirmPickup = useCallback(
+    async (params: { orderId: string; codeA: string }) => {
+      if (!publicKey || !sendTransaction) throw new Error('Wallet not connected');
+
+      const orderIdBuf = orderIdToLeBytes(params.orderId);
+      const orderPda = deriveOrderPda(orderIdBuf);
+
+      // Borsh-encode code_a as a String: 4-byte length (u32 LE) + UTF-8 bytes
+      const codeABytes = Buffer.from(params.codeA, 'utf8');
+      const data = Buffer.alloc(8 + 4 + codeABytes.length);
+      DISCRIMINATORS.confirmPickup.copy(data, 0);
+      data.writeUInt32LE(codeABytes.length, 8);
+      codeABytes.copy(data, 12);
+
+      // ConfirmPickup struct: order (mut), driver (signer)
+      const ix = new TransactionInstruction({
+        keys: [
+          { pubkey: orderPda,  isSigner: false, isWritable: true },
+          { pubkey: publicKey, isSigner: true,  isWritable: false },
+        ],
+        programId: ESCROW_PROGRAM_ID,
+        data,
+      });
+
+      const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+      const tx = new Transaction({ recentBlockhash: blockhash, feePayer: publicKey }).add(ix);
+      const signature = await sendTransaction(tx, connection);
+      await connection.confirmTransaction({ signature, blockhash, lastValidBlockHeight }, 'confirmed');
+      return { signature };
+    },
+    [publicKey, sendTransaction, connection]
+  );
+
   const confirmDelivery = useCallback(
     async (params: {
       orderId: string;
@@ -280,5 +313,5 @@ export function useEscrow() {
     [publicKey, sendTransaction, connection]
   );
 
-  return { createOrder, contributeToOrder, confirmDelivery };
+  return { createOrder, contributeToOrder, confirmPickup, confirmDelivery };
 }

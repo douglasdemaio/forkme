@@ -108,8 +108,11 @@ class ApiClient {
     return this.req<{ valid: boolean }>(`/api/orders/${orderId}/verify-pickup`, { method: 'POST', body: JSON.stringify({ code }) });
   }
 
-  verifyDelivery(orderId: string, code: string) {
-    return this.req<{ valid: boolean; settleTxSignature?: string }>(`/api/orders/${orderId}/verify-delivery`, { method: 'POST', body: JSON.stringify({ code }) });
+  verifyDelivery(orderId: string, code: string, txSignature?: string) {
+    return this.req<{ valid: boolean; settleTxSignature?: string }>(`/api/orders/${orderId}/verify-delivery`, {
+      method: 'POST',
+      body: JSON.stringify(txSignature ? { code, txSignature } : { code }),
+    });
   }
 
   getFunding(orderId: string) {

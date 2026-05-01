@@ -60,9 +60,12 @@ export function fromTokenAmount(lamports: number): number {
 
 // Instruction discriminators (Anchor sha256("global:<snake_case_name>")[..8]).
 // Names match the on-chain handler exactly:
-//   create_order, contribute_to_order, confirm_delivery
+//   create_order, contribute_to_order, mark_ready_for_pickup,
+//   confirm_pickup, confirm_delivery
 export const DISCRIMINATORS = {
-  createOrder:     Buffer.from([141,  54,  37, 207, 237, 210, 250, 215]),
-  contribute:      Buffer.from([206,   3, 153, 116, 116, 195,  16,  23]),
-  confirmDelivery: Buffer.from([ 11, 109, 227,  53, 179, 190,  88, 155]),
+  createOrder:        Buffer.from([141,  54,  37, 207, 237, 210, 250, 215]),
+  contribute:         Buffer.from([206,   3, 153, 116, 116, 195,  16,  23]),
+  markReadyForPickup: Buffer.from([136,  90, 147,   6, 135,  88,  15, 125]),
+  confirmPickup:      Buffer.from([ 37,   5, 149, 215,  41,  79, 248,  82]),
+  confirmDelivery:    Buffer.from([ 11, 109, 227,  53, 179, 190,  88, 155]),
 };

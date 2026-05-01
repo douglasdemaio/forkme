@@ -6,6 +6,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import { OrderStatusBadge } from '@/components/order-status-badge';
 import { FundingProgress } from '@/components/funding-progress';
 import { QRDisplay } from '@/components/qr-display';
+import { useEscrow } from '@/hooks/useEscrow';
 import { api } from '@/lib/api';
 import type { OrderData, DriverProfile } from '@/lib/types';
 
@@ -20,6 +21,7 @@ export default function OrderPage() {
   const router = useRouter();
   const { t } = useTranslation();
   const { publicKey } = useWallet();
+  const { confirmDelivery } = useEscrow();
   const [order, setOrder] = useState<OrderData | null>(null);
   const [driverProfile, setDriverProfile] = useState<DriverProfile | null>(null);
   const [ratingDismissed, setRatingDismissed] = useState(false);
@@ -32,6 +34,8 @@ export default function OrderPage() {
   const [showQR, setShowQR] = useState(false);
   const [showShareQR, setShowShareQR] = useState(true);
   const [showInvoice, setShowInvoice] = useState(false);
+  const [confirmingDelivery, setConfirmingDelivery] = useState(false);
+  const [confirmError, setConfirmError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -78,6 +82,39 @@ export default function OrderPage() {
     const token = shareLink.split('/').filter(Boolean).pop() ?? shareLink;
     return `${window.location.origin}/order/${id}/contribute?link=${encodeURIComponent(token)}`;
   })();
+
+  const handleConfirmDelivery = async () => {
+    if (!order || !order.codeB) return;
+    if (!order.driverWallet) {
+      setConfirmError('No driver assigned yet');
+      return;
+    }
+    const restaurantWallet = order.restaurant?.wallet;
+    if (!restaurantWallet) {
+      setConfirmError('Restaurant wallet missing');
+      return;
+    }
+    setConfirmingDelivery(true);
+    setConfirmError(null);
+    try {
+      const currency = (order.restaurant?.currency === 'EURC' ? 'EURC' : 'USDC') as 'USDC' | 'EURC';
+      const { signature } = await confirmDelivery({
+        orderId: order.id,
+        restaurantWallet,
+        driverWallet: order.driverWallet,
+        codeB: order.codeB,
+        currency,
+      });
+      // Persist the on-chain signature and flip DB to Settled (idempotent —
+      // safe even if a driver scan already moved DB ahead of chain).
+      await api.verifyDelivery(order.id, order.codeB, signature);
+      await load();
+    } catch (e: any) {
+      setConfirmError(e.message || 'Failed to confirm delivery');
+    } finally {
+      setConfirmingDelivery(false);
+    }
+  };
 
   const handleShare = async () => {
     try {
@@ -172,12 +209,33 @@ export default function OrderPage() {
         </div>
       )}
 
-      {/* Delivery code */}
+      {/* Delivery confirmation — customer signs confirm_delivery on-chain to release escrow */}
       {order.status === 'PickedUp' && order.codeB && (
         <div className="bg-dark-900 rounded-2xl p-5 mb-4">
-          <h3 className="text-white font-semibold mb-3">Your Delivery Code</h3>
-          <p className="text-dark-300 text-sm mb-3">Show this to the driver when your food arrives</p>
-          <QRDisplay value={order.codeB} label="Delivery confirmation code" />
+          <h3 className="text-white font-semibold mb-1">Confirm Delivery</h3>
+          <p className="text-dark-300 text-sm mb-4">
+            When your food arrives, tap below to release {order.escrowTarget.toFixed(2)} {currency} from escrow to the restaurant and driver.
+          </p>
+          <button
+            onClick={handleConfirmDelivery}
+            disabled={confirmingDelivery || !publicKey}
+            className="w-full py-4 bg-brand-500 text-dark-950 rounded-2xl font-bold hover:bg-brand-400 transition-colors disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {confirmingDelivery ? (
+              <><div className="w-5 h-5 border-2 border-dark-950 border-t-transparent rounded-full animate-spin" /> Confirming…</>
+            ) : (
+              <>I received my order</>
+            )}
+          </button>
+          {confirmError && (
+            <p className="text-red-400 text-sm mt-3">{confirmError}</p>
+          )}
+          <details className="mt-4">
+            <summary className="text-dark-400 text-xs cursor-pointer hover:text-dark-300">Show code for driver to scan</summary>
+            <div className="mt-3">
+              <QRDisplay value={order.codeB} label="Delivery confirmation code" />
+            </div>
+          </details>
         </div>
       )}
 

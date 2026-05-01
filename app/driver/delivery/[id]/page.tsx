@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { QRScanner } from '@/components/qr-scanner';
 import { OrderStatusBadge } from '@/components/order-status-badge';
+import { useEscrow } from '@/hooks/useEscrow';
 import { useWalletAuth } from '@/hooks/useWalletAuth';
 import { api } from '@/lib/api';
 import type { OrderData } from '@/lib/types';
@@ -13,6 +14,7 @@ export default function DeliveryPage() {
   const router = useRouter();
   const { t } = useTranslation();
   const { authenticate, token } = useWalletAuth();
+  const { confirmPickup } = useEscrow();
   const [order, setOrder] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
   const [scanning, setScanning] = useState<'pickup' | 'delivery' | null>(null);
@@ -53,13 +55,22 @@ export default function DeliveryPage() {
     try {
       await ensureAuth();
       if (scanning === 'pickup') {
+        // Driver signs confirm_pickup on-chain (advances chain
+        // ReadyForPickup → PickedUp). The DB then mirrors the transition
+        // via verify-pickup. The on-chain call must succeed first — if the
+        // chain isn't in ReadyForPickup, the DB shouldn't move either.
+        await confirmPickup({ orderId: id, codeA: code });
         const { valid } = await api.verifyPickup(id, code);
         if (!valid) throw new Error('Invalid pickup code');
         setMessage('Pickup verified! Deliver to customer.');
       } else {
+        // Delivery confirmation should be customer-initiated on-chain
+        // (confirm_delivery requires the customer's signature). The driver
+        // can scan codeB as a fallback that flips DB only — funds will
+        // settle when the customer confirms on their order page.
         const { valid } = await api.verifyDelivery(id, code);
         if (!valid) throw new Error('Invalid delivery code');
-        setMessage('🎉 Delivery confirmed! Payment released.');
+        setMessage('Delivery code matched. Awaiting customer on-chain confirm to release funds.');
         setTimeout(() => router.push('/driver'), 3000);
       }
       await load();
