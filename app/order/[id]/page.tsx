@@ -30,6 +30,7 @@ export default function OrderPage() {
   const [shareLink, setShareLink] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const [showShareQR, setShowShareQR] = useState(true);
   const [showInvoice, setShowInvoice] = useState(false);
 
   const load = useCallback(async () => {
@@ -58,20 +59,35 @@ export default function OrderPage() {
     return () => clearInterval(interval);
   }, [order, load]);
 
+  // Auto-generate the share link when the order has outstanding balance to
+  // collect, so the QR is ready immediately after a split checkout.
+  useEffect(() => {
+    if (!order || shareLink) return;
+    const shareable = ['Created', 'Funded'].includes(order.status);
+    const hasGap = order.escrowFunded < order.escrowTarget;
+    if (!shareable || !hasGap) return;
+    api.generateShareLink(id).then(({ shareLink: sl }) => setShareLink(sl)).catch(() => {});
+  }, [order, shareLink, id]);
+
+  // The DB stores `shareLink` as a full URL like
+  // `http://localhost:3000/order/<token>`. We want only the trailing token
+  // in the contribute URL — embedding the whole URL produces unencoded
+  // slashes that break the downstream `/api/orders/share/<token>` route.
+  const shareUrl = (() => {
+    if (!shareLink || typeof window === 'undefined') return null;
+    const token = shareLink.split('/').filter(Boolean).pop() ?? shareLink;
+    return `${window.location.origin}/order/${id}/contribute?link=${encodeURIComponent(token)}`;
+  })();
+
   const handleShare = async () => {
     try {
-      let link = shareLink;
-      if (!link) {
+      let url = shareUrl;
+      if (!url) {
         const { shareLink: sl } = await api.generateShareLink(id);
         setShareLink(sl);
-        link = sl;
+        const token = sl.split('/').filter(Boolean).pop() ?? sl;
+        url = `${window.location.origin}/order/${id}/contribute?link=${encodeURIComponent(token)}`;
       }
-      // The DB stores `shareLink` as a full URL like
-      // `http://localhost:3000/order/<token>`. We want only the trailing token
-      // in the contribute URL — embedding the whole URL produces unencoded
-      // slashes that break the downstream `/api/orders/share/<token>` route.
-      const token = link.split('/').filter(Boolean).pop() ?? link;
-      const url = `${window.location.origin}/order/${id}/contribute?link=${encodeURIComponent(token)}`;
       await navigator.clipboard.writeText(url);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -276,16 +292,35 @@ export default function OrderPage() {
         </div>
       )}
 
-      {/* Split bill */}
-      {['Created', 'Funded'].includes(order.status) && (
-        <button onClick={handleShare}
-          className="w-full py-4 bg-dark-900 border border-dark-700 text-white rounded-2xl font-medium hover:bg-dark-800 transition-colors flex items-center justify-center gap-2">
-          {copied ? (
-            <><span className="text-green-400">✓</span> {t('common.copied')}</>
-          ) : (
-            <><span>🔗</span> {t('order.copyLink')}</>
+      {/* Split bill — share link + QR for friends to chip in on the remaining balance */}
+      {['Created', 'Funded'].includes(order.status) && order.escrowFunded < order.escrowTarget && (
+        <div className="bg-dark-900 rounded-2xl p-5 mb-4">
+          <h3 className="text-white font-semibold mb-1">Split with friends</h3>
+          <p className="text-dark-400 text-sm mb-4">
+            Remaining {(order.escrowTarget - order.escrowFunded).toFixed(2)} {currency} — share this link or QR for friends to contribute.
+          </p>
+          {shareUrl && showShareQR && (
+            <div className="mb-4">
+              <QRDisplay value={shareUrl} label="Scan to chip in" />
+            </div>
           )}
-        </button>
+          <div className="flex gap-2">
+            <button onClick={handleShare}
+              className="flex-1 py-3 bg-dark-800 border border-dark-700 text-white rounded-xl font-medium hover:bg-dark-700 transition-colors flex items-center justify-center gap-2">
+              {copied ? (
+                <><span className="text-green-400">✓</span> {t('common.copied')}</>
+              ) : (
+                <><span>🔗</span> {t('order.copyLink')}</>
+              )}
+            </button>
+            {shareUrl && (
+              <button onClick={() => setShowShareQR(!showShareQR)}
+                className="px-4 py-3 bg-dark-800 border border-dark-700 text-white rounded-xl font-medium hover:bg-dark-700 transition-colors">
+                {showShareQR ? 'Hide QR' : 'Show QR'}
+              </button>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );
