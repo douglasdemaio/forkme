@@ -10,7 +10,7 @@ import { useAppStore } from '@/store/app-store';
 import { useEscrow } from '@/hooks/useEscrow';
 import { useWalletAuth } from '@/hooks/useWalletAuth';
 import { api } from '@/lib/api';
-import { USDC_MINT, EURC_MINT } from '@/lib/constants';
+import { USDC_MINT, PYUSD_MINT, EURC_MINT } from '@/lib/constants';
 import type { RestaurantData } from '@/lib/types';
 
 export default function CartPage() {
@@ -37,7 +37,12 @@ export default function CartPage() {
     api.getRestaurant(cartRestaurantId).then(setRestaurant).catch(() => {});
   }, [cartRestaurantId]);
 
-  const currency = (restaurant?.currency === 'EURC' ? 'EURC' : 'USDC') as 'USDC' | 'EURC';
+  const currency = ((): 'USDC' | 'PYUSD' | 'EURC' => {
+    const c = restaurant?.currency?.toUpperCase();
+    if (c === 'PYUSD') return 'PYUSD';
+    if (c === 'EURC')  return 'EURC';
+    return 'USDC';
+  })();
   const total = cartTotal();
 
   if (cart.length === 0) {
@@ -61,7 +66,10 @@ export default function CartPage() {
       if (!jwt) jwt = await authenticate();
       if (!jwt) throw new Error('Authentication failed');
 
-      const tokenMint = currency === 'EURC' ? EURC_MINT.toBase58() : USDC_MINT.toBase58();
+      const tokenMint =
+        currency === 'PYUSD' ? PYUSD_MINT.toBase58() :
+        currency === 'EURC'  ? EURC_MINT.toBase58() :
+                               USDC_MINT.toBase58();
       const orderPayload = {
         restaurantId: cartRestaurantId!,
         items: cart.map((i) => ({ menuItemId: i.id, quantity: i.quantity })),

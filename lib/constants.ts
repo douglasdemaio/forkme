@@ -12,9 +12,10 @@ export const LOYALTY_PROGRAM_ID = new PublicKey(
 
 export const TREASURY_WALLET = new PublicKey('BiP5PJuUiXPYCFx98RMCGCnRhdUVrkxSke9C6y2ZohQ9');
 
-// Token mints (devnet)
+// Token mints (USDC + PYUSD on devnet; EURC mainnet only).
 export const USDC_MINT = new PublicKey('4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU');
-export const EURC_MINT = new PublicKey('CXk2AMBfi3TwaEL2468s6zP8xq9NxTXjp9gjMgzeUynM');
+export const PYUSD_MINT = new PublicKey('CXk2AMBfi3TwaEL2468s6zP8xq9NxTXjp9gjMgzeUynM');
+export const EURC_MINT = new PublicKey('HzwqbKZw8HxMN6bF2yFZNrht3c2iXXzpKcFu7uBEDKtr');
 
 export const TOKEN_DECIMALS = 6;
 export const MAX_CONTRIBUTORS = 10;
@@ -45,7 +46,8 @@ export function resolveImageUrl(path: string | null | undefined): string | undef
 
 export function getMintForCurrency(currency: string): PublicKey {
   switch (currency?.toUpperCase()) {
-    case 'EURC': return EURC_MINT;
+    case 'PYUSD': return PYUSD_MINT;
+    case 'EURC':  return EURC_MINT;
     default:      return USDC_MINT;
   }
 }

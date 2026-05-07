@@ -12,7 +12,8 @@ import type { OrderData, DriverProfile } from '@/lib/types';
 
 function tokenLabel(mint: string | null) {
   if (!mint) return 'USDC';
-  if (mint.startsWith('CXk2')) return 'EURC';
+  if (mint.startsWith('CXk2')) return 'PYUSD';
+  if (mint.startsWith('Hzwq')) return 'EURC';
   return 'USDC';
 }
 
@@ -97,7 +98,12 @@ export default function OrderPage() {
     setConfirmingDelivery(true);
     setConfirmError(null);
     try {
-      const currency = (order.restaurant?.currency === 'EURC' ? 'EURC' : 'USDC') as 'USDC' | 'EURC';
+      const currency = ((): 'USDC' | 'PYUSD' | 'EURC' => {
+        const c = order.restaurant?.currency?.toUpperCase();
+        if (c === 'PYUSD') return 'PYUSD';
+        if (c === 'EURC')  return 'EURC';
+        return 'USDC';
+      })();
       const { signature } = await confirmDelivery({
         orderId: order.id,
         restaurantWallet,
