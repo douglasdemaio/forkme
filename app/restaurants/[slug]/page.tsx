@@ -20,6 +20,7 @@ export default function RestaurantPage() {
   const [menu, setMenu] = useState<MenuItemData[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>('');
+  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -85,6 +86,9 @@ export default function RestaurantPage() {
           </div>
         </div>
 
+        {/* Featured slot reserved for promoted item (follow-up spec) */}
+        <div data-featured-slot aria-hidden="true" />
+
         {/* Category tabs */}
         {categories.length > 1 && (
           <div className="flex gap-2 mt-6 overflow-x-auto pb-1 no-scrollbar">
@@ -100,7 +104,7 @@ export default function RestaurantPage() {
         )}
 
         {/* Menu */}
-        <div className="mt-6 space-y-4">
+        <div className="mt-6 space-y-3">
           {(activeCategory
             ? menu.filter((i) => i.category === activeCategory)
             : menu
@@ -110,6 +114,10 @@ export default function RestaurantPage() {
               item={item}
               currency={restaurant.currency}
               qty={getQty(item.id)}
+              expanded={expandedId === item.id}
+              onToggle={() =>
+                setExpandedId((prev) => (prev === item.id ? null : item.id))
+              }
               onAdd={() => addToCart(item, restaurant.id)}
               onRemove={() => {
                 const qty = getQty(item.id);
