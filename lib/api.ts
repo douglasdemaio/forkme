@@ -65,10 +65,10 @@ class ApiClient {
     return raw.orders ?? [];
   }
 
-  placeBid(orderId: string, offerAmount?: number) {
-    return this.req<{ bid: DriverBid; autoAssigned: boolean }>(`/api/orders/${orderId}/bids`, {
+  placeBid(orderId: string, offerAmount: number) {
+    return this.req<{ bid: DriverBid }>(`/api/orders/${orderId}/bids`, {
       method: 'POST',
-      body: JSON.stringify(offerAmount !== undefined ? { offerAmount } : {}),
+      body: JSON.stringify({ offerAmount }),
     });
   }
 

@@ -312,6 +312,9 @@ export function useEscrow() {
       const restaurantAta = await getAssociatedTokenAddress(mint, restaurantPubkey, false, tokenProgram);
       const driverAta     = await getAssociatedTokenAddress(mint, driverPubkey, false, tokenProgram);
       const treasuryAta   = await getAssociatedTokenAddress(mint, TREASURY_WALLET, false, tokenProgram);
+      // Customer's ATA — receives any escrow surplus when the accepted bid
+      // was below the posted delivery fee. Customer is the signer (publicKey).
+      const customerAta   = await getAssociatedTokenAddress(mint, publicKey, false, tokenProgram);
 
       // Borsh-encode code_b as a String: 4-byte length (u32 LE) followed by UTF-8 bytes
       const codeBBytes = Buffer.from(params.codeB, 'utf8');
@@ -330,7 +333,8 @@ export function useEscrow() {
           { pubkey: restaurantAta,    isSigner: false, isWritable: true  }, // restaurant_token_account
           { pubkey: driverAta,        isSigner: false, isWritable: true  }, // driver_token_account
           { pubkey: treasuryAta,      isSigner: false, isWritable: true  }, // treasury_token_account
-          { pubkey: publicKey,        isSigner: true,  isWritable: false }, // customer
+          { pubkey: customerAta,      isSigner: false, isWritable: true  }, // customer_token_account (refund target)
+          { pubkey: publicKey,        isSigner: true,  isWritable: false }, // customer (signer)
           { pubkey: tokenProgram,     isSigner: false, isWritable: false }, // token_program
         ],
         programId: ESCROW_PROGRAM_ID,

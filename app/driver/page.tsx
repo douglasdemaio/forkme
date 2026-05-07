@@ -65,13 +65,10 @@ export default function DriverPage() {
     try {
       if (!token) await authenticate();
       const raw = offerAmounts[orderId];
-      const offerAmount = raw ? parseFloat(raw) : undefined;
-      const { autoAssigned } = await api.placeBid(orderId, offerAmount);
-      if (autoAssigned) {
-        setMessage(t('driver.bidAutoAssigned'));
-        router.push(`/driver/delivery/${orderId}`);
-        return;
-      }
+      const order = orders.find((o) => o.id === orderId);
+      const fallback = order?.deliveryFee ?? 0;
+      const offerAmount = raw && parseFloat(raw) > 0 ? parseFloat(raw) : fallback;
+      await api.placeBid(orderId, offerAmount);
       setMessage(t('driver.bidPlaced'));
       setExpandedOffer(null);
       await load();
@@ -242,11 +239,14 @@ export default function DriverPage() {
 
                 {expandedOffer === order.id ? (
                   <div className="mt-3 space-y-2">
-                    <label className="block text-dark-300 text-xs">{t('driver.offerAmount')} ({currency})</label>
+                    <label className="block text-dark-300 text-xs">
+                      {t('driver.offerAmount')} ({currency}) — Max {order.deliveryFee.toFixed(2)}
+                    </label>
                     <input
                       type="number"
                       step="0.01"
                       min="0"
+                      max={order.deliveryFee}
                       value={offerVal}
                       onChange={(e) => setOfferAmounts((prev) => ({ ...prev, [order.id]: e.target.value }))}
                       className="w-full bg-dark-800 border border-dark-700 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-brand-500 transition-colors"
@@ -261,7 +261,11 @@ export default function DriverPage() {
                       </button>
                       <button
                         onClick={() => handleSubmitOffer(order.id)}
-                        disabled={submitting === order.id}
+                        disabled={
+                          submitting === order.id ||
+                          parseFloat(offerVal) <= 0 ||
+                          parseFloat(offerVal) > order.deliveryFee
+                        }
                         className="flex-1 py-2 bg-brand-500 text-dark-950 rounded-xl text-xs font-bold hover:bg-brand-400 transition-colors disabled:opacity-60"
                       >
                         {submitting === order.id ? '…' : t('driver.submitOffer')}
