@@ -102,6 +102,13 @@
       "close": "关闭",
       "copied": "已复制！",
       "success": "成功"
+    },
+    "merchant": {
+      "label": {
+        "restaurant": "餐厅",
+        "home_cook": "厨房",
+        "retail": "商店"
+      }
     }
   }
 }

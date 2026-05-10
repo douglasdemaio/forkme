@@ -102,6 +102,13 @@
       "close": "Fechar",
       "copied": "Copiado!",
       "success": "Sucesso"
+    },
+    "merchant": {
+      "label": {
+        "restaurant": "Restaurante",
+        "home_cook": "Cozinha",
+        "retail": "Loja"
+      }
     }
   }
 }

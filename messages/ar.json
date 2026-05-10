@@ -102,6 +102,13 @@
       "close": "إغلاق",
       "copied": "تم النسخ!",
       "success": "نجاح"
+    },
+    "merchant": {
+      "label": {
+        "restaurant": "مطعم",
+        "home_cook": "مطبخ",
+        "retail": "متجر"
+      }
     }
   }
 }

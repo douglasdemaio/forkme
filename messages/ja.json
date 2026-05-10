@@ -102,6 +102,13 @@
       "close": "閉じる",
       "copied": "コピーしました！",
       "success": "成功"
+    },
+    "merchant": {
+      "label": {
+        "restaurant": "レストラン",
+        "home_cook": "キッチン",
+        "retail": "ショップ"
+      }
     }
   }
 }

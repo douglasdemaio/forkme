@@ -135,6 +135,13 @@
       "close": "Close",
       "copied": "Copied!",
       "success": "Success"
+    },
+    "merchant": {
+      "label": {
+        "restaurant": "Restaurant",
+        "home_cook": "Kitchen",
+        "retail": "Shop"
+      }
     }
   }
 }

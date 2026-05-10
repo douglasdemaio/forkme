@@ -102,6 +102,13 @@
       "close": "Kapat",
       "copied": "Kopyalandı!",
       "success": "Başarılı"
+    },
+    "merchant": {
+      "label": {
+        "restaurant": "Restoran",
+        "home_cook": "Mutfak",
+        "retail": "Mağaza"
+      }
     }
   }
 }

@@ -102,6 +102,13 @@
       "close": "닫기",
       "copied": "복사됨!",
       "success": "성공"
+    },
+    "merchant": {
+      "label": {
+        "restaurant": "음식점",
+        "home_cook": "주방",
+        "retail": "상점"
+      }
     }
   }
 }
