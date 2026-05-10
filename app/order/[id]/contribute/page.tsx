@@ -58,7 +58,7 @@ export default function ContributePage() {
         orderId: order.id,
         escrowPda: order.onChainOrderId,
         amount: contrib,
-        currency: order.restaurant?.currency ?? 'USDC',
+        currency: order.merchant?.currency ?? 'USDC',
       });
 
       await api.recordContribution(order.id, {
@@ -80,7 +80,7 @@ export default function ContributePage() {
     return <div className="flex justify-center items-center min-h-screen"><div className="w-10 h-10 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" /></div>;
   }
 
-  const currency = order.restaurant?.currency ?? 'USDC';
+  const currency = order.merchant?.currency ?? 'USDC';
   const remaining = Math.max(0, order.escrowTarget - order.escrowFunded);
 
   return (
@@ -89,7 +89,7 @@ export default function ContributePage() {
         <span className="text-4xl">🤝</span>
         <h1 className="text-2xl font-bold text-white mt-3">Chip In</h1>
         <p className="text-dark-300 mt-1">
-          {order.restaurant?.name && `Help fund an order from ${order.restaurant.name}`}
+          {order.merchant?.name && `Help fund an order from ${order.merchant.name}`}
         </p>
       </div>
 

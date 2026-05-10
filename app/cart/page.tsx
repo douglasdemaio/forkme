@@ -11,7 +11,7 @@ import { useEscrow } from '@/hooks/useEscrow';
 import { useWalletAuth } from '@/hooks/useWalletAuth';
 import { api } from '@/lib/api';
 import { USDC_MINT, PYUSD_MINT, EURC_MINT } from '@/lib/constants';
-import type { RestaurantData } from '@/lib/types';
+import type { MerchantData } from '@/lib/types';
 
 export default function CartPage() {
   const { t } = useTranslation();
@@ -19,12 +19,12 @@ export default function CartPage() {
   const { connected, publicKey } = useWallet();
   const { authenticate, token } = useWalletAuth();
   const { createOrder } = useEscrow();
-  const { cart, cartTotal, cartRestaurantId, updateQty, removeFromCart, clearCart } = useAppStore();
+  const { cart, cartTotal, cartMerchantId, updateQty, removeFromCart, clearCart } = useAppStore();
 
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
-  const [restaurant, setRestaurant] = useState<RestaurantData | null>(null);
+  const [merchant, setMerchant] = useState<MerchantData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // Split-with-friends: pay only part of the order now and let contributors fund the rest
@@ -33,12 +33,12 @@ export default function CartPage() {
   const [shareAmount, setShareAmount] = useState('');
 
   useEffect(() => {
-    if (!cartRestaurantId) return;
-    api.getRestaurant(cartRestaurantId).then(setRestaurant).catch(() => {});
-  }, [cartRestaurantId]);
+    if (!cartMerchantId) return;
+    api.getMerchant(cartMerchantId).then(setMerchant).catch(() => {});
+  }, [cartMerchantId]);
 
   const currency = ((): 'USDC' | 'PYUSD' | 'EURC' => {
-    const c = restaurant?.currency?.toUpperCase();
+    const c = merchant?.currency?.toUpperCase();
     if (c === 'PYUSD') return 'PYUSD';
     if (c === 'EURC')  return 'EURC';
     return 'USDC';
@@ -51,7 +51,7 @@ export default function CartPage() {
         <span className="text-6xl mb-4">🛒</span>
         <p className="text-dark-300 text-lg">{t('cart.empty')}</p>
         <Link href="/" className="mt-6 px-6 py-3 bg-brand-500 text-dark-950 rounded-2xl font-semibold hover:bg-brand-400 transition-colors">
-          Browse restaurants
+          Browse merchants
         </Link>
       </div>
     );
@@ -71,7 +71,7 @@ export default function CartPage() {
         currency === 'EURC'  ? EURC_MINT.toBase58() :
                                USDC_MINT.toBase58();
       const orderPayload = {
-        restaurantId: cartRestaurantId!,
+        merchantId: cartMerchantId!,
         items: cart.map((i) => ({ menuItemId: i.id, quantity: i.quantity })),
         tokenMint,
         deliveryAddress: [street, city, country].filter(Boolean).join(', ') || undefined,
@@ -89,8 +89,8 @@ export default function CartPage() {
         }
       }
 
-      const rest = order.restaurant;
-      if (!rest?.wallet) throw new Error('Restaurant wallet not found');
+      const rest = order.merchant;
+      if (!rest?.wallet) throw new Error('Merchant wallet not found');
 
       // Determine initial contribution: full target by default, or the user's
       // chosen share if "split with friends" is enabled. Always > 0 (the on-chain
@@ -107,7 +107,7 @@ export default function CartPage() {
 
       const { signature, orderPda } = await createOrder({
         orderId: order.id,
-        restaurantWallet: rest.wallet,
+        merchantWallet: rest.wallet,
         foodAmount: order.foodTotal,
         deliveryAmount: order.deliveryFee,
         initialContribution,
@@ -179,7 +179,7 @@ export default function CartPage() {
           className="w-full bg-dark-900 border border-dark-800 rounded-xl px-4 py-3 text-white placeholder:text-dark-500 focus:outline-none focus:border-brand-500 transition-colors" />
       </div>
 
-      {/* Payment currency — locked to restaurant preference */}
+      {/* Payment currency — locked to merchant preference */}
       <div className="flex items-center justify-between bg-dark-900 rounded-xl px-4 py-3 mb-6">
         <span className="text-dark-300 text-sm">{t('cart.currency')}</span>
         <span className="px-3 py-1 bg-brand-500/20 text-brand-400 rounded-full text-sm font-semibold">

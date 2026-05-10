@@ -9,8 +9,8 @@ interface AppState {
 
   // Cart
   cart: CartItem[];
-  cartRestaurantId: string | null;
-  addToCart: (item: MenuItemData, restaurantId: string) => void;
+  cartMerchantId: string | null;
+  addToCart: (item: MenuItemData, merchantId: string) => void;
   removeFromCart: (id: string) => void;
   updateQty: (id: string, qty: number) => void;
   clearCart: () => void;
@@ -25,15 +25,15 @@ export const useAppStore = create<AppState>()(
       setRole: (role) => set({ role }),
 
       cart: [],
-      cartRestaurantId: null,
+      cartMerchantId: null,
 
-      addToCart: (item, restaurantId) => {
+      addToCart: (item, merchantId) => {
         const state = get();
-        // Clear cart if switching restaurants
-        const cart = state.cartRestaurantId && state.cartRestaurantId !== restaurantId ? [] : state.cart;
+        // Clear cart if switching merchants
+        const cart = state.cartMerchantId && state.cartMerchantId !== merchantId ? [] : state.cart;
         const existing = cart.find((i) => i.id === item.id);
         set({
-          cartRestaurantId: restaurantId,
+          cartMerchantId: merchantId,
           cart: existing
             ? cart.map((i) => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i)
             : [...cart, { ...item, quantity: 1 }],
@@ -42,7 +42,7 @@ export const useAppStore = create<AppState>()(
 
       removeFromCart: (id) => {
         const cart = get().cart.filter((i) => i.id !== id);
-        set({ cart, cartRestaurantId: cart.length === 0 ? null : get().cartRestaurantId });
+        set({ cart, cartMerchantId: cart.length === 0 ? null : get().cartMerchantId });
       },
 
       updateQty: (id, qty) => {
@@ -50,11 +50,11 @@ export const useAppStore = create<AppState>()(
         set({ cart: get().cart.map((i) => i.id === id ? { ...i, quantity: qty } : i) });
       },
 
-      clearCart: () => set({ cart: [], cartRestaurantId: null }),
+      clearCart: () => set({ cart: [], cartMerchantId: null }),
 
       cartTotal: () => get().cart.reduce((s, i) => s + i.price * i.quantity, 0),
       cartCount: () => get().cart.reduce((s, i) => s + i.quantity, 0),
     }),
-    { name: 'forkme-store', partialize: (s) => ({ role: s.role, cart: s.cart, cartRestaurantId: s.cartRestaurantId }) }
+    { name: 'forkme-store', partialize: (s) => ({ role: s.role, cart: s.cart, cartMerchantId: s.cartMerchantId }) }
   )
 );

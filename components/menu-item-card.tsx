@@ -64,7 +64,7 @@ export function MenuItemCard({ item, currency, qty, expanded, onToggle, onAdd, o
             <button
               type="button"
               onClick={onRemove}
-              aria-label={t('restaurant.removeItem', { defaultValue: 'Remove' })}
+              aria-label={t('merchant.removeItem', { defaultValue: 'Remove' })}
               className="w-7 h-7 rounded-full bg-dark-800 text-white flex items-center justify-center hover:bg-dark-700 transition-colors text-base font-bold leading-none"
             >
               −
@@ -73,7 +73,7 @@ export function MenuItemCard({ item, currency, qty, expanded, onToggle, onAdd, o
             <button
               type="button"
               onClick={onAdd}
-              aria-label={t('restaurant.addItem', { defaultValue: 'Add' })}
+              aria-label={t('merchant.addItem', { defaultValue: 'Add' })}
               className="w-7 h-7 rounded-full bg-brand-500 text-dark-950 flex items-center justify-center hover:bg-brand-400 transition-colors text-base font-bold leading-none"
             >
               +
@@ -86,7 +86,7 @@ export function MenuItemCard({ item, currency, qty, expanded, onToggle, onAdd, o
               stop(e);
               onAdd();
             }}
-            aria-label={t('restaurant.addToCart')}
+            aria-label={t('merchant.addToCart')}
             className="w-8 h-8 rounded-full bg-brand-500 text-dark-950 flex items-center justify-center text-lg font-bold leading-none hover:bg-brand-400 transition-colors flex-shrink-0"
           >
             +
@@ -145,7 +145,7 @@ export function MenuItemCard({ item, currency, qty, expanded, onToggle, onAdd, o
             <div className="mt-4">
               {!item.available ? (
                 <div className="text-dark-400 text-sm text-center py-2">
-                  {t('restaurant.unavailable')}
+                  {t('merchant.unavailable')}
                 </div>
               ) : qty > 0 ? (
                 <div className="flex items-center justify-between gap-3">
@@ -176,7 +176,7 @@ export function MenuItemCard({ item, currency, qty, expanded, onToggle, onAdd, o
                   onClick={onAdd}
                   className="w-full py-2.5 px-4 bg-brand-500 text-dark-950 rounded-full text-sm font-semibold hover:bg-brand-400 transition-colors"
                 >
-                  {t('restaurant.addToCart')} · {item.price.toFixed(2)} {currency}
+                  {t('merchant.addToCart')} · {item.price.toFixed(2)} {currency}
                 </button>
               )}
             </div>

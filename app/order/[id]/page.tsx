@@ -90,23 +90,23 @@ export default function OrderPage() {
       setConfirmError('No driver assigned yet');
       return;
     }
-    const restaurantWallet = order.restaurant?.wallet;
-    if (!restaurantWallet) {
-      setConfirmError('Restaurant wallet missing');
+    const merchantWallet = order.merchant?.wallet;
+    if (!merchantWallet) {
+      setConfirmError('Merchant wallet missing');
       return;
     }
     setConfirmingDelivery(true);
     setConfirmError(null);
     try {
       const currency = ((): 'USDC' | 'PYUSD' | 'EURC' => {
-        const c = order.restaurant?.currency?.toUpperCase();
+        const c = order.merchant?.currency?.toUpperCase();
         if (c === 'PYUSD') return 'PYUSD';
         if (c === 'EURC')  return 'EURC';
         return 'USDC';
       })();
       const { signature } = await confirmDelivery({
         orderId: order.id,
-        restaurantWallet,
+        merchantWallet,
         driverWallet: order.driverWallet,
         codeB: order.codeB,
         currency,
@@ -147,7 +147,7 @@ export default function OrderPage() {
 
   if (!order) return null;
 
-  const currency = order.restaurant?.currency ?? tokenLabel(order.tokenMint);
+  const currency = order.merchant?.currency ?? tokenLabel(order.tokenMint);
   const statusLabel = t(`order.status.${order.status}` as any);
   const formattedDate = new Date(order.createdAt).toLocaleString();
 
@@ -157,7 +157,7 @@ export default function OrderPage() {
         <button onClick={() => router.back()} className="text-dark-300 hover:text-white transition-colors">←</button>
         <div>
           <h1 className="text-xl font-bold text-white">Order #{order.id.slice(0, 8)}</h1>
-          {order.restaurant && <p className="text-dark-400 text-sm">{order.restaurant.name}</p>}
+          {order.merchant && <p className="text-dark-400 text-sm">{order.merchant.name}</p>}
         </div>
       </div>
 
@@ -222,7 +222,7 @@ export default function OrderPage() {
         <div className="bg-dark-900 rounded-2xl p-5 mb-4">
           <h3 className="text-white font-semibold mb-1">Confirm Delivery</h3>
           <p className="text-dark-300 text-sm mb-4">
-            When your food arrives, tap below to release {order.escrowTarget.toFixed(2)} {currency} from escrow to the restaurant and driver. (Chain expects status PickedUp — current: {order.status}.)
+            When your food arrives, tap below to release {order.escrowTarget.toFixed(2)} {currency} from escrow to the merchant and driver. (Chain expects status PickedUp — current: {order.status}.)
           </p>
           <button
             onClick={handleConfirmDelivery}
@@ -267,10 +267,10 @@ export default function OrderPage() {
                 <span className="text-dark-400">{t('order.invoiceDate')}</span>
                 <span className="text-white">{formattedDate}</span>
               </div>
-              {order.restaurant && (
+              {order.merchant && (
                 <div className="flex justify-between">
-                  <span className="text-dark-400">Restaurant</span>
-                  <span className="text-white">{order.restaurant.name}</span>
+                  <span className="text-dark-400">Merchant</span>
+                  <span className="text-white">{order.merchant.name}</span>
                 </div>
               )}
               {order.deliveryAddress && (

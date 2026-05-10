@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import type { RestaurantData } from '@/lib/types';
+import type { MerchantData } from '@/lib/types';
 import { resolveImageUrl } from '@/lib/constants';
 
-export function RestaurantCard({ r }: { r: RestaurantData }) {
+export function MerchantCard({ r }: { r: MerchantData }) {
   const accentColor = r.colorPrimary ?? undefined;
   const address = [r.addressStreet, r.addressCity, r.addressCountry].filter(Boolean).join(', ');
 
   return (
-    <Link href={`/restaurants/${r.slug}`}
+    <Link href={`/merchants/${r.slug}`}
       className="block bg-dark-900 rounded-2xl overflow-hidden border border-dark-800 card-hover">
       {r.banner ? (
         <div className="relative h-32 w-full">

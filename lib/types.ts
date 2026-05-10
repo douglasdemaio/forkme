@@ -1,4 +1,4 @@
-export interface RestaurantData {
+export interface MerchantData {
   id: string;
   wallet: string;
   payoutWallet: string | null;
@@ -24,7 +24,7 @@ export interface RestaurantData {
 
 export interface MenuItemData {
   id: string;
-  restaurantId: string;
+  merchantId: string;
   name: string;
   description: string;
   price: number;
@@ -93,7 +93,7 @@ export interface ContributionData {
 
 export interface OrderData {
   id: string;
-  restaurantId: string;
+  merchantId: string;
   customer: { wallet: string };
   items: OrderItem[];
   tokenMint: string | null;
@@ -115,7 +115,7 @@ export interface OrderData {
   createdAt: string;
   updatedAt: string;
   contributions: ContributionData[];
-  restaurant?: {
+  merchant?: {
     id: string;
     name: string;
     slug: string;

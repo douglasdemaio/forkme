@@ -53,7 +53,7 @@ export default function DeliveryPage() {
 
   // Driver claims the order on-chain (chain Funded → Preparing) and
   // registers their driver profile if it doesn't exist yet. This must
-  // happen before the restaurant can sign mark_ready_for_pickup.
+  // happen before the merchant can sign mark_ready_for_pickup.
   const handleConfirmTrip = async () => {
     setAccepting(true);
     setError(null);
@@ -61,7 +61,7 @@ export default function DeliveryPage() {
       await ensureAuth();
       await ensureProfile({ role: 'Driver' });
       await acceptOrder({ orderId: id });
-      setMessage('Trip confirmed on-chain. Restaurant can now mark the order ready.');
+      setMessage('Trip confirmed on-chain. Merchant can now mark the order ready.');
       await load();
     } catch (e: any) {
       setError(e.message || 'Failed to confirm trip');
@@ -104,7 +104,7 @@ export default function DeliveryPage() {
     return <div className="flex justify-center items-center min-h-screen"><div className="w-10 h-10 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" /></div>;
   }
 
-  const currency = order.restaurant?.currency ?? 'USDC';
+  const currency = order.merchant?.currency ?? 'USDC';
 
   return (
     <div className="page">
@@ -116,7 +116,7 @@ export default function DeliveryPage() {
         <button onClick={() => router.push('/driver')} className="text-dark-300 hover:text-white transition-colors">←</button>
         <div>
           <h1 className="text-xl font-bold text-white">Delivery #{order.id.slice(0, 8)}</h1>
-          {order.restaurant && <p className="text-dark-400 text-sm">{order.restaurant.name}</p>}
+          {order.merchant && <p className="text-dark-400 text-sm">{order.merchant.name}</p>}
         </div>
       </div>
 
@@ -182,7 +182,7 @@ export default function DeliveryPage() {
               )}
             </button>
             <p className="text-dark-500 text-xs mt-2 text-center">
-              Signs accept_order so the restaurant can mark the order ready. (Chain expects status Funded — current: {order.status}.)
+              Signs accept_order so the merchant can mark the order ready. (Chain expects status Funded — current: {order.status}.)
             </p>
             {order.codeA && (
               <div className="bg-dark-800 rounded-xl px-4 py-3 flex items-center justify-between mt-3">

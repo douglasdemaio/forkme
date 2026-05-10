@@ -2,13 +2,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
-import { RestaurantCard } from '@/components/restaurant-card';
+import { MerchantCard } from '@/components/merchant-card';
 import { api } from '@/lib/api';
-import type { RestaurantData } from '@/lib/types';
+import type { MerchantData } from '@/lib/types';
 
 export default function HomePage() {
   const { t } = useTranslation();
-  const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
+  const [merchants, setMerchants] = useState<MerchantData[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [query, setQuery] = useState('');
@@ -18,8 +18,8 @@ export default function HomePage() {
     setLoading(true);
     setError(null);
     try {
-      const data = await api.getRestaurants({ limit: 50, search: query || undefined });
-      setRestaurants(data);
+      const data = await api.getMerchants({ limit: 50, search: query || undefined });
+      setMerchants(data);
     } catch (e) {
       setError(t('common.error'));
     } finally {
@@ -82,14 +82,14 @@ export default function HomePage() {
           <p className="text-red-400 mb-4">{error}</p>
           <button onClick={load} className="px-4 py-2 bg-brand-500 text-white rounded-xl font-medium">{t('common.retry')}</button>
         </div>
-      ) : restaurants.length === 0 ? (
+      ) : merchants.length === 0 ? (
         <div className="text-center py-16">
           <span className="text-5xl">🍽️</span>
           <p className="text-dark-400 mt-4">{t('home.noResults')}</p>
         </div>
       ) : (
         <div className="grid gap-4">
-          {restaurants.map((r) => <RestaurantCard key={r.id} r={r} />)}
+          {merchants.map((r) => <MerchantCard key={r.id} r={r} />)}
         </div>
       )}
     </div>

@@ -8,15 +8,15 @@ import { MenuItemCard } from '@/components/menu-item-card';
 import { api } from '@/lib/api';
 import { useAppStore } from '@/store/app-store';
 import { resolveImageUrl } from '@/lib/constants';
-import type { RestaurantData, MenuItemData } from '@/lib/types';
+import type { MerchantData, MenuItemData } from '@/lib/types';
 
-export default function RestaurantPage() {
+export default function MerchantPage() {
   const { slug } = useParams<{ slug: string }>();
   const router = useRouter();
   const { t } = useTranslation();
-  const { cart, addToCart, removeFromCart, cartRestaurantId, cartCount } = useAppStore();
+  const { cart, addToCart, removeFromCart, cartMerchantId, cartCount } = useAppStore();
 
-  const [restaurant, setRestaurant] = useState<RestaurantData | null>(null);
+  const [merchant, setMerchant] = useState<MerchantData | null>(null);
   const [menu, setMenu] = useState<MenuItemData[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<string>('');
@@ -25,8 +25,8 @@ export default function RestaurantPage() {
   useEffect(() => {
     (async () => {
       try {
-        const r = await api.getRestaurant(slug);
-        setRestaurant(r);
+        const r = await api.getMerchant(slug);
+        setMerchant(r);
         const m = await api.getMenu(r.id);
         const sorted = [...m].sort((a, b) => a.sortOrder - b.sortOrder);
         setMenu(sorted);
@@ -39,7 +39,7 @@ export default function RestaurantPage() {
     })();
   }, [slug, router]);
 
-  if (loading || !restaurant) {
+  if (loading || !merchant) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="w-10 h-10 border-2 border-brand-500 border-t-transparent rounded-full animate-spin" />
@@ -55,8 +55,8 @@ export default function RestaurantPage() {
     <div className="max-w-2xl mx-auto pb-32 md:pb-8">
       {/* Banner */}
       <div className="relative h-48 md:h-64 w-full">
-        {restaurant.banner ? (
-          <Image src={resolveImageUrl(restaurant.banner)!} alt={restaurant.name} fill className="object-cover" unoptimized />
+        {merchant.banner ? (
+          <Image src={resolveImageUrl(merchant.banner)!} alt={merchant.name} fill className="object-cover" unoptimized />
         ) : (
           <div className="h-full bg-gradient-to-br from-dark-800 to-dark-700 flex items-center justify-center">
             <span className="text-6xl">🍴</span>
@@ -69,19 +69,19 @@ export default function RestaurantPage() {
       </div>
 
       <div className="px-4 pt-4">
-        {/* Restaurant info */}
+        {/* Merchant info */}
         <div className="flex items-start gap-4">
-          {restaurant.logo && (
+          {merchant.logo && (
             <div className="relative w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0 -mt-8 ring-4 ring-dark-950">
-              <Image src={resolveImageUrl(restaurant.logo)!} alt="" fill className="object-cover" unoptimized />
+              <Image src={resolveImageUrl(merchant.logo)!} alt="" fill className="object-cover" unoptimized />
             </div>
           )}
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-white">{restaurant.name}</h1>
-            {restaurant.description && <p className="text-dark-300 text-sm mt-1">{restaurant.description}</p>}
+            <h1 className="text-2xl font-bold text-white">{merchant.name}</h1>
+            {merchant.description && <p className="text-dark-300 text-sm mt-1">{merchant.description}</p>}
             <div className="flex gap-3 mt-2 text-sm text-dark-400">
-              <span>{restaurant.currency}</span>
-              {restaurant.deliveryFee > 0 && <span>+{restaurant.deliveryFee.toFixed(2)} {t('restaurant.deliveryFee')}</span>}
+              <span>{merchant.currency}</span>
+              {merchant.deliveryFee > 0 && <span>+{merchant.deliveryFee.toFixed(2)} {t('merchant.deliveryFee')}</span>}
             </div>
           </div>
         </div>
@@ -112,13 +112,13 @@ export default function RestaurantPage() {
             <MenuItemCard
               key={item.id}
               item={item}
-              currency={restaurant.currency}
+              currency={merchant.currency}
               qty={getQty(item.id)}
               expanded={expandedId === item.id}
               onToggle={() =>
                 setExpandedId((prev) => (prev === item.id ? null : item.id))
               }
-              onAdd={() => addToCart(item, restaurant.id)}
+              onAdd={() => addToCart(item, merchant.id)}
               onRemove={() => {
                 const qty = getQty(item.id);
                 if (qty > 1) {
@@ -133,7 +133,7 @@ export default function RestaurantPage() {
       </div>
 
       {/* Cart CTA */}
-      {count > 0 && cartRestaurantId === restaurant.id && (
+      {count > 0 && cartMerchantId === merchant.id && (
         <div className="fixed bottom-16 md:bottom-4 left-0 right-0 px-4">
           <Link href="/cart"
             className="flex items-center justify-between bg-brand-500 text-dark-950 rounded-2xl px-6 py-4 shadow-xl hover:bg-brand-400 transition-colors">

@@ -74,9 +74,9 @@ export const DISCRIMINATORS = {
   register:           Buffer.from([211, 124,  67,  15, 211, 194, 178, 240]),
 };
 
-// Registry Role enum (matches on-chain: Restaurant=0, Driver=1, Customer=2)
+// Registry Role enum (matches on-chain: Merchant=0, Driver=1, Customer=2)
 export const REGISTRY_ROLE = {
-  Restaurant: 0,
-  Driver:     1,
-  Customer:   2,
+  Merchant: 0,
+  Driver:   1,
+  Customer: 2,
 } as const;

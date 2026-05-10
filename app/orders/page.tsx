@@ -56,7 +56,7 @@ export default function OrdersPage() {
         <div className="text-center py-16">
           <span className="text-5xl">🍽️</span>
           <p className="text-dark-400 mt-4">No orders yet</p>
-          <Link href="/" className="inline-block mt-6 px-6 py-3 bg-brand-500 text-dark-950 rounded-2xl font-semibold">Browse restaurants</Link>
+          <Link href="/" className="inline-block mt-6 px-6 py-3 bg-brand-500 text-dark-950 rounded-2xl font-semibold">Browse merchants</Link>
         </div>
       ) : (
         <div className="space-y-3">
@@ -65,14 +65,14 @@ export default function OrdersPage() {
               className="block bg-dark-900 rounded-2xl p-4 hover:ring-1 hover:ring-brand-500/40 transition-all">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <p className="text-white font-medium">{order.restaurant?.name ?? 'Order'}</p>
+                  <p className="text-white font-medium">{order.merchant?.name ?? 'Order'}</p>
                   <p className="text-dark-400 text-xs mt-0.5">#{order.id.slice(0, 8)} · {new Date(order.createdAt).toLocaleDateString()}</p>
                 </div>
                 <OrderStatusBadge status={order.status} label={t(`order.status.${order.status}` as any)} />
               </div>
               <div className="flex justify-between text-sm mt-2">
                 <span className="text-dark-300">{order.items.length} items</span>
-                <span className="text-brand-500 font-medium">{order.escrowTarget.toFixed(2)} {order.restaurant?.currency ?? 'USDC'}</span>
+                <span className="text-brand-500 font-medium">{order.escrowTarget.toFixed(2)} {order.merchant?.currency ?? 'USDC'}</span>
               </div>
             </Link>
           ))}

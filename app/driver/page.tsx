@@ -157,7 +157,7 @@ export default function DriverPage() {
       ) : (
         <div className="space-y-3">
           {orders.map((order) => {
-            const currency = order.restaurant?.currency ?? 'USDC';
+            const currency = order.merchant?.currency ?? 'USDC';
             const isPending = order.myBidStatus === 'Pending';
             const isAccepted = order.myBidStatus === 'Accepted';
             const offerVal = offerAmounts[order.id] ?? order.deliveryFee.toFixed(2);
@@ -167,7 +167,7 @@ export default function DriverPage() {
                 <div key={order.id} className="bg-dark-900 rounded-2xl p-4 border border-green-700/50">
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <p className="text-white font-semibold">{order.restaurant?.name ?? 'Restaurant'}</p>
+                      <p className="text-white font-semibold">{order.merchant?.name ?? 'Merchant'}</p>
                       <p className="text-dark-400 text-xs mt-0.5">#{order.id.slice(0, 8)}</p>
                     </div>
                     <span className="text-xs px-2 py-1 bg-green-800/40 text-green-400 rounded-full font-semibold">
@@ -195,7 +195,7 @@ export default function DriverPage() {
                 <div key={order.id} className="bg-dark-900 rounded-2xl p-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="text-white font-semibold">{order.restaurant?.name ?? 'Restaurant'}</p>
+                      <p className="text-white font-semibold">{order.merchant?.name ?? 'Merchant'}</p>
                       <p className="text-dark-400 text-xs mt-0.5">#{order.id.slice(0, 8)}</p>
                     </div>
                     <div className="text-right">
@@ -222,7 +222,7 @@ export default function DriverPage() {
               <div key={order.id} className="bg-dark-900 rounded-2xl p-4">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-white font-semibold">{order.restaurant?.name ?? 'Restaurant'}</p>
+                    <p className="text-white font-semibold">{order.merchant?.name ?? 'Merchant'}</p>
                     <p className="text-dark-400 text-xs mt-0.5">#{order.id.slice(0, 8)}</p>
                   </div>
                   <div className="text-right">

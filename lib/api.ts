@@ -1,5 +1,5 @@
 import { API_BASE_URL } from './constants';
-import type { MenuItemData, OrderData, RestaurantData, DriverProfile, DriverBid, CustomerProfile } from './types';
+import type { MenuItemData, OrderData, MerchantData, DriverProfile, DriverBid, CustomerProfile } from './types';
 
 class ApiClient {
   private token: string | null = null;
@@ -33,23 +33,23 @@ class ApiClient {
     });
   }
 
-  // ── Restaurants ───────────────────────────────────────────────────
-  async getRestaurants(params?: { page?: number; limit?: number; search?: string }): Promise<RestaurantData[]> {
+  // ── Merchants ───────────────────────────────────────────────────
+  async getMerchants(params?: { page?: number; limit?: number; search?: string }): Promise<MerchantData[]> {
     const qs = new URLSearchParams();
     if (params?.page)   qs.set('page',   String(params.page));
     if (params?.limit)  qs.set('limit',  String(params.limit));
     if (params?.search) qs.set('search', params.search);
-    const raw = await this.req<RestaurantData[] | { restaurants: RestaurantData[] }>(
-      `/api/restaurants${qs.toString() ? `?${qs}` : ''}`
+    const raw = await this.req<MerchantData[] | { merchants: MerchantData[] }>(
+      `/api/merchants${qs.toString() ? `?${qs}` : ''}`
     );
-    return Array.isArray(raw) ? raw : raw.restaurants ?? [];
+    return Array.isArray(raw) ? raw : raw.merchants ?? [];
   }
 
-  getRestaurant(id: string)     { return this.req<RestaurantData>(`/api/restaurants/${id}`); }
-  getMenu(restaurantId: string) { return this.req<MenuItemData[]>(`/api/restaurants/${restaurantId}/menu`); }
+  getMerchant(id: string)     { return this.req<MerchantData>(`/api/merchants/${id}`); }
+  getMenu(merchantId: string) { return this.req<MenuItemData[]>(`/api/merchants/${merchantId}/menu`); }
 
   // ── Orders ────────────────────────────────────────────────────────
-  createOrder(data: { restaurantId: string; items: { menuItemId: string; quantity: number }[]; tokenMint: string; deliveryAddress?: string }) {
+  createOrder(data: { merchantId: string; items: { menuItemId: string; quantity: number }[]; tokenMint: string; deliveryAddress?: string }) {
     return this.req<OrderData>('/api/orders', { method: 'POST', body: JSON.stringify(data) });
   }
 
